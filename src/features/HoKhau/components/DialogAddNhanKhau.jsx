@@ -1,17 +1,20 @@
-import {Button, Divider, Stack, TextField, Typography} from "@mui/material";
+import { Button, Divider, Stack, TextField, Typography } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import * as React from "react";
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import * as React from 'react';
 
 export default function DialogAddNhanKhau(props) {
   return (
     <Stack width={500}>
-      <Typography variant='h5' py={2} align='center'> Thêm nhân khẩu </Typography>
-      <Divider/>
+      <Typography variant="h5" py={2} align="center">
+        {' '}
+        Thêm nhân khẩu{' '}
+      </Typography>
+      <Divider />
       <Stack pt={1}>
         <Stack px={2}>
           <Stack component="form" noValidate>
-            <Stack direction='row' alignItems='center'>
+            <Stack direction="row" alignItems="center">
               <Stack pr={1}>
                 <TextField
                   margin="normal"
@@ -32,7 +35,7 @@ export default function DialogAddNhanKhau(props) {
                 id="quanhechuho"
               />
             </Stack>
-            <Stack direction='row' alignItems='center'>
+            <Stack direction="row" alignItems="center">
               <Stack pr={1} width={450}>
                 <TextField
                   margin="normal"
@@ -53,7 +56,7 @@ export default function DialogAddNhanKhau(props) {
                 id="cccd"
               />
             </Stack>
-            <Stack direction='row' alignItems='center'>
+            <Stack direction="row" alignItems="center">
               <Stack pr={1} width={450}>
                 <TextField
                   margin="normal"
@@ -74,7 +77,7 @@ export default function DialogAddNhanKhau(props) {
                 id="noicap"
               />
             </Stack>
-            <Stack direction='row' alignItems='center'>
+            <Stack direction="row" alignItems="center">
               <Stack pr={1} width={400}>
                 <TextField
                   margin="normal"
@@ -114,7 +117,7 @@ export default function DialogAddNhanKhau(props) {
               label="Quê quán"
               id="quequan"
             />
-            <Stack direction='row' alignItems='center'>
+            <Stack direction="row" alignItems="center">
               <Stack pr={1} width={450}>
                 <TextField
                   margin="normal"
@@ -152,20 +155,20 @@ export default function DialogAddNhanKhau(props) {
               label="Ghi chú"
               id="ghichu"
             />
-            <Stack pt={1} pb={2} direction='row-reverse' spacing={2}>
-              <Button
-                type="submit"
-                variant="contained"
-              >
+            <Stack pt={1} pb={2} direction="row-reverse" spacing={2}>
+              <Button type="submit" variant="contained">
                 Thêm hộ khẩu
               </Button>
-              <Button onClick={()=>props.handleCloseAddNhanKhau()} variant='outlined'>Cancel</Button>
+              <Button
+                onClick={() => props.handleCloseAddNhanKhau()}
+                variant="outlined"
+              >
+                Cancel
+              </Button>
             </Stack>
           </Stack>
         </Stack>
-
       </Stack>
-
     </Stack>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Button,
   Dialog,
@@ -6,11 +6,11 @@ import {
   Slide,
   Stack,
   TextField,
-  Typography
-} from "@mui/material";
+  Typography,
+} from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import DialogAddNhanKhau from "src/features/HoKhau/components/DialogAddNhanKhau";
+import DialogAddNhanKhau from 'src/features/HoKhau/components/DialogAddNhanKhau';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -27,12 +27,22 @@ export default function DialogAddHoKhau(props) {
   };
   return (
     <Stack width={600}>
-      <Typography fontSize={28} py={1.5} align='center'> Thêm hộ khẩu </Typography>
-      <Divider/>
+      <Typography fontSize={28} py={1.5} align="center">
+        {' '}
+        Thêm hộ khẩu{' '}
+      </Typography>
+      <Divider />
       <Stack pt={3}>
-        <Stack direction='row' px={2}>
-          <Button sx={{height: 42}} variant='outlined' onClick={handleClickOpenAddNhanKhau}
-                  endIcon={<PersonAddIcon/>}> Thêm chủ hộ </Button>
+        <Stack direction="row" px={2}>
+          <Button
+            sx={{ height: 42 }}
+            variant="outlined"
+            onClick={handleClickOpenAddNhanKhau}
+            endIcon={<PersonAddIcon />}
+          >
+            {' '}
+            Thêm chủ hộ{' '}
+          </Button>
           <Dialog
             open={openAddNhanKhau}
             TransitionComponent={Transition}
@@ -40,12 +50,14 @@ export default function DialogAddHoKhau(props) {
             onClose={handleCloseAddNhanKhau}
             aria-describedby="alert-dialog-slide-description"
           >
-            <DialogAddNhanKhau handleCloseAddNhanKhau={handleCloseAddNhanKhau}/>
+            <DialogAddNhanKhau
+              handleCloseAddNhanKhau={handleCloseAddNhanKhau}
+            />
           </Dialog>
         </Stack>
         <Stack px={2}>
           <Stack component="form" noValidate>
-            <Stack direction='row' alignItems='center'>
+            <Stack direction="row" alignItems="center">
               <Stack pr={2}>
                 <TextField
                   margin="normal"
@@ -80,22 +92,28 @@ export default function DialogAddHoKhau(props) {
               label="Quận"
               id="quan"
             />
-            <Button sx={{height: 42, width: 190, m: 1}} variant='outlined' onClick={handleClickOpenAddNhanKhau}
-                    endIcon={<GroupAddIcon/>}>Thêm nhân khẩu
+            <Button
+              sx={{ height: 42, width: 190, m: 1 }}
+              variant="outlined"
+              onClick={handleClickOpenAddNhanKhau}
+              endIcon={<GroupAddIcon />}
+            >
+              Thêm nhân khẩu
             </Button>
-            <Stack pb={2} direction='row-reverse' spacing={2}>
-              <Button
-                type="submit"
-                variant="contained"
-              >
+            <Stack pb={2} direction="row-reverse" spacing={2}>
+              <Button type="submit" variant="contained">
                 Thêm hộ khẩu
               </Button>
-              <Button onClick={()=>props.handleCloseAddHoKhau()} variant='outlined'>Cancel</Button>
+              <Button
+                onClick={() => props.handleCloseAddHoKhau()}
+                variant="outlined"
+              >
+                Cancel
+              </Button>
             </Stack>
           </Stack>
         </Stack>
       </Stack>
     </Stack>
-  )
+  );
 }
-
