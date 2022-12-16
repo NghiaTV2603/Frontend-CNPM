@@ -1,5 +1,5 @@
 import React from "react";
-import {colors, Stack,AppBar,Toolbar,Typography,Container} from "@mui/material";
+import {colors, Stack, AppBar, Toolbar, Typography, Container} from "@mui/material";
 import HoKhau from "src/features/HoKhau";
 import NhanKhau from "src/features/NhanKhau";
 import DanhSachDongTien from "src/features/DanhSachDongTien";
@@ -9,7 +9,7 @@ export default function Contents(props) {
   const indexTab = props.index
   return (
     <Stack>
-      <AppBar position="static" sx={{backgroundColor: colors.grey[100],height:75}}>
+      <AppBar position="static" sx={{backgroundColor: colors.grey[100], height: 75}}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -24,7 +24,7 @@ export default function Contents(props) {
               }}
             >
               {(() => {
-                switch(indexTab) {
+                switch (indexTab) {
                   case 0:
                     return 'Danh sách hộ khẩu';
                   case 1:
@@ -39,21 +39,19 @@ export default function Contents(props) {
           </Toolbar>
         </Container>
       </AppBar>
-
       <Stack>
-        <div className="tabContent " hidden={indexTab !== 0}>
-          <HoKhau/>
-        </div>
-        <div className="tabContent " hidden={indexTab !== 1}>
-          <NhanKhau/>
-        </div>
-        <div className="tabContent " hidden={indexTab !== 2}>
-          <DanhSachDongTien/>
-        </div>
-        <div className="tabContent " hidden={indexTab !== 3}>
-          <SettingUser/>
-        </div>
-
+        {(() => {
+          switch (indexTab) {
+            case 0:
+              return <HoKhau/>;
+            case 1:
+              return <NhanKhau/>;
+            case 2:
+              return <DanhSachDongTien/>;
+            case 3:
+              return <SettingUser/>;
+          }
+        })()}
       </Stack>
     </Stack>
   )
