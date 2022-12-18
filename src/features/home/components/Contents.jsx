@@ -38,7 +38,7 @@ export default function Contents(props) {
                   case 0:
                     return 'Danh sách hộ khẩu';
                   case 1:
-                    return 'Danh sach nhân khẩu';
+                    return 'Danh sách nhân khẩu';
                   case 2:
                     return 'Danh sách đóng tiền';
                   case 3:

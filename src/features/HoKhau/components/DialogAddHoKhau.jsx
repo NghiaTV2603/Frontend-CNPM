@@ -15,6 +15,8 @@ import DialogAddNhanKhau from 'src/features/HoKhau/components/DialogAddNhanKhau'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+
 export default function DialogAddHoKhau(props) {
   const [openAddNhanKhau, setOpenAddNhankhau] = React.useState(false);
 
@@ -25,6 +27,22 @@ export default function DialogAddHoKhau(props) {
   const handleCloseAddNhanKhau = () => {
     setOpenAddNhankhau(false);
   };
+  const closeDialog = () => {
+    setTimeout(() => {
+      props.handleCloseAddHoKhau();
+    }, 1);
+  };
+  const handleSubmitAddHoKhau = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      sonha: data.get('sonha'),
+      duong: data.get('duong'),
+      phuong: data.get('phuong'),
+      quan: data.get('quan'),
+    });
+  };
+
   return (
     <Stack width={600}>
       <Typography fontSize={28} py={1.5} align="center">
@@ -56,7 +74,7 @@ export default function DialogAddHoKhau(props) {
           </Dialog>
         </Stack>
         <Stack px={2}>
-          <Stack component="form" noValidate>
+          <Stack component="form" onSubmit={handleSubmitAddHoKhau} noValidate>
             <Stack direction="row" alignItems="center">
               <Stack pr={2}>
                 <TextField
@@ -101,7 +119,7 @@ export default function DialogAddHoKhau(props) {
               Thêm nhân khẩu
             </Button>
             <Stack pb={2} direction="row-reverse" spacing={2}>
-              <Button type="submit" variant="contained">
+              <Button type="submit" variant="contained" onClick={closeDialog}>
                 Thêm hộ khẩu
               </Button>
               <Button

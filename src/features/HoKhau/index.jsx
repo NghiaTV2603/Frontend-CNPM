@@ -37,19 +37,15 @@ function TablePaginationActions(props) {
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
   };
-
   const handleBackButtonClick = (event) => {
     onPageChange(event, page - 1);
   };
-
   const handleNextButtonClick = (event) => {
     onPageChange(event, page + 1);
   };
-
   const handleLastPageButtonClick = (event) => {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
-
   return (
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
@@ -91,14 +87,12 @@ function TablePaginationActions(props) {
     </Box>
   );
 }
-
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: colors.grey[900],
@@ -281,7 +275,7 @@ export default function HoKhau() {
         <DialogAddHoKhau handleCloseAddHoKhau={handleCloseAddHoKhau} />
       </Dialog>
 
-      <Paper style={{ maxHeight: 520, overflow: 'auto' }}>
+      <Paper style={{ maxHeight:500,  overflow: 'auto' }}>
         <TableContainer sx={{ paddingX: 3 }} component={Paper}>
           <Table aria-label="customized table">
             <TableHead>

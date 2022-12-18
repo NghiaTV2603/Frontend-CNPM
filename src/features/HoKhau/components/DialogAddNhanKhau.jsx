@@ -1,19 +1,45 @@
 import { Button, Divider, Stack, TextField, Typography } from '@mui/material';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
+
 import * as React from 'react';
 
 export default function DialogAddNhanKhau(props) {
+
+  const closeDialog = () => {
+    setTimeout(() => {
+      props.handleCloseAddNhanKhau();
+    }, 1);
+  };
+  const handleSubmitAddNhanKhau = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      sohokhau: data.get('sohokhau'),
+      quanhechuho: data.get('quanhechuho'),
+      hoten: data.get('hoten'),
+      cccd: data.get('cccd'),
+      ngaycap: data.get('ngaycap'),
+      noicap: data.get('noicap'),
+      ngaysinh: data.get('ngaysinh'),
+      nghenghiep: data.get('nghenghiep'),
+      gioitinh: data.get('gioitinh'),
+      quequan: data.get('quequan'),
+      dantoc: data.get('dantoc'),
+      tongiao: data.get('tongiao'),
+      ngaythemnhankhau: data.get('ngaythemnhankhau'),
+      ghichu: data.get('ghichu'),
+    });
+  };
+
   return (
     <Stack width={500}>
-      <Typography variant="h5" py={2} align="center">
+      <Typography variant="h5" py={1} align="center">
         {' '}
         Thêm nhân khẩu{' '}
       </Typography>
       <Divider />
       <Stack pt={1}>
         <Stack px={2}>
-          <Stack component="form" noValidate>
+          <Stack component="form" onSubmit={handleSubmitAddNhanKhau} noValidate>
             <Stack direction="row" alignItems="center">
               <Stack pr={1}>
                 <TextField
@@ -156,7 +182,7 @@ export default function DialogAddNhanKhau(props) {
               id="ghichu"
             />
             <Stack pt={1} pb={2} direction="row-reverse" spacing={2}>
-              <Button type="submit" variant="contained">
+              <Button type="submit" variant="contained" onClick={closeDialog}>
                 Thêm hộ khẩu
               </Button>
               <Button
