@@ -1,9 +1,7 @@
 import { Button, Divider, Stack, TextField, Typography } from '@mui/material';
-
 import * as React from 'react';
 
 export default function DialogAddNhanKhau(props) {
-
   const closeDialog = () => {
     setTimeout(() => {
       props.handleCloseAddNhanKhau();
@@ -12,7 +10,7 @@ export default function DialogAddNhanKhau(props) {
   const handleSubmitAddNhanKhau = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const dataChukho = {
       sohokhau: data.get('sohokhau'),
       quanhechuho: data.get('quanhechuho'),
       hoten: data.get('hoten'),
@@ -27,7 +25,8 @@ export default function DialogAddNhanKhau(props) {
       tongiao: data.get('tongiao'),
       ngaythemnhankhau: data.get('ngaythemnhankhau'),
       ghichu: data.get('ghichu'),
-    });
+    }
+    props.handleAddChuho(dataChukho)
   };
 
   return (
