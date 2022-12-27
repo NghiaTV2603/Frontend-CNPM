@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
   colors,
-  Chip, Box,
+  Box,
 } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -23,7 +23,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function DialogAddHoKhau(props) {
   const [openAddNhanKhau, setOpenAddNhankhau] = React.useState(false);
   const [openAddChuHo, SetOpenAddChuHo] = React.useState(false)
-  const [isAddNhankhau, setIsAddNhankhau] = React.useState(false)
 
   const handleClickOpenAddNhanKhau = () => {
     setOpenAddNhankhau(true);
@@ -66,7 +65,6 @@ export default function DialogAddHoKhau(props) {
   const [nhankhau, setNhankhau] = React.useState([])
   const handleAddNhanKhau = (data) => {
     setNhankhau([...nhankhau, data])
-    setIsAddNhankhau(true)
   }
   return (
     <Stack width={600}>
@@ -120,7 +118,7 @@ export default function DialogAddHoKhau(props) {
         <Stack px={2}>
           <Stack component="form" onSubmit={handleSubmitAddHoKhau} noValidate>
             <Stack direction="row" alignItems="center">
-              <Stack pr={2}>
+              <Stack pr={1}>
                 <TextField
                   margin="normal"
                   fullWidth
@@ -155,7 +153,7 @@ export default function DialogAddHoKhau(props) {
               id="quan"
             />
             <Button
-              sx={{height: 42, width: 190, mb:1}}
+              sx={{height: 42, width: 190, mb: 1}}
               variant="outlined"
               onClick={handleClickOpenAddNhanKhau}
               endIcon={<GroupAddIcon/>}
@@ -184,7 +182,7 @@ export default function DialogAddHoKhau(props) {
                     cursor: 'pointer'
                   }} borderRadius={1} mr={1} direction='row' mb={1} bgcolor={colors.blue[800]} color={colors.grey[50]}>
                     <Stack py={1} pl={2}>
-                      <Typography>Tên chủ hộ: {nk.hoten} </Typography>
+                      <Typography>Tên nhân khẩu: {nk.hoten} </Typography>
                       <Typography>Căn cước công dân: {nk.cccd} </Typography>
                     </Stack>
                     <Box>

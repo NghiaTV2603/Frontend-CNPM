@@ -31,6 +31,9 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import DialogAddNhanKhau from "src/features/HoKhau/components/DialogAddNhanKhau";
+import {useDispatch,useSelector} from "react-redux";
+import {nhankhauSlice} from "src/features/NhanKhau/nhankhauSlice";
+import {nhankhauSelector} from "src/app/selector";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -117,98 +120,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export default function NhanKhau() {
-  const hokhau = [
-    {
-      sohokhau: 1,
-      idchuho: 1,
-      sonha: 1,
-      duong: 'Nguyen Tuan',
-      phuong: 'Trung Quan',
-      quan: 'Ha Son',
-      ngaylamhokhau: '14-12-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-  ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
+  const nhankhau = useSelector(nhankhauSelector);
   const [openAddNhanKhau, setOpenAddNhankhau] = React.useState(false);
 
   const handleClickOpenAddNhanKhau = () => {
@@ -220,9 +132,8 @@ export default function NhanKhau() {
   };
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(6);
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - hokhau.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - nhankhau.length) : 0;
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -285,30 +196,30 @@ export default function NhanKhau() {
           <Table aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Số</StyledTableCell>
-                <StyledTableCell>Chủ hộ</StyledTableCell>
-                <StyledTableCell>Số nhà</StyledTableCell>
-                <StyledTableCell>Đường</StyledTableCell>
-                <StyledTableCell>Quận</StyledTableCell>
-                <StyledTableCell>Ngày làm </StyledTableCell>
+                <StyledTableCell>Số hộ khẩu</StyledTableCell>
+                <StyledTableCell>Họ và tên</StyledTableCell>
+                <StyledTableCell>Căn cước công dân</StyledTableCell>
+                <StyledTableCell>Ngày sinh</StyledTableCell>
+                <StyledTableCell>Nghề nghiệp</StyledTableCell>
+                <StyledTableCell>Giới tính</StyledTableCell>
                 <StyledTableCell></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {(rowsPerPage > 0
-                  ? hokhau.slice(
+                  ? nhankhau.slice(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
                   )
-                  : hokhau
+                  : nhankhau
               ).map((row) => (
-                <StyledTableRow>
+                <StyledTableRow key={row.sohokhau}>
                   <StyledTableCell>{row.sohokhau}</StyledTableCell>
-                  <StyledTableCell>{row.idchuho}</StyledTableCell>
-                  <StyledTableCell>{row.sonha}</StyledTableCell>
-                  <StyledTableCell>{row.duong}</StyledTableCell>
-                  <StyledTableCell>{row.quan}</StyledTableCell>
-                  <StyledTableCell>{row.ngaylamhokhau}</StyledTableCell>
+                  <StyledTableCell>{row.hoten}</StyledTableCell>
+                  <StyledTableCell>{row.cccd}</StyledTableCell>
+                  <StyledTableCell>{row.ngaysinh}</StyledTableCell>
+                  <StyledTableCell>{row.nghenghiep}</StyledTableCell>
+                  <StyledTableCell>{row.gioitinh}</StyledTableCell>
                   <StyledTableCell align="right">
                     <Button variant="outlined"> Chi Tiết</Button>
                   </StyledTableCell>
@@ -327,7 +238,7 @@ export default function NhanKhau() {
         <TableRow>
           <TablePagination
             rowsPerPageOptions={[6, 10, 25, { label: 'All', value: -1 }]}
-            count={hokhau.length}
+            count={nhankhau.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

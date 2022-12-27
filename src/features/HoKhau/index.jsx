@@ -29,6 +29,9 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import { hokhauSlice } from "src/features/HoKhau/hokhauSlice";
+import {useDispatch,useSelector} from "react-redux";
+import {hokhauSelector} from "src/app/selector";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -114,98 +117,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export default function HoKhau() {
-  const hokhau = [
-    {
-      sohokhau: 1,
-      idchuho: 1,
-      sonha: 1,
-      duong: 'Nguyen Tuan',
-      phuong: 'Trung Quan',
-      quan: 'Ha Son',
-      ngaylamhokhau: '14-12-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 2,
-      idchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-  ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
+  const hokhau = useSelector(hokhauSelector);
   const [openAddHokhau, setOpenAddHokhau] = React.useState(false);
 
   const handleClickOpenAddHoKhau = () => {
@@ -296,7 +208,7 @@ export default function HoKhau() {
                   )
                 : hokhau
               ).map((row) => (
-                <StyledTableRow>
+                <StyledTableRow key={row.sohokhau}>
                   <StyledTableCell>{row.sohokhau}</StyledTableCell>
                   <StyledTableCell>{row.idchuho}</StyledTableCell>
                   <StyledTableCell>{row.sonha}</StyledTableCell>
@@ -317,19 +229,15 @@ export default function HoKhau() {
           </Table>
         </TableContainer>
       </Paper>
-      <Stack direction="row-reverse">
-        <TableRow>
-          <TablePagination
-            rowsPerPageOptions={[6, 10, 25, { label: 'All', value: -1 }]}
-            count={hokhau.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            ActionsComponent={TablePaginationActions}
-          />
-        </TableRow>
-      </Stack>
+      <TablePagination
+        rowsPerPageOptions={[6, 10, 25, { label: 'All', value: -1 }]}
+        count={hokhau.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        ActionsComponent={TablePaginationActions}
+      />
     </Stack>
   );
 }

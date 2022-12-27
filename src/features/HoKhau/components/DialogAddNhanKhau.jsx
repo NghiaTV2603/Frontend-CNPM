@@ -39,7 +39,7 @@ export default function DialogAddNhanKhau(props) {
       <Stack pt={1}>
         <Stack px={2}>
           <Stack component="form" onSubmit={handleSubmitAddNhanKhau} noValidate>
-            <Stack direction="row" alignItems="center">
+            <Stack direction="row" >
               <Stack pr={1}>
                 <TextField
                   margin="normal"
@@ -60,7 +60,7 @@ export default function DialogAddNhanKhau(props) {
                 id="quanhechuho"
               />
             </Stack>
-            <Stack direction="row" alignItems="center">
+            <Stack direction="row" >
               <Stack pr={1} width={450}>
                 <TextField
                   margin="normal"
