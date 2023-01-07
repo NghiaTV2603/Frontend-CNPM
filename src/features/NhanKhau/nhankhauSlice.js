@@ -1,8 +1,8 @@
-import { createSlice} from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 export const nhankhauSlice = createSlice({
   name: 'nhanhkhau',
-  initialState:[
+  initialState: [
     {
       sohokhau: 1,
       hoten: 'Nghia Tran',
@@ -40,7 +40,9 @@ export const nhankhauSlice = createSlice({
       quequan: 'Nghe An',
     },
   ],
-  reducers:{
-
+  reducers: {
+    addNhankhau: (state, action) => {
+      state.push(action.payload);
+    }
   },
 })

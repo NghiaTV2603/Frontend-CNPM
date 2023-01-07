@@ -86,6 +86,8 @@ export const hokhauSlice = createSlice({
     },
   ],
   reducers:{
-
+    addHokhau: (state,action) => {
+      state.push(action.payload)
+    }
   },
 });

@@ -12,9 +12,13 @@ import {
 } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import DialogAddNhanKhau from 'src/features/HoKhau/components/DialogAddNhanKhau';
+import DialogAddNhanKhau from "src/features/NhanKhau/components/DialogAddNhanKhau";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import IconButton from "@mui/material/IconButton";
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -23,6 +27,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function DialogAddHoKhau(props) {
   const [openAddNhanKhau, setOpenAddNhankhau] = React.useState(false);
   const [openAddChuHo, SetOpenAddChuHo] = React.useState(false)
+  const [dateAddHokhau, setDateAddHokhau] = React.useState(null);
 
   const handleClickOpenAddNhanKhau = () => {
     setOpenAddNhankhau(true);
@@ -41,20 +46,9 @@ export default function DialogAddHoKhau(props) {
   }
   const closeDialog = () => {
     setTimeout(() => {
-      props.handleCloseAddHoKhau();
+      // props.handleCloseAddHoKhau();
     }, 1);
   };
-  const handleSubmitAddHoKhau = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      sonha: data.get('sonha'),
-      duong: data.get('duong'),
-      phuong: data.get('phuong'),
-      quan: data.get('quan'),
-    });
-  };
-
   const [chuho, setChuho] = React.useState({})
   const handleAddChuho = (data) => {
     setChuho(data)
@@ -66,6 +60,24 @@ export default function DialogAddHoKhau(props) {
   const handleAddNhanKhau = (data) => {
     setNhankhau([...nhankhau, data])
   }
+  const handleDeleteHokhau = (cccd) => {
+    setNhankhau(nhankhau.filter(item=>item.cccd !== cccd))
+  }
+  const handleSubmitAddHoKhau = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const newHokhau = {
+      sohokhau: data.get('sohokhau'),
+      cccdchuho: chuho.cccd,
+      sonha: data.get('sonha'),
+      duong: data.get('duong'),
+      phuong: data.get('phuong'),
+      quan: data.get('quan'),
+      ngaylamhokhau: dateAddHokhau.$d,
+    }
+    console.log(newHokhau);
+  };
+
   return (
     <Stack width={600}>
       <Typography fontSize={28} py={1.5} align="center">
@@ -116,13 +128,38 @@ export default function DialogAddHoKhau(props) {
           }
         </Stack>
         <Stack px={2}>
-          <Stack component="form" onSubmit={handleSubmitAddHoKhau} noValidate>
+          <Stack component="form" onSubmit={handleSubmitAddHoKhau} >
+            <Stack direction="row">
+              <Stack pr={1} width={160}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  label="Số hộ khẩu"
+                  name="sohokhau"
+                  autoFocus
+                />
+              </Stack>
+              <Stack mt={2} width={160}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Ngày đăng kí"
+                    value={dateAddHokhau}
+                    onChange={(newValue) => {
+                      setDateAddHokhau(newValue);
+                      console.log(dateAddHokhau.$d)
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </Stack>
+            </Stack>
             <Stack direction="row" alignItems="center">
               <Stack pr={1}>
                 <TextField
                   margin="normal"
+                  required
                   fullWidth
-                  id="email"
                   label="Số nhà"
                   name="sonha"
                   autoFocus
@@ -130,6 +167,7 @@ export default function DialogAddHoKhau(props) {
               </Stack>
               <TextField
                 margin="normal"
+                required
                 fullWidth
                 name="duong"
                 label="Đường"
@@ -185,7 +223,7 @@ export default function DialogAddHoKhau(props) {
                       <Typography>Tên nhân khẩu: {nk.hoten} </Typography>
                       <Typography>Căn cước công dân: {nk.cccd} </Typography>
                     </Stack>
-                    <Box>
+                    <Box onClick={()=>handleDeleteHokhau(nk.cccd)}>
                       <IconButton aria-label="delete" size="small" sx={{color: colors.grey[100]}}>
                         <HighlightOffIcon/>
                       </IconButton>

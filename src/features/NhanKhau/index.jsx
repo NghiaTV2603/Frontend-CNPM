@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableCell, {tableCellClasses} from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -21,7 +21,7 @@ import DialogAddHoKhau from 'src/features/HoKhau/components/DialogAddHoKhau';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
+import {useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TablePagination from '@mui/material/TablePagination';
 import IconButton from '@mui/material/IconButton';
@@ -30,14 +30,14 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import DialogAddNhanKhau from "src/features/HoKhau/components/DialogAddNhanKhau";
-import {useDispatch,useSelector} from "react-redux";
+import DialogAddNhanKhau from "src/features/NhanKhau/components/DialogAddNhanKhau";
+import {useDispatch, useSelector} from "react-redux";
 import {nhankhauSlice} from "src/features/NhanKhau/nhankhauSlice";
 import {nhankhauSelector} from "src/app/selector";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
-  const { count, page, rowsPerPage, onPageChange } = props;
+  const {count, page, rowsPerPage, onPageChange} = props;
 
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
@@ -52,13 +52,13 @@ function TablePaginationActions(props) {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
   return (
-    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+    <Box sx={{flexShrink: 0, ml: 2.5}}>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
@@ -66,9 +66,9 @@ function TablePaginationActions(props) {
         aria-label="previous page"
       >
         {theme.direction === 'rtl' ? (
-          <KeyboardArrowRight />
+          <KeyboardArrowRight/>
         ) : (
-          <KeyboardArrowLeft />
+          <KeyboardArrowLeft/>
         )}
       </IconButton>
       <IconButton
@@ -77,9 +77,9 @@ function TablePaginationActions(props) {
         aria-label="next page"
       >
         {theme.direction === 'rtl' ? (
-          <KeyboardArrowLeft />
+          <KeyboardArrowLeft/>
         ) : (
-          <KeyboardArrowRight />
+          <KeyboardArrowRight/>
         )}
       </IconButton>
       <IconButton
@@ -87,18 +87,19 @@ function TablePaginationActions(props) {
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}
       </IconButton>
     </Box>
   );
 }
+
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(({theme}) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: colors.grey[900],
     color: theme.palette.common.white,
@@ -107,7 +108,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: 14,
   },
 }));
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(({theme}) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
@@ -155,7 +156,7 @@ export default function NhanKhau() {
           }}
           startAdornment={
             <InputAdornment position="start">
-              <SearchIcon />
+              <SearchIcon/>
             </InputAdornment>
           }
         />
@@ -166,15 +167,15 @@ export default function NhanKhau() {
             color: colors.grey[900],
             borderColor: colors.grey[900],
           }}
-          endIcon={<ManageSearchIcon />}
+          endIcon={<ManageSearchIcon/>}
         >
           Tìm Kiếm
         </Button>
         <Button
           variant="contained"
-          sx={{ marginLeft: 3 }}
+          sx={{marginLeft: 3}}
           onClick={handleClickOpenAddNhanKhau}
-          endIcon={<GroupAddIcon />}
+          endIcon={<GroupAddIcon/>}
         >
           Thêm nhân khẩu
         </Button>
@@ -191,8 +192,8 @@ export default function NhanKhau() {
         />
       </Dialog>
 
-      <Paper style={{ maxHeight: 520, overflow: 'auto' }}>
-        <TableContainer sx={{ paddingX: 3 }} component={Paper}>
+      <Paper style={{maxHeight: 520, overflow: 'auto'}}>
+        <TableContainer sx={{paddingX: 3}} component={Paper}>
           <Table aria-label="customized table">
             <TableHead>
               <TableRow>
@@ -226,27 +227,23 @@ export default function NhanKhau() {
                 </StyledTableRow>
               ))}
               {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
+                <TableRow style={{height: 53 * emptyRows}}>
+                  <TableCell colSpan={6}/>
                 </TableRow>
               )}
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
-      <Stack direction="row-reverse">
-        <TableRow>
-          <TablePagination
-            rowsPerPageOptions={[6, 10, 25, { label: 'All', value: -1 }]}
-            count={nhankhau.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            ActionsComponent={TablePaginationActions}
-          />
-        </TableRow>
-      </Stack>
+      <TablePagination
+        rowsPerPageOptions={[6, 10, 25, {label: 'All', value: -1}]}
+        count={nhankhau.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        ActionsComponent={TablePaginationActions}
+      />
     </Stack>
   );
 }

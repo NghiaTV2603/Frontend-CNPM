@@ -128,7 +128,7 @@ export default function HoKhau() {
   };
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(6);
-  // Avoid a layout jump when reaching the last page with empty rows.
+
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - hokhau.length) : 0;
   const handleChangePage = (event, newPage) => {
