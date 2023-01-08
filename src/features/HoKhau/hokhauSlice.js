@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit"
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
+import axios from "axios";
 
 export const hokhauSlice = createSlice({
   name: 'hokhau',
@@ -90,4 +91,19 @@ export const hokhauSlice = createSlice({
       state.push(action.payload)
     }
   },
+  extraReducers: builder => {
+    builder.addCase(fetchHokhau.pending,(state, action)=>{
+      state.status = 'loading';
+    })
+    builder.addCase((fetchHokhau.fulfilled),(state, action)=>{
+      state.hokhau = action.payload;
+    })
+  }
 });
+const api = axios.create({
+  baseURL: 'api'
+})
+export const fetchHokhau = createAsyncThunk("hokhau/fetchHokhau", async ()=>{
+  const data = await api.get('/hokhau');
+  return data.data;
+})

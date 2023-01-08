@@ -1,4 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const nhankhauSlice = createSlice({
   name: 'nhanhkhau',
@@ -45,4 +46,11 @@ export const nhankhauSlice = createSlice({
       state.push(action.payload);
     }
   },
+})
+const api = axios.create({
+  baseURL: 'api'
+})
+export const fetchNhankhau = createAsyncThunk("nhankhau/fetchNhankhau", async () => {
+  const data = await api.get('/nhankhau');
+  return data.data
 })
