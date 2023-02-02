@@ -24,6 +24,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+
 export default function DialogAddHoKhau(props) {
   const [openAddNhanKhau, setOpenAddNhankhau] = React.useState(false);
   const [openAddChuHo, SetOpenAddChuHo] = React.useState(false)
@@ -46,7 +47,7 @@ export default function DialogAddHoKhau(props) {
   }
   const closeDialog = () => {
     setTimeout(() => {
-      // props.handleCloseAddHoKhau();
+      props.handleCloseAddHoKhau();
     }, 1);
   };
   const [chuho, setChuho] = React.useState({})
