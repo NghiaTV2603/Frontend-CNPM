@@ -10,7 +10,7 @@ const HomePage = () => {
   };
   return (
     <React.Fragment>
-      <Stack minWidth={1200} height='100vh'>
+      <Stack minWidth={1200} minHeight={710} height='100vh'>
         <Stack height='100%'  direction="row">
           <Box height='100%' bgcolor={colors.grey[900]}  width={320}>
             <Sidebar handleIndexTab={handleIndexTab} />

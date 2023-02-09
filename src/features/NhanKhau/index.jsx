@@ -34,6 +34,8 @@ import DialogAddNhanKhau from "src/features/NhanKhau/components/DialogAddNhanKha
 import {useDispatch, useSelector} from "react-redux";
 import {nhankhauSlice} from "src/features/NhanKhau/nhankhauSlice";
 import {nhankhauSelector} from "src/app/selector";
+import NiceModal from "@ebay/nice-modal-react";
+import DialogShowNhanKhau from "src/features/NhanKhau/components/DialogShowNhanKhau";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -186,6 +188,7 @@ export default function NhanKhau() {
         keepMounted
         onClose={handleCloseAddNhanKhau}
         aria-describedby="alert-dialog-slide-description"
+        maxWidth='md'
       >
         <DialogAddNhanKhau
           handleCloseAddNhanKhau={handleCloseAddNhanKhau}
@@ -201,7 +204,7 @@ export default function NhanKhau() {
                 <StyledTableCell>Họ và tên</StyledTableCell>
                 <StyledTableCell>Căn cước công dân</StyledTableCell>
                 <StyledTableCell>Ngày sinh</StyledTableCell>
-                <StyledTableCell>Nghề nghiệp</StyledTableCell>
+                <StyledTableCell>Quê quán</StyledTableCell>
                 <StyledTableCell>Giới tính</StyledTableCell>
                 <StyledTableCell></StyledTableCell>
               </TableRow>
@@ -214,15 +217,15 @@ export default function NhanKhau() {
                   )
                   : nhankhau
               ).map((row) => (
-                <StyledTableRow key={row.sohokhau}>
+                <StyledTableRow key={row.id}>
                   <StyledTableCell>{row.sohokhau}</StyledTableCell>
                   <StyledTableCell>{row.hoten}</StyledTableCell>
                   <StyledTableCell>{row.cccd}</StyledTableCell>
                   <StyledTableCell>{row.ngaysinh}</StyledTableCell>
-                  <StyledTableCell>{row.nghenghiep}</StyledTableCell>
-                  <StyledTableCell>{row.gioitinh}</StyledTableCell>
+                  <StyledTableCell>{row.quequan}</StyledTableCell>
+                  <StyledTableCell>{row.gioitinh === 0 ? 'Nữ' : "Nam"}</StyledTableCell>
                   <StyledTableCell align="right">
-                    <Button variant="outlined"> Chi Tiết</Button>
+                    <Button onClick={()=>{NiceModal.show(DialogShowNhanKhau,{ data: row })}} variant="outlined"> Chi Tiết</Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

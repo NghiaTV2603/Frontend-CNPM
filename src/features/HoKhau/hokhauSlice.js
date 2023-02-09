@@ -6,7 +6,7 @@ export const hokhauSlice = createSlice({
   initialState: [
     {
       sohokhau: 1,
-      idchuho: 1,
+      tenchuho: 1,
       sonha: 1,
       duong: 'Nguyen Tuan',
       phuong: 'Trung Quan',
@@ -15,7 +15,7 @@ export const hokhauSlice = createSlice({
     },
     {
       sohokhau: 2,
-      idchuho: 2,
+      tenchuho: 2,
       sonha: 2,
       duong: 'Nguyen An Ninh',
       phuong: 'Nguyen An Ninh',
@@ -24,7 +24,7 @@ export const hokhauSlice = createSlice({
     },
     {
       sohokhau: 3,
-      idchuho: 2,
+      tenchuho: 2,
       sonha: 2,
       duong: 'Nguyen An Ninh',
       phuong: 'Nguyen An Ninh',
@@ -33,7 +33,7 @@ export const hokhauSlice = createSlice({
     },
     {
       sohokhau: 4,
-      idchuho: 2,
+      tenchuho: 2,
       sonha: 2,
       duong: 'Nguyen An Ninh',
       phuong: 'Nguyen An Ninh',
@@ -42,7 +42,7 @@ export const hokhauSlice = createSlice({
     },
     {
       sohokhau: 5,
-      idchuho: 2,
+      tenchuho: 2,
       sonha: 2,
       duong: 'Nguyen An Ninh',
       phuong: 'Nguyen An Ninh',
@@ -51,7 +51,7 @@ export const hokhauSlice = createSlice({
     },
     {
       sohokhau: 6,
-      idchuho: 2,
+      tenchuho: 2,
       sonha: 2,
       duong: 'Nguyen An Ninh',
       phuong: 'Nguyen An Ninh',
@@ -60,7 +60,7 @@ export const hokhauSlice = createSlice({
     },
     {
       sohokhau: 7,
-      idchuho: 2,
+      tenchuho: 2,
       sonha: 2,
       duong: 'Nguyen An Ninh',
       phuong: 'Nguyen An Ninh',
@@ -69,7 +69,7 @@ export const hokhauSlice = createSlice({
     },
     {
       sohokhau: 8,
-      idchuho: 2,
+      tenchuho: 2,
       sonha: 2,
       duong: 'Nguyen An Ninh',
       phuong: 'Nguyen An Ninh',
@@ -78,7 +78,7 @@ export const hokhauSlice = createSlice({
     },
     {
       sohokhau: 9,
-      idchuho: 2,
+      tenchuho: 2,
       sonha: 2,
       duong: 'Nguyen An Ninh',
       phuong: 'Nguyen An Ninh',
