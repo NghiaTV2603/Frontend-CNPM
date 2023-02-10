@@ -129,13 +129,13 @@ export default function HoKhau() {
   const hokhau = useSelector(hokhauSelector);
 
   // thong bao
-  const [openAlert, setOpenAlert] = React.useState(false)
-  const handleCloseAlert = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpenAlert(false);
-  };
+  // const [openAlert, setOpenAlert] = React.useState(false)
+  // const handleCloseAlert = (event, reason) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setOpenAlert(false);
+  // };
 
   // xu ly dialog them ho khau
   const [openAddHokhau, setOpenAddHokhau] = React.useState(false);
@@ -144,7 +144,7 @@ export default function HoKhau() {
   };
   const handleCloseAddHoKhau = () => {
     setOpenAddHokhau(false);
-    setOpenAlert(true);
+    // setOpenAlert(true);
   };
 
   // xu ly chuyen trang
@@ -260,11 +260,11 @@ export default function HoKhau() {
         onRowsPerPageChange={handleChangeRowsPerPage}
         ActionsComponent={TablePaginationActions}
       />
-      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
-          This is a success message!
-        </Alert>
-      </Snackbar>
+      {/*<Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>*/}
+      {/*  <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>*/}
+      {/*    This is a success message!*/}
+      {/*  </Alert>*/}
+      {/*</Snackbar>*/}
     </Stack>
   );
 }
