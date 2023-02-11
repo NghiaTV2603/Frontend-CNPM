@@ -6,6 +6,7 @@ const hokhauSlice = createSlice({
   initialState: {
     listHokhau : [] ,
     status : null ,
+    message : null,
   },
   reducers: {},
   extraReducers: builder => {
@@ -17,7 +18,16 @@ const hokhauSlice = createSlice({
       state.listHokhau = action.payload
     })
     builder.addCase(fetchAddHokhau.fulfilled,(state,action) => {
-      state.listHokhau.push(action.payload);
+      if(action.payload.code === 500){
+        state.message = "Chủ hộ đã tồn tại trong hộ khẩu khác"
+        state.status = 'error'
+      }else if (action.payload.code === 404){
+        state.message = "Chủ hộ không tồn tại"
+        state.status = 'error'
+      } else{
+        state.message = "Thêm chủ hộ thành công"
+        state.listHokhau.push(action.payload.data)
+      }
     })
   }
 })
@@ -32,9 +42,9 @@ export const fetchListHokhau = createAsyncThunk("hokhau/fetchListHokhau", async 
   return res.data.data ;
 })
 
-export const fetchAddHokhau = createAsyncThunk("hokhau/fetchAddHokhau",async (token,data)=>{
-  const res = await api.get(`addHokhau?token=${token}`,{params:data})
-  return res.data.data();
+export const fetchAddHokhau = createAsyncThunk("hokhau/fetchAddHokhau",async (data)=>{
+  const res = await api.get(`addHokhau?token=${data.token}`,{params:data.dataHokhau})
+  return res.data;
 })
 
 

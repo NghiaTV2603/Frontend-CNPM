@@ -32,10 +32,13 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import DialogAddNhanKhau from "src/features/NhanKhau/components/DialogAddNhanKhau";
 import {useDispatch, useSelector} from "react-redux";
-import {nhankhauSlice} from "src/features/NhanKhau/nhankhauSlice";
+import {fetchNhankhau} from "src/features/NhanKhau/nhankhauSlice";
 import {nhankhauSelector} from "src/app/selector";
 import NiceModal from "@ebay/nice-modal-react";
 import DialogShowNhanKhau from "src/features/NhanKhau/components/DialogShowNhanKhau";
+import {useEffect} from "react";
+import {fetchListHokhau} from "src/features/HoKhau/hokhauSlice";
+
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -123,6 +126,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export default function NhanKhau() {
+
   const nhankhau = useSelector(nhankhauSelector);
   const [openAddNhanKhau, setOpenAddNhankhau] = React.useState(false);
 
@@ -145,6 +149,11 @@ export default function NhanKhau() {
     setPage(0);
   };
 
+  const token = useSelector((state) => state.authen.accessToken)
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchNhankhau(token));
+  }, [dispatch]);
   return (
     <Stack>
       <Stack direction="row" p={3}>

@@ -132,7 +132,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function HoKhau() {
-  const hokhau = useSelector(hokhauSelector);
+  const dataHokhau = useSelector((state)=>state.hokhau)
+  const hokhau = dataHokhau.listHokhau;
   const token1 = useSelector((state) => state.authen.accessToken)
   const dispatch = useDispatch();
 
@@ -141,13 +142,13 @@ export default function HoKhau() {
   }, [dispatch]);
 
   // thong bao
-  // const [openAlert, setOpenAlert] = React.useState(false)
-  // const handleCloseAlert = (event, reason) => {
-  //   if (reason === 'clickaway') {
-  //     return;
-  //   }
-  //   setOpenAlert(false);
-  // };
+  const [openAlert, setOpenAlert] = React.useState(false)
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenAlert(false);
+  };
 
   // xu ly dialog them ho khau
   const [openAddHokhau, setOpenAddHokhau] = React.useState(false);
@@ -156,8 +157,11 @@ export default function HoKhau() {
   };
   const handleCloseAddHoKhau = () => {
     setOpenAddHokhau(false);
-    // setOpenAlert(true);
   };
+  const handleCloseSuccess = () => {
+    setOpenAddHokhau(false)
+    setOpenAlert(true);
+  }
 
   // xu ly chuyen trang
   const [page, setPage] = React.useState(0);
@@ -217,7 +221,7 @@ export default function HoKhau() {
         onClose={handleCloseAddHoKhau}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogAddHoKhau handleCloseAddHoKhau={handleCloseAddHoKhau}/>
+        <DialogAddHoKhau handleCloseAddHoKhau={handleCloseAddHoKhau} onCloseSuccess = {handleCloseSuccess}/>
       </Dialog>
 
       <Paper style={{height: 496, overflow: 'auto'}}>
@@ -272,11 +276,11 @@ export default function HoKhau() {
         onRowsPerPageChange={handleChangeRowsPerPage}
         ActionsComponent={TablePaginationActions}
       />
-      {/*<Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>*/}
-      {/*  <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>*/}
-      {/*    This is a success message!*/}
-      {/*  </Alert>*/}
-      {/*</Snackbar>*/}
+      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
+          Thêm hộ khẩu thành công !
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 }
