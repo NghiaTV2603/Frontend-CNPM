@@ -2,12 +2,23 @@ import React from 'react';
 import { Box, colors, Stack } from '@mui/material';
 import Sidebar from 'src/features/home/components/Sidebar';
 import Contents from 'src/features/home/components/Contents';
+import {useSelector} from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import {useEffect} from "react";
 
 const HomePage = () => {
+  const navigate = useNavigate()
   const [index, setIndex] = React.useState(0);
   const handleIndexTab = (index) => {
     setIndex(index);
   };
+  const isLogin = useSelector( (state) => state.authen.isLogin)
+  useEffect(()=>{
+    if (!isLogin) {
+      navigate('/authen/login');
+    }
+  },[isLogin])
+
   return (
     <React.Fragment>
       <Stack minWidth={1200} minHeight={710} height='100vh'>

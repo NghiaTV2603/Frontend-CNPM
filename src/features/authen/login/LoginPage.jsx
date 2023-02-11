@@ -13,21 +13,34 @@ import {
   useTheme,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-
+import {useDispatch , useSelector} from "react-redux";
+import authenSlice from "src/features/authen/authenSlice";
+import {fetchLogin} from "src/features/authen/authenSlice";
+import {useEffect} from "react";
 import Copyright from 'src/commons/components/Copyright';
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 export default function LoginPage() {
+  const navigate = useNavigate()
   const theme = useTheme();
   const themeMode = theme.palette.mode;
-
+  const dispatch = useDispatch();
+  const isLogin = useSelector( (state) => state.authen.isLogin)
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const userData = {
+      username : data.get('email'),
+      password : data.get('password')
+    }
+    dispatch(fetchLogin(userData))
   };
+  useEffect(()=>{
+    if(isLogin){
+      navigate('/');
+    }
+  },[isLogin]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -49,7 +62,7 @@ export default function LoginPage() {
         </Avatar>
 
         <Typography component="h1" variant="h5">
-          Welcome 
+          Welcome
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>

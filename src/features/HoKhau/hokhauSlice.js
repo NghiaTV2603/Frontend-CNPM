@@ -1,109 +1,41 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
+import {createSlice,createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const hokhauSlice = createSlice({
-  name: 'hokhau',
-  initialState: [
-    {
-      sohokhau: 1,
-      tenchuho: 1,
-      sonha: 1,
-      duong: 'Nguyen Tuan',
-      phuong: 'Trung Quan',
-      quan: 'Ha Son',
-      ngaylamhokhau: '14-12-12',
-    },
-    {
-      sohokhau: 2,
-      tenchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 3,
-      tenchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 4,
-      tenchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 5,
-      tenchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 6,
-      tenchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 7,
-      tenchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 8,
-      tenchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-    {
-      sohokhau: 9,
-      tenchuho: 2,
-      sonha: 2,
-      duong: 'Nguyen An Ninh',
-      phuong: 'Nguyen An Ninh',
-      quan: 'Tuong mai',
-      ngaylamhokhau: '12-32-12',
-    },
-  ],
-  reducers:{
-    addHokhau: (state,action) => {
-      state.push(action.payload)
-    }
+const hokhauSlice = createSlice({
+  name:'hokhau',
+  initialState: {
+    listHokhau : [] ,
+    status : null ,
   },
+  reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchHokhau.pending,(state, action)=>{
-      state.status = 'loading';
+    builder.addCase(fetchListHokhau.pending,(state, action)=>{
+      state.status = 'loading'
     })
-    builder.addCase((fetchHokhau.fulfilled),(state, action)=>{
-      state.hokhau = action.payload;
+    builder.addCase(fetchListHokhau.fulfilled,(state, action)=>{
+      state.status = null
+      state.listHokhau = action.payload
+    })
+    builder.addCase(fetchAddHokhau.fulfilled,(state,action) => {
+      state.listHokhau.push(action.payload);
     })
   }
-});
+})
+
 const api = axios.create({
-  baseURL: 'api'
+  baseURL: 'http://localhost:3000'
 })
-export const fetchHokhau = createAsyncThunk("hokhau/fetchHokhau", async ()=>{
-  const data = await api.get('/hokhau');
-  return data.data;
+
+export const fetchListHokhau = createAsyncThunk("hokhau/fetchListHokhau", async (token1)=>{
+  const res = await api.get(`getListHokhau?token=${token1}`)
+  console.log(token1)
+  return res.data.data ;
 })
+
+export const fetchAddHokhau = createAsyncThunk("hokhau/fetchAddHokhau",async (token,data)=>{
+  const res = await api.get(`addHokhau?token=${token}`,{params:data})
+  return res.data.data();
+})
+
+
+export default hokhauSlice

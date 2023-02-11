@@ -34,6 +34,12 @@ import {useSelector} from "react-redux";
 import {hokhauSelector} from "src/app/selector";
 import NiceModal from "@ebay/nice-modal-react";
 import DialogShowHoKhau from "src/features/HoKhau/components/DialogShowHoKhau";
+import {useDispatch} from "react-redux";
+import {useEffect} from "react";
+
+import axios from "axios";
+import {fetchListHokhau} from "src/features/HoKhau/hokhauSlice";
+
 
 
 function TablePaginationActions(props) {
@@ -127,6 +133,12 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 export default function HoKhau() {
   const hokhau = useSelector(hokhauSelector);
+  const token1 = useSelector((state) => state.authen.accessToken)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchListHokhau(token1));
+  }, [dispatch]);
 
   // thong bao
   // const [openAlert, setOpenAlert] = React.useState(false)

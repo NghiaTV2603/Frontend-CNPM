@@ -12,14 +12,18 @@ import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import SettingsIcon from '@mui/icons-material/Settings';
+import {useDispatch , useSelector} from "react-redux";
+import authenSlice from "src/features/authen/authenSlice";
+import {useNavigate} from "react-router-dom";
+
 
 export default function Sidebar(props) {
-  const user = {
-    name: 'Nghia Tran Van',
-    avatar:
-      'https://vcdn1-thethao.vnecdn.net/2022/12/10/messi-3-jpeg-1670629980-167062-7567-4192-1670631569.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=KhxAvzMM7Em5ke2KWF77wA',
-    level: 'admin',
-  };
+  const user = useSelector((state)=> state.authen.userData);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    dispatch(authenSlice.actions.logout())
+  }
 
   const contentsSidebar = [
     { title: 'Danh sách hộ khẩu', icon: <HomeIcon /> },
@@ -53,12 +57,12 @@ export default function Sidebar(props) {
             borderRadius={4}
             height={80}
           >
-            <Avatar sx={{ height: 48, width: 48 }} src={user.avatar} />
+            <Avatar sx={{ height: 48, width: 48 }} src={''} />
             <Stack ml={1.5}>
-              <Typography fontSize={16} color={colors.grey[100]}>
-                {user.name}
+              <Typography fontSize={16} fontWeight={500} color={colors.grey[100]}>
+                {user !== null && user.username}
               </Typography>
-              <Typography fontSize={13}> Chức vụ : {user.level}</Typography>
+              <Typography fontSize={13}> Chức vụ : Quản lý</Typography>
             </Stack>
           </Stack>
         </Stack>
@@ -92,7 +96,7 @@ export default function Sidebar(props) {
           ))}
         </Stack>
         <Divider sx={{ backgroundColor: colors.grey[500] }} />
-        <Button sx={StyleTab} startIcon={<LoginIcon />}>
+        <Button sx={StyleTab} startIcon={<LoginIcon />} onClick={handleLogout}>
           Logout
         </Button>
       </Stack>
