@@ -179,6 +179,11 @@ export default function HoKhau() {
 
   return (
     <Stack>
+      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
+          Thêm hộ khẩu thành công !
+        </Alert>
+      </Snackbar>
       <Stack direction="row" p={3}>
         <Input
           sx={{
@@ -248,7 +253,7 @@ export default function HoKhau() {
               ).map((row) => (
                 <StyledTableRow key={row.sohokhau}>
                   <StyledTableCell>{row.sohokhau}</StyledTableCell>
-                  <StyledTableCell>{row.idchuho}</StyledTableCell>
+                  <StyledTableCell>{row.hotenchuho}</StyledTableCell>
                   <StyledTableCell>{row.sonha}</StyledTableCell>
                   <StyledTableCell>{row.duong}</StyledTableCell>
                   <StyledTableCell>{row.quan}</StyledTableCell>
@@ -276,11 +281,7 @@ export default function HoKhau() {
         onRowsPerPageChange={handleChangeRowsPerPage}
         ActionsComponent={TablePaginationActions}
       />
-      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
-          Thêm hộ khẩu thành công !
-        </Alert>
-      </Snackbar>
+
     </Stack>
   );
 }

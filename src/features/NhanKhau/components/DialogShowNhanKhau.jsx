@@ -9,11 +9,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import SaveIcon from "@mui/icons-material/Save";
+import DialogShowHoKhau from "src/features/HoKhau/components/DialogShowHoKhau";
+import DialogCofirm from "src/features/NhanKhau/components/DialogConfirm";
 
 
 const ShowNhanKhau = (props) => {
   const modal = useModal();
   const data = props.data;
+  const handleCloseDialogShow = () => {
+    modal.hide()
+  }
   return (
     <Stack width={750}>
       <Stack position='absolute' sx={{right: 6, top: 6}}>
@@ -79,7 +84,7 @@ const ShowNhanKhau = (props) => {
       <Stack direction='row-reverse' px={2} py={1} spacing={1}>
         <Button onClick={() => props.onSetIndex(1)} variant='outlined' color="warning" startIcon={<EditIcon/>}>Chỉnh
           sửa</Button>
-        <Button variant='outlined' color="error" startIcon={<DeleteIcon/>}>Xóa</Button>
+        <Button onClick={()=>{NiceModal.show(DialogCofirm,{ id:data.id ,onClose: handleCloseDialogShow})}}   variant='outlined' color="error" startIcon={<DeleteIcon/>}>Xóa</Button>
       </Stack>
     </Stack>
   )

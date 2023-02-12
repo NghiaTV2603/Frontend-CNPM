@@ -12,7 +12,9 @@ import {
 import * as React from 'react';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
-import {useDispatch,useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchAddNhankhau} from "src/features/NhanKhau/nhankhauSlice";
+import {useEffect,useRef} from "react";
 
 const validationSchema = yup.object({
   hoten: yup
@@ -44,11 +46,15 @@ const validationSchema = yup.object({
 });
 
 export default function DialogAddNhanKhau(props) {
+  const token = useSelector((state) => state.authen.accessToken)
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.nhankhau)
 
+  const resetFormRef = useRef();
   const formik = useFormik({
     initialValues: {
       sohokhau: '',
-      quanhechuho: '',
+      quanhevoichuho: '',
       hoten: '',
       cccd: '',
       ngaycap: '',
@@ -63,10 +69,46 @@ export default function DialogAddNhanKhau(props) {
       ghichu: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
+    onSubmit: (values, {resetForm}) => {
+      if (values.sohokhau.length === 0) {
+        const dataFetch = {
+          token: token,
+          data: {
+            quanhevoichuho: values.quanhevoichuho,
+            hoten: values.hoten,
+            cccd: values.cccd,
+            ngaycap: values.ngaycap,
+            noicap: values.noicap,
+            ngaysinh: values.ngaysinh,
+            nghenghiep: values.nghenghiep,
+            gioitinh: values.gioitinh,
+            quequan: values.quequan,
+            dantoc: values.dantoc,
+            tongiao: values.tongiao,
+            ngaythemnhankhau: values.ngaythemnhankhau,
+            ghichu: values.ghichu,
+          }
+        }
+        dispatch(fetchAddNhankhau(dataFetch))
+      } else {
+        const dataFetch = {};
+        dataFetch.token = token
+        dataFetch.data = values
+        console.log(dataFetch)
+        dispatch(fetchAddNhankhau(dataFetch))
+      }
+      resetFormRef.current = resetForm
+    }
   });
+
+  useEffect(()=>{
+    if (data.status === "Success"){
+      props.onCloseOK()
+      if (resetFormRef.current) {
+        resetFormRef.current();
+      }
+    }
+  },[data])
   return (
     <Stack width={700} px={2}>
       <Typography variant="h5" py={1} align="center">
@@ -105,13 +147,13 @@ export default function DialogAddNhanKhau(props) {
           <TextField
             margin="normal"
             fullWidth
-            name="quanhechuho"
+            name="quanhevoichuho"
             label="Quan hệ chủ hộ"
             id="quanhechuho"
-            value={formik.values.quanhechuho}
+            value={formik.values.quanhevoichuho}
             onChange={formik.handleChange}
-            error={formik.touched.quanhechuho && Boolean(formik.errors.quanhechuho)}
-            helperText={formik.touched.quanhechuho && formik.errors.quanhechuho}
+            error={formik.touched.quanhevoichuho && Boolean(formik.errors.quanhevoichuho)}
+            helperText={formik.touched.quanhevoichuho && formik.errors.quanhevoichuho}
           />
         </Stack>
         <Stack direction="row">
@@ -265,6 +307,10 @@ export default function DialogAddNhanKhau(props) {
           error={formik.touched.ghichu && Boolean(formik.errors.ghichu)}
           helperText={formik.touched.ghichu && formik.errors.ghichu}
         />
+        <Stack pl={1}>
+          <Typography fontSize={16} fontWeight={450}
+                      color={'red'}>{data.status === 'error' && data.message}</Typography>
+        </Stack>
         <Stack pt={1} pb={2} direction="row-reverse" spacing={2}>
           <Button type="submit" variant="contained">
             Thêm hộ khẩu

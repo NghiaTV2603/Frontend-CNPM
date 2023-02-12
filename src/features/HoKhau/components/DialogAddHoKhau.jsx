@@ -12,6 +12,7 @@ import {useDispatch,useSelector} from "react-redux";
 import {fetchAddHokhau} from "src/features/HoKhau/hokhauSlice";
 import {hokhauSelector} from "src/app/selector";
 import axios from "axios";
+import {useEffect, useRef} from "react";
 
 const validationSchema = yup.object({
   cccd: yup
@@ -39,6 +40,7 @@ export default function DialogAddHoKhau(props) {
   const data = useSelector((state)=>state.hokhau)
   const token = useSelector((state) => state.authen.accessToken)
   const dispatch = useDispatch();
+  const resetFormRef = useRef();
   const formik = useFormik({
     initialValues: {
       cccd: '',
@@ -62,21 +64,17 @@ export default function DialogAddHoKhau(props) {
           },
         }
         dispatch(fetchAddHokhau(dataFetch))
-      setTimeout(() => {
-        if(!data.status){
-          props.onCloseSuccess()
-          resetForm({
-            cccd: '',
-            sonha: '',
-            duong: '',
-            phuong: '',
-            quan: '',
-            ngaylamhokhau: '',
-          });
-        }
-      },2000)
+        resetFormRef.current = resetForm
       },
   });
+  useEffect(()=>{
+    if (data.status === "Success"){
+      props.onCloseSuccess()
+      if (resetFormRef.current) {
+        resetFormRef.current();
+      }
+    }
+  },[data])
   return (
     <Stack width={600}>
       <Typography fontSize={28} py={1.5} align="center">

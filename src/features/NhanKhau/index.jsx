@@ -9,6 +9,7 @@ import {
   TableBody,
   Slide,
   Dialog,
+  Snackbar,
 } from '@mui/material';
 import * as React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
@@ -38,8 +39,10 @@ import NiceModal from "@ebay/nice-modal-react";
 import DialogShowNhanKhau from "src/features/NhanKhau/components/DialogShowNhanKhau";
 import {useEffect} from "react";
 import {fetchListHokhau} from "src/features/HoKhau/hokhauSlice";
+import MuiAlert from '@mui/material/Alert';
 
 
+// ============= handle table =============== //
 function TablePaginationActions(props) {
   const theme = useTheme();
   const {count, page, rowsPerPage, onPageChange} = props;
@@ -125,6 +128,14 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+
+
+// ============== handle nhan khau ================ //
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export default function NhanKhau() {
 
   const nhankhau = useSelector(nhankhauSelector);
@@ -137,6 +148,12 @@ export default function NhanKhau() {
   const handleCloseAddNhanKhau = () => {
     setOpenAddNhankhau(false);
   };
+  const handleCloseAddNhanKhauOK = () => {
+    setOpenAddNhankhau(false);
+    setOpenAlert(true)
+  }
+
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(6);
   const emptyRows =
@@ -154,8 +171,29 @@ export default function NhanKhau() {
   useEffect(() => {
     dispatch(fetchNhankhau(token));
   }, [dispatch]);
+
+  // ==== handle thong bao ===== //
+
+  const [openAler, setOpenAlert] = React.useState(false);
+
+  const handleClick = () => {
+    setOpenAlert(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenAlert(false);
+  };
+
   return (
     <Stack>
+      <Snackbar open={openAler} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          This is a success message!
+        </Alert>
+      </Snackbar>
       <Stack direction="row" p={3}>
         <Input
           sx={{
@@ -201,6 +239,7 @@ export default function NhanKhau() {
       >
         <DialogAddNhanKhau
           handleCloseAddNhanKhau={handleCloseAddNhanKhau}
+          onCloseOK = {handleCloseAddNhanKhauOK}
         />
       </Dialog>
 
@@ -211,6 +250,7 @@ export default function NhanKhau() {
               <TableRow>
                 <StyledTableCell>Số hộ khẩu</StyledTableCell>
                 <StyledTableCell>Họ và tên</StyledTableCell>
+                <StyledTableCell>Quan hệ chủ hộ</StyledTableCell>
                 <StyledTableCell>Căn cước công dân</StyledTableCell>
                 <StyledTableCell>Ngày sinh</StyledTableCell>
                 <StyledTableCell>Quê quán</StyledTableCell>
@@ -229,6 +269,7 @@ export default function NhanKhau() {
                 <StyledTableRow key={row.id}>
                   <StyledTableCell>{row.sohokhau}</StyledTableCell>
                   <StyledTableCell>{row.hoten}</StyledTableCell>
+                  <StyledTableCell>{row.quanhevoichuho}</StyledTableCell>
                   <StyledTableCell>{row.cccd}</StyledTableCell>
                   <StyledTableCell>{row.ngaysinh}</StyledTableCell>
                   <StyledTableCell>{row.quequan}</StyledTableCell>

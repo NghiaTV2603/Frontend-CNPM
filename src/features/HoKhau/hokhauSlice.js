@@ -18,6 +18,7 @@ const hokhauSlice = createSlice({
       state.listHokhau = action.payload
     })
     builder.addCase(fetchAddHokhau.fulfilled,(state,action) => {
+      const a = action.payload
       if(action.payload.code === 500){
         state.message = "Chủ hộ đã tồn tại trong hộ khẩu khác"
         state.status = 'error'
@@ -25,9 +26,14 @@ const hokhauSlice = createSlice({
         state.message = "Chủ hộ không tồn tại"
         state.status = 'error'
       } else{
+        state.status = "Success"
         state.message = "Thêm chủ hộ thành công"
         state.listHokhau.push(action.payload.data)
       }
+    })
+    builder.addCase(fetchDeleteHokhau.fulfilled,(state, action)=>{
+      state.listHokhau = state.listHokhau.filter(obj => obj.cccdchuho !== action.payload.cccd)
+      state.message = "Xóa nhân khẩu thành công"
     })
   }
 })
@@ -38,13 +44,17 @@ const api = axios.create({
 
 export const fetchListHokhau = createAsyncThunk("hokhau/fetchListHokhau", async (token1)=>{
   const res = await api.get(`getListHokhau?token=${token1}`)
-  console.log(token1)
   return res.data.data ;
 })
 
 export const fetchAddHokhau = createAsyncThunk("hokhau/fetchAddHokhau",async (data)=>{
   const res = await api.get(`addHokhau?token=${data.token}`,{params:data.dataHokhau})
   return res.data;
+})
+
+export const fetchDeleteHokhau = createAsyncThunk ("hokhau/fetchDeleteHokhau",async (data)=>{
+  const res = await api.get(`deleteHokhauByCccd?token=${data.token}&cccd=${data.cccd}`)
+  return res.data.data;
 })
 
 
