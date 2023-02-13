@@ -18,7 +18,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {tokenSelector} from "src/app/selector";
 import {fetchCurrentListNhanKhau, nhankhauSlice} from "src/features/NhanKhau/nhankhauSlice";
 
-
+const DialogShowHoKhau = NiceModal.create(({data,onAlert}) => {
+  const modal = useModal();
+  const [index, setIndex] = React.useState(0)
+  const handleSetIndex = (index) => {
+    setIndex(index);
+  }
+  const handleAlert = () => {
+    onAlert()
+  }
+  return (
+    <Dialog open={modal.visible} onClose={() => modal.hide()} maxWidth={false} >
+      {index === 0 && <ShowHoKhau onAlert = {handleAlert} onSetIndex={handleSetIndex} data={data}/>}
+      {index === 1 && <EditHoKhau onSetIndex={handleSetIndex} data={data}/>}
+    </Dialog>
+  );
+});
 
 const ShowHoKhau = (props) => {
   const dataNhankhau = useSelector(state => state.nhankhau.currentListNhankhau);
@@ -26,6 +41,9 @@ const ShowHoKhau = (props) => {
   const modal = useModal();
   const dispatch = useDispatch()
   const token = useSelector(tokenSelector)
+  const handleAlert = () => {
+    props.onAlert()
+  }
   const dataFetch = {
     token : token,
     id : data.sohokhau
@@ -88,7 +106,7 @@ const ShowHoKhau = (props) => {
               dataNhankhau.map((nhankhau) => (
                 <Stack key={nhankhau.id}>
                   <Stack onClick={() => {
-                    NiceModal.show(DialogShowNhanKhau, {data: nhankhau})
+                    NiceModal.show(DialogShowNhanKhau, {data: nhankhau,onAlert:handleAlert})
                   }} border={1.7} m={1} width={250} borderRadius={3}
                          sx={{borderColor: colors.blue[800], paddingX: 1.5, cursor: 'pointer'}} p={1}>
                     <Stack direction='row' alignItems='end'>
@@ -145,19 +163,21 @@ const validationSchema = yup.object({
 const EditHoKhau = (props) => {
   const data = props.data
   const modal = useModal();
+  const token = useSelector(tokenSelector)
   const formik = useFormik({
     initialValues: {
-      cccd: data.cccd,
+      cccd: data.cccdchuho,
       sonha: data.sonha,
       duong: data.duong,
       phuong: data.phuong,
       quan: data.quan,
-      ngaylamhokhau: '',
+      ngaylamhokhau: data.ngaylamhokhau,
     },
     validationSchema: validationSchema,
     onSubmit: (values, {resetForm}) => {
       const dataFetch = {
-        dataHokhau: {
+        token : token,
+        data: {
           cccd: values.cccd,
           sonha: values.sonha,
           duong: values.duong,
@@ -188,6 +208,7 @@ const EditHoKhau = (props) => {
             <Stack direction="row">
               <Stack pr={1} width='50%'>
                 <TextField
+                  disabled
                   margin="normal"
                   fullWidth
                   label="Số CCCD chủ hộ"
@@ -266,7 +287,6 @@ const EditHoKhau = (props) => {
               helperText={formik.touched.quan && formik.errors.quan}
             />
             <Stack pl={1}>
-              <Typography fontSize={16} fontWeight={450} color={'red'}>mesage</Typography>
             </Stack>
             <Divider/>
             <Stack px={2} py={1} justifyContent='space-between' direction='row'>
@@ -281,19 +301,7 @@ const EditHoKhau = (props) => {
   )
 }
 
-const DialogShowHoKhau = NiceModal.create(({data}) => {
-  const modal = useModal();
-  const [index, setIndex] = React.useState(0)
-  const handleSetIndex = (index) => {
-    setIndex(index);
-  }
-  return (
-    <Dialog open={modal.visible} onClose={() => modal.hide()} maxWidth={false} >
-      {index === 0 && <ShowHoKhau onSetIndex={handleSetIndex} data={data}/>}
-      {index === 1 && <EditHoKhau onSetIndex={handleSetIndex} data={data}/>}
-    </Dialog>
-  );
-});
+
 
 export default DialogShowHoKhau;
 

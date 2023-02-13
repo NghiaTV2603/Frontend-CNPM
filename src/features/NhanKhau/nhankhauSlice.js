@@ -12,6 +12,9 @@ export const nhankhauSlice = createSlice({
   reducers: {
     resetCurrentListNhankhau : (state, action) => {
       state.currentListNhankhau = []
+    },
+    resetStatus : (state, action) => {
+      state.status = null
     }
   },
   extraReducers: builder => {
@@ -46,6 +49,15 @@ export const nhankhauSlice = createSlice({
     builder.addCase(fetchCurrentListNhanKhau.fulfilled,(state, action)=>{
       state.currentListNhankhau = action.payload
     })
+    builder.addCase(fetchUpdateNhankhau.fulfilled,(state, action)=>{
+      if(action.payload.code === 200){
+        state.status = "success update"
+        state.listNhankhau = state.listNhankhau.map(obj => obj.id.toString() === action.payload.data.id ? action.payload.data : obj);
+        state.currentListNhankhau = state.currentListNhankhau.map(obj => obj.id.toString() === action.payload.data.id ? action.payload.data : obj);
+      }else{
+        state.status = "error update"
+      }
+    })
   }
 })
 const api = axios.create({
@@ -70,4 +82,9 @@ export const fetchDeleteNhankhau = createAsyncThunk("hokhau/fetchDeleteNhankhau"
 export const fetchCurrentListNhanKhau = createAsyncThunk("nhankhau/fetchCurrentListNhanKhau", async (data) => {
   const res = await api.get(`getListNhankhauBySoHoKhau?token=${data.token}&sohokhau=${data.id}`)
   return res.data.data
+})
+
+export const fetchUpdateNhankhau = createAsyncThunk("nhanhkhau/fetchUpdateNhankhau" , async (data)=>{
+  const res = await api.get(`updateNhankhau?token=${data.token}&idnhankhau=${data.idnhankhau}`,{params:data.data})
+  return res.data
 })

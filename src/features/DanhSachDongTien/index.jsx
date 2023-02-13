@@ -239,12 +239,12 @@ const ShowKhoanThu = (props) => {
           <Table aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Số khoản thu</StyledTableCell>
-                <StyledTableCell>Tên Khoản thu</StyledTableCell>
+                <StyledTableCell>Số </StyledTableCell>
+                <StyledTableCell sx={{width:250}}>Tên Khoản thu</StyledTableCell>
                 <StyledTableCell>Bắt buộc</StyledTableCell>
                 <StyledTableCell>Ngày bắt đầu</StyledTableCell>
                 <StyledTableCell>Ngày kết thúc</StyledTableCell>
-                <StyledTableCell>Tổng số tiền</StyledTableCell>
+                <StyledTableCell align="center">Tổng số tiền</StyledTableCell>
                 <StyledTableCell></StyledTableCell>
               </TableRow>
             </TableHead>
@@ -257,12 +257,12 @@ const ShowKhoanThu = (props) => {
                   : khoanthu
               ).map((row) => (
                 <StyledTableRow key={row.id}>
-                  <StyledTableCell>{row.id}</StyledTableCell>
-                  <StyledTableCell>{row.tenkhoanthu}</StyledTableCell>
+                  <StyledTableCell >{row.id}</StyledTableCell>
+                  <StyledTableCell sx={{width:270}}>{row.tenkhoanthu}</StyledTableCell>
                   <StyledTableCell>{row.batbuoc === 1 ? "Có" : "Không"}</StyledTableCell>
                   <StyledTableCell>{row.ngaytao}</StyledTableCell>
                   <StyledTableCell>{row.thoihan}</StyledTableCell>
-                  <StyledTableCell>30000000 VND</StyledTableCell>
+                  <StyledTableCell align="center">{row.sum_money}</StyledTableCell>
                   <StyledTableCell align="right">
                     <Button onClick={() => {
                       props.onSetIndex(1, row.id)

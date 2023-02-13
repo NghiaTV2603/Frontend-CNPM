@@ -146,6 +146,9 @@ export default function HoKhau() {
     }
     setOpenAlert(false);
   };
+  const handleAlert = () => {
+    setOpenAlert(true);
+  }
 
   // xu ly dialog them ho khau
   const [openAddHokhau, setOpenAddHokhau] = React.useState(false);
@@ -178,7 +181,7 @@ export default function HoKhau() {
     <Stack>
       <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
-          Thêm hộ khẩu thành công !
+          Cập nhật thành công !
         </Alert>
       </Snackbar>
       <Stack direction="row" p={3}>
@@ -250,13 +253,13 @@ export default function HoKhau() {
               ).map((row) => (
                 <StyledTableRow key={row.sohokhau}>
                   <StyledTableCell>{row.sohokhau}</StyledTableCell>
-                  <StyledTableCell>{row.hotenchuho}</StyledTableCell>
-                  <StyledTableCell>{row.sonha}</StyledTableCell>
-                  <StyledTableCell>{row.duong}</StyledTableCell>
-                  <StyledTableCell>{row.quan}</StyledTableCell>
-                  <StyledTableCell>{row.ngaylamhokhau}</StyledTableCell>
+                  <StyledTableCell sx={{width:230}}>{row.hotenchuho}</StyledTableCell>
+                  <StyledTableCell sx={{width:80}}>{row.sonha}</StyledTableCell>
+                  <StyledTableCell sx={{width:210}} >{row.duong}</StyledTableCell>
+                  <StyledTableCell sx={{width:210}}>{row.quan}</StyledTableCell>
+                  <StyledTableCell sx={{width:210}}>{row.ngaylamhokhau}</StyledTableCell>
                   <StyledTableCell align="right">
-                    <Button onClick={()=>{NiceModal.show(DialogShowHoKhau,{ data: row })}} variant="outlined"> Chi Tiết</Button>
+                    <Button onClick={()=>{NiceModal.show(DialogShowHoKhau,{ data: row, onAlert : handleAlert })}} variant="outlined"> Chi Tiết</Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

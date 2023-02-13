@@ -42,6 +42,10 @@ const hokhauSlice = createSlice({
     builder.addCase(fetchCurrentHokhau.fulfilled,(state, action)=>{
       state.currentHokhau = action.payload
     })
+    builder.addCase(fetchUpdateHokhau.fulfilled,(state, action)=>{
+      state.status = "success update"
+      state.listHokhau = state.listHokhau.map(obj => obj.id === action.payload.data.id ? action.payload.data : obj);
+    })
   }
 })
 
@@ -66,6 +70,11 @@ export const fetchDeleteHokhau = createAsyncThunk ("hokhau/fetchDeleteHokhau",as
 
 export const fetchCurrentHokhau = createAsyncThunk("hokhau/fetchCurrentHokhau",async (data) => {
   const res = await api.get(`getListNhankhauBySoHoKhau?token=${data.token}&sohokhau=${data.id}`)
+  return res.data.data
+})
+
+export const fetchUpdateHokhau = createAsyncThunk("hokhau/fetchUpdateHokhau" , async (data) => {
+  const res = await api.get(`updateHokhau?token=${data.token}`,{params:data.data})
   return res.data.data
 })
 

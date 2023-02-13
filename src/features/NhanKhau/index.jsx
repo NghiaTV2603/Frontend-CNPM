@@ -176,7 +176,7 @@ export default function NhanKhau() {
 
   const [openAler, setOpenAlert] = React.useState(false);
 
-  const handleClick = () => {
+  const handleAlert = () => {
     setOpenAlert(true);
   };
 
@@ -267,15 +267,15 @@ export default function NhanKhau() {
                   : nhankhau
               ).map((row) => (
                 <StyledTableRow key={row.id}>
-                  <StyledTableCell>{row.sohokhau}</StyledTableCell>
-                  <StyledTableCell>{row.hoten}</StyledTableCell>
-                  <StyledTableCell>{row.quanhevoichuho}</StyledTableCell>
-                  <StyledTableCell>{row.cccd}</StyledTableCell>
-                  <StyledTableCell>{row.ngaysinh}</StyledTableCell>
-                  <StyledTableCell>{row.quequan}</StyledTableCell>
-                  <StyledTableCell>{row.gioitinh === 0 ? 'Nữ' : "Nam"}</StyledTableCell>
+                  <StyledTableCell >{row.sohokhau}</StyledTableCell>
+                  <StyledTableCell sx={{width:200}}>{row.hoten}</StyledTableCell>
+                  <StyledTableCell >{row.quanhevoichuho}</StyledTableCell>
+                  <StyledTableCell >{row.cccd}</StyledTableCell>
+                  <StyledTableCell >{row.ngaysinh}</StyledTableCell>
+                  <StyledTableCell >{row.quequan}</StyledTableCell>
+                  <StyledTableCell >{row.gioitinh === 0 ? 'Nữ' : "Nam"}</StyledTableCell>
                   <StyledTableCell align="right">
-                    <Button onClick={()=>{NiceModal.show(DialogShowNhanKhau,{ data: row })}} variant="outlined"> Chi Tiết</Button>
+                    <Button onClick={()=>{NiceModal.show(DialogShowNhanKhau,{ data: row, onAlert : handleAlert })}} variant="outlined"> Chi Tiết</Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
