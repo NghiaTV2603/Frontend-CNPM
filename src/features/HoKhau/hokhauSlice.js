@@ -43,8 +43,8 @@ const hokhauSlice = createSlice({
       state.currentHokhau = action.payload
     })
     builder.addCase(fetchUpdateHokhau.fulfilled,(state, action)=>{
-      state.status = "success update"
-      state.listHokhau = state.listHokhau.map(obj => obj.id === action.payload.data.id ? action.payload.data : obj);
+      state.status = "success updatehokhau"
+      state.listHokhau = state.listHokhau.map(obj => obj.sohokhau === action.payload.sohokhau ? action.payload : obj);
     })
   }
 })

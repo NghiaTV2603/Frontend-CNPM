@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useRef} from 'react'
 import {
   Button, colors,
   Dialog, Divider, Stack, Typography, IconButton, TextField
@@ -11,7 +11,7 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import SaveIcon from '@mui/icons-material/Save';
 import DialogShowNhanKhau from "src/features/NhanKhau/components/DialogShowNhanKhau";
 import {useFormik} from "formik";
-import hokhauSlice, {fetchAddHokhau, fetchCurrentHokhau} from "src/features/HoKhau/hokhauSlice";
+import hokhauSlice, {fetchAddHokhau, fetchCurrentHokhau, fetchUpdateHokhau} from "src/features/HoKhau/hokhauSlice";
 import * as yup from "yup";
 import DialogCofirm from "src/features/HoKhau/components/DialogCofirm";
 import {useDispatch, useSelector} from "react-redux";
@@ -30,7 +30,7 @@ const DialogShowHoKhau = NiceModal.create(({data,onAlert}) => {
   return (
     <Dialog open={modal.visible} onClose={() => modal.hide()} maxWidth={false} >
       {index === 0 && <ShowHoKhau onAlert = {handleAlert} onSetIndex={handleSetIndex} data={data}/>}
-      {index === 1 && <EditHoKhau onSetIndex={handleSetIndex} data={data}/>}
+      {index === 1 && <EditHoKhau onAlert = {handleAlert} onSetIndex={handleSetIndex} data={data}/>}
     </Dialog>
   );
 });
@@ -162,8 +162,11 @@ const validationSchema = yup.object({
 
 const EditHoKhau = (props) => {
   const data = props.data
+  const dataHokhau = useSelector(state => state.hokhau)
   const modal = useModal();
   const token = useSelector(tokenSelector)
+  const dispatch = useDispatch()
+  const resetFormRef = useRef();
   const formik = useFormik({
     initialValues: {
       cccd: data.cccdchuho,
@@ -186,9 +189,19 @@ const EditHoKhau = (props) => {
           ngaylamhokhau: values.ngaylamhokhau
         },
       }
-      console.log(dataFetch)
+      dispatch(fetchUpdateHokhau(dataFetch))
+      resetFormRef.current = resetForm
     },
   });
+  useEffect(() => {
+    if (dataHokhau.status === "success updatehokhau") {
+      modal.hide();
+      props.onAlert();
+      if (resetFormRef.current) {
+        resetFormRef.current();
+      }
+    }
+  }, [dataHokhau])
   return (
     <>
       <Stack position='absolute' sx={{right: 6, top: 6}}>
