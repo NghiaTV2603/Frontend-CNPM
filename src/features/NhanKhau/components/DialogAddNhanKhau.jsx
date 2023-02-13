@@ -111,7 +111,7 @@ export default function DialogAddNhanKhau(props) {
   },[data])
   return (
     <Stack width={700} px={2}>
-      <Typography variant="h5" py={1} align="center">
+      <Typography fontSize={28} fontWeight={600} py={1} align="center">
         {' '}
         Thêm nhân khẩu{' '}
       </Typography>

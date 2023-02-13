@@ -77,7 +77,7 @@ export default function DialogAddHoKhau(props) {
   }, [data])
   return (
     <Stack width={600}>
-      <Typography fontSize={28} py={1.5} align="center">
+      <Typography fontSize={28} fontWeight={600} py={1.5} align="center">
         Thêm hộ khẩu{' '}
       </Typography>
       <Divider/>

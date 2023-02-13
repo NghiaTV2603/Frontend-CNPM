@@ -40,6 +40,8 @@ import {fetchListKhoanthu, fetchListThuphi} from "src/features/DanhSachDongTien/
 import {tokenSelector} from "src/app/selector";
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import PaidIcon from '@mui/icons-material/Paid';
+import DialogAddKhoanthu from "src/features/DanhSachDongTien/components/DialogAddKhoanthu";
+import DialogDeleteKhoanThu from "src/features/DanhSachDongTien/components/DialogDeleteKhoanThu";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -134,21 +136,25 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 export default function DanhSachDongTien() {
-  const [index,setIndex] = useState(0)
-  const [idKhoanThu,setIdKhoanThu] = useState(null)
-  const handleSetIndex = (index,id) => {
+  const [index, setIndex] = useState(0)
+  const [idKhoanThu, setIdKhoanThu] = useState(null)
+  const handleSetIndex = (index, id) => {
     setIndex(index)
     setIdKhoanThu(id)
   }
-  return(
+  return (
     <>
-      {index === 0 && <ShowKhoanThu onSetIndex = {handleSetIndex} />}
-      {index === 1 && <ShowDanhSach onSetIndex = {handleSetIndex} id={idKhoanThu} />}
+      {index === 0 && <ShowKhoanThu onSetIndex={handleSetIndex}/>}
+      {index === 1 && <ShowDanhSach onSetIndex={handleSetIndex} id={idKhoanThu}/>}
 
     </>
   )
 }
-const ShowKhoanThu = (props) =>{
+
+
+//================== show khoan thu ===================//
+const ShowKhoanThu = (props) => {
+
   const khoanthu = useSelector((state) => state.khoanthu.listKhoanthu)
 
   const token = useSelector(tokenSelector)
@@ -161,7 +167,9 @@ const ShowKhoanThu = (props) =>{
     setOpenAlert(false);
   };
   const dispatch = useDispatch()
-
+  const handleOpenAlert = () => {
+    setOpenAlert(true);
+  }
   useEffect(() => {
     dispatch(fetchListKhoanthu(token))
   }, [])
@@ -217,11 +225,13 @@ const ShowKhoanThu = (props) =>{
           variant="contained"
           sx={{marginLeft: 3}}
           endIcon={<PaidIcon/>}
+          onClick={() => {
+            NiceModal.show(DialogAddKhoanthu,{onAlert : handleOpenAlert})
+          }}
         >
           Thêm khoản thu
         </Button>
       </Stack>
-
       <Paper style={{height: 470, overflow: 'auto'}}>
         <TableContainer sx={{paddingX: 3}} component={Paper}>
           <Table aria-label="customized table">
@@ -252,9 +262,12 @@ const ShowKhoanThu = (props) =>{
                   <StyledTableCell>{row.thoihan}</StyledTableCell>
                   <StyledTableCell>30000000 VND</StyledTableCell>
                   <StyledTableCell align="right">
+                    <Button onClick={() => {
+                      props.onSetIndex(1, row.id)
+                    }} variant="outlined" sx={{marginRight:1}}>Xem danh sách</Button>
                     <Button onClick={()=>{
-                      props.onSetIndex(1,row.id)
-                    }}  variant="outlined">Xem danh sách</Button>
+                      NiceModal.show(DialogDeleteKhoanThu,{id : row.id,onAlert : handleOpenAlert})
+                    }} variant='contained' color={'error'}>Xóa</Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -330,7 +343,9 @@ const ShowDanhSach = (props) => {
       </Snackbar>
       <Typography fontSize={28} fontWeight={500} px={3} py={1}>Danh sách khoản thu số : {id}</Typography>
       <Stack direction="row" px={3} pb={3} spacing={2}>
-        <Button onClick={()=>{props.onSetIndex(0,null)}} variant='outlined' startIcon={<KeyboardReturnIcon />} > Quay lại</Button>
+        <Button onClick={() => {
+          props.onSetIndex(0, null)
+        }} variant='outlined' startIcon={<KeyboardReturnIcon/>}> Quay lại</Button>
         <Input
           sx={{
             backgroundColor: colors.grey[300],
@@ -391,8 +406,8 @@ const ShowDanhSach = (props) => {
                   <StyledTableCell>{row.sotien}</StyledTableCell>
                   <StyledTableCell>{row.ngaynop}</StyledTableCell>
                   <StyledTableCell>{row.ghichu}</StyledTableCell>
-                  <StyledTableCell align="right" >
-                    <Button variant="contained" sx={{marginRight:1}} color='error'>xóa</Button>
+                  <StyledTableCell align="right">
+                    <Button variant="contained" sx={{marginRight: 1}} color='error'>xóa</Button>
                     <Button variant="contained" color='info'>chỉnh sửa</Button>
                   </StyledTableCell>
                 </StyledTableRow>
