@@ -32,11 +32,11 @@ export const nhankhauSlice = createSlice({
         state.status = "Success"
         state.listNhankhau.push(action.payload.data);
       }
+    })
       builder.addCase(fetchDeleteNhankhau.fulfilled,(state, action)=>{
         state.message = "Xóa nhân khẩu thành công"
         state.listNhankhau = state.listNhankhau.filter(obj => obj.id.toString() !== action.payload.idnhankhau)
       })
-    })
   }
 })
 const api = axios.create({

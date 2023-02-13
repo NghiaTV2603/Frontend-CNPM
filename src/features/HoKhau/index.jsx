@@ -31,13 +31,10 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import {useSelector} from "react-redux";
-import {hokhauSelector} from "src/app/selector";
 import NiceModal from "@ebay/nice-modal-react";
 import DialogShowHoKhau from "src/features/HoKhau/components/DialogShowHoKhau";
 import {useDispatch} from "react-redux";
 import {useEffect} from "react";
-
-import axios from "axios";
 import {fetchListHokhau} from "src/features/HoKhau/hokhauSlice";
 
 
@@ -229,7 +226,7 @@ export default function HoKhau() {
         <DialogAddHoKhau handleCloseAddHoKhau={handleCloseAddHoKhau} onCloseSuccess = {handleCloseSuccess}/>
       </Dialog>
 
-      <Paper style={{height: 496, overflow: 'auto'}}>
+      <Paper style={{height: 470, overflow: 'auto'}}>
         <TableContainer sx={{paddingX: 3}} component={Paper}>
           <Table aria-label="customized table">
             <TableHead>

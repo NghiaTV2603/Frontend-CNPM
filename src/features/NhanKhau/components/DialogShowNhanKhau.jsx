@@ -84,7 +84,10 @@ const ShowNhanKhau = (props) => {
       <Stack direction='row-reverse' px={2} py={1} spacing={1}>
         <Button onClick={() => props.onSetIndex(1)} variant='outlined' color="warning" startIcon={<EditIcon/>}>Chỉnh
           sửa</Button>
-        <Button onClick={()=>{NiceModal.show(DialogCofirm,{ id:data.id ,onClose: handleCloseDialogShow})}}   variant='outlined' color="error" startIcon={<DeleteIcon/>}>Xóa</Button>
+        <Button onClick={() => {
+          NiceModal.show(DialogCofirm, {id: data.id, onClose: handleCloseDialogShow})
+        }} disabled={data.quanhevoichuho === "Là chủ hộ"} variant='outlined' color="error"
+                startIcon={<DeleteIcon/>}>Xóa</Button>
       </Stack>
     </Stack>
   )
@@ -105,8 +108,9 @@ const EditNhanKhau = (props) => {
       </Stack>
       <Divider/>
       <Stack px={2} py={1} justifyContent='space-between' direction='row'>
-        <Button onClick={()=>props.onSetIndex(0)} variant="outlined" sx={{color:colors.grey[600]}} startIcon={<KeyboardReturnIcon/>}>Quay Lại</Button>
-        <Button variant="contained" endIcon={<SaveIcon/>} >Lưu</Button>
+        <Button onClick={() => props.onSetIndex(0)} variant="outlined" sx={{color: colors.grey[600]}}
+                startIcon={<KeyboardReturnIcon/>}>Quay Lại</Button>
+        <Button variant="contained" endIcon={<SaveIcon/>}>Lưu</Button>
       </Stack>
     </Stack>
   )

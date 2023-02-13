@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
-import {useDispatch,useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchAddHokhau} from "src/features/HoKhau/hokhauSlice";
 import {hokhauSelector} from "src/app/selector";
 import axios from "axios";
@@ -37,7 +37,7 @@ const validationSchema = yup.object({
 });
 
 export default function DialogAddHoKhau(props) {
-  const data = useSelector((state)=>state.hokhau)
+  const data = useSelector((state) => state.hokhau)
   const token = useSelector((state) => state.authen.accessToken)
   const dispatch = useDispatch();
   const resetFormRef = useRef();
@@ -51,30 +51,30 @@ export default function DialogAddHoKhau(props) {
       ngaylamhokhau: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values,{resetForm}) => {
-        const dataFetch ={
-          token : token,
-          dataHokhau :           {
-            cccd: values.cccd,
-            sonha: values.sonha,
-            duong: values.duong,
-            phuong: values.phuong,
-            quan: values.quan,
-            ngaylamhokhau: values.ngaylamhokhau
-          },
-        }
-        dispatch(fetchAddHokhau(dataFetch))
-        resetFormRef.current = resetForm
-      },
+    onSubmit: (values, {resetForm}) => {
+      const dataFetch = {
+        token: token,
+        dataHokhau: {
+          cccd: values.cccd,
+          sonha: values.sonha,
+          duong: values.duong,
+          phuong: values.phuong,
+          quan: values.quan,
+          ngaylamhokhau: values.ngaylamhokhau
+        },
+      }
+      dispatch(fetchAddHokhau(dataFetch))
+      resetFormRef.current = resetForm
+    },
   });
-  useEffect(()=>{
-    if (data.status === "Success"){
+  useEffect(() => {
+    if (data.status === "Success") {
       props.onCloseSuccess()
       if (resetFormRef.current) {
         resetFormRef.current();
       }
     }
-  },[data])
+  }, [data])
   return (
     <Stack width={600}>
       <Typography fontSize={28} py={1.5} align="center">
@@ -96,7 +96,7 @@ export default function DialogAddHoKhau(props) {
                 helperText={formik.touched.cccd && formik.errors.cccd}
               />
             </Stack>
-            <Stack  width='50%'>
+            <Stack width='50%'>
               <TextField
                 margin="normal"
                 fullWidth
@@ -164,7 +164,8 @@ export default function DialogAddHoKhau(props) {
             helperText={formik.touched.quan && formik.errors.quan}
           />
           <Stack pl={1}>
-            <Typography fontSize={16} fontWeight={450} color={'red'}>{data.status === 'error' && data.message}</Typography>
+            <Typography fontSize={16} fontWeight={450}
+                        color={'red'}>{data.status === 'error' && data.message}</Typography>
           </Stack>
           <Stack py={2} direction="row-reverse" spacing={2}>
             <Button type="submit" variant="contained">
@@ -172,7 +173,7 @@ export default function DialogAddHoKhau(props) {
             </Button>
             <Button
               variant="outlined"
-              onClick={()=> {
+              onClick={() => {
                 props.handleCloseAddHoKhau()
               }}
             >

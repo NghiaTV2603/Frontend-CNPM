@@ -22,6 +22,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 export default function LoginPage() {
+  const status = useSelector((state)=>state.authen.status)
   const navigate = useNavigate()
   const theme = useTheme();
   const themeMode = theme.palette.mode;
@@ -86,10 +87,7 @@ export default function LoginPage() {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+          <Typography fontWeight={450} fontSize={16} color={'red'}>{status === 'error' && "Đăng nhập thất bại"}</Typography>
           <Button
             type="submit"
             fullWidth
