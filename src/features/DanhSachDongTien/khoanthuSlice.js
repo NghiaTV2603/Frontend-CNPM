@@ -9,7 +9,11 @@ const khoanthuSlice = createSlice({
     currentKhoanThu : [],
     message : null ,
   },
-  reducers:{},
+  reducers:{
+    resetThuphi : (state, action) =>{
+      state.currentKhoanThu = []
+    }
+  },
   extraReducers:builder => {
     builder.addCase(fetchListKhoanthu.pending,(state, action)=>{
       state.status = "loading"
@@ -37,6 +41,22 @@ const khoanthuSlice = createSlice({
       state.status = "delete"
       state.listKhoanthu = state.listKhoanthu.filter(obj => obj.id !== action.payload.id)
     })
+    builder.addCase(fetchAddThuphi.fulfilled,(state, action)=>{
+      if(action.payload.code === 500 ){
+        if(action.payload.message === "khoanthu is not existed"){
+          state.status = "error khoanthu"
+        }else{
+          state.status = "error sohokhau"
+        }
+      }else{
+        state.status = "Success thuphi"
+        state.currentKhoanThu.push(action.payload.data)
+      }
+    })
+    builder.addCase(fetchDeleteThuphi.fulfilled,(state, action)=>{
+      state.status = "delete thuphi"
+      state.currentKhoanThu = state.currentKhoanThu.filter(obj => obj.id !== action.payload.id)
+    })
   }
 })
 
@@ -59,7 +79,16 @@ export const fetchDeleteKhoanthu = createAsyncThunk("khoanthu/fetchDeleteKhoanth
 
 export const fetchListThuphi = createAsyncThunk("khoanthu/fetchListThuphi",async (data) =>{
   const res = await api.get(`getListThuphi?token=${data.token}&idkhoanthu=${data.id}`)
-  console.log("[log thu phi : ]"  + res.data.data)
+  return res.data.data
+})
+
+export const fetchAddThuphi = createAsyncThunk("khoanthu/fetchAddThuphi", async (data) => {
+  const res = await api.get(`addThuphi?token=${data.token}`,{params : data.data})
+  return res.data
+})
+
+export const fetchDeleteThuphi = createAsyncThunk("khoanthu/fetchDeleteThuphi" , async (data) => {
+  const res = await api.get(`deleteThuphi?token=${data.token}&idthuphi=${data.id}`)
   return res.data.data
 })
 

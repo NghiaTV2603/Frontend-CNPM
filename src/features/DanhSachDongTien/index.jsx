@@ -36,12 +36,14 @@ import DialogShowHoKhau from "src/features/HoKhau/components/DialogShowHoKhau";
 import {useDispatch} from "react-redux";
 import {useEffect, useState} from "react";
 import {fetchListHokhau} from "src/features/HoKhau/hokhauSlice";
-import {fetchListKhoanthu, fetchListThuphi} from "src/features/DanhSachDongTien/khoanthuSlice";
+import khoanthuSlice, {fetchListKhoanthu, fetchListThuphi} from "src/features/DanhSachDongTien/khoanthuSlice";
 import {tokenSelector} from "src/app/selector";
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import PaidIcon from '@mui/icons-material/Paid';
 import DialogAddKhoanthu from "src/features/DanhSachDongTien/components/DialogAddKhoanthu";
 import DialogDeleteKhoanThu from "src/features/DanhSachDongTien/components/DialogDeleteKhoanThu";
+import DialogAddThuPhi from "src/features/DanhSachDongTien/components/DialogAddThuPhi";
+import DialogDeleteThuPhi from "src/features/DanhSachDongTien/components/DialogDeleteThuPhi";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -192,7 +194,7 @@ const ShowKhoanThu = (props) => {
     <Stack>
       <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
-          Thêm hộ khẩu thành công !
+           Cập nhật Thành công !
         </Alert>
       </Snackbar>
       <Stack direction="row" p={3}>
@@ -314,6 +316,11 @@ const ShowDanhSach = (props) => {
     }
     setOpenAlert(false);
   };
+  const handleAlert = () => {
+    setOpenAlert(true)
+  }
+
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -338,13 +345,14 @@ const ShowDanhSach = (props) => {
     <Stack>
       <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
-          Thành công !
+          Cập nhật Thành công !
         </Alert>
       </Snackbar>
       <Typography fontSize={28} fontWeight={500} px={3} py={1}>Danh sách khoản thu số : {id}</Typography>
       <Stack direction="row" px={3} pb={3} spacing={2}>
         <Button onClick={() => {
           props.onSetIndex(0, null)
+          dispatch(khoanthuSlice.actions.resetThuphi())
         }} variant='outlined' startIcon={<KeyboardReturnIcon/>}> Quay lại</Button>
         <Input
           sx={{
@@ -374,6 +382,9 @@ const ShowDanhSach = (props) => {
           variant="contained"
           sx={{marginLeft: 3}}
           endIcon={<PaidIcon/>}
+          onClick={()=>{
+            NiceModal.show(DialogAddThuPhi,{onAlert : handleAlert})
+          }}
         >
           Thêm thu phí
         </Button>
@@ -407,7 +418,9 @@ const ShowDanhSach = (props) => {
                   <StyledTableCell>{row.ngaynop}</StyledTableCell>
                   <StyledTableCell>{row.ghichu}</StyledTableCell>
                   <StyledTableCell align="right">
-                    <Button variant="contained" sx={{marginRight: 1}} color='error'>xóa</Button>
+                    <Button variant="contained" sx={{marginRight: 1}} onClick={()=>{
+                      NiceModal.show(DialogDeleteThuPhi,{id : row.id , onAlert : handleAlert })
+                    }} color='error'>xóa</Button>
                     <Button variant="contained" color='info'>chỉnh sửa</Button>
                   </StyledTableCell>
                 </StyledTableRow>

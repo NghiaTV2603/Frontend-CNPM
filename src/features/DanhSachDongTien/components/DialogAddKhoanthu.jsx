@@ -1,19 +1,11 @@
 import React, {useEffect, useRef} from 'react'
 import {
-  Button, colors,
-  Dialog, Divider, Stack, Typography, IconButton, TextField, InputLabel, Select, MenuItem, FormControl
+  Button,
+  Dialog, Divider, Stack, Typography, TextField, InputLabel, Select, MenuItem, FormControl
 } from '@mui/material';
 import NiceModal, {useModal} from '@ebay/nice-modal-react';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import ClearIcon from '@mui/icons-material/Clear';
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-import SaveIcon from '@mui/icons-material/Save';
-import DialogShowNhanKhau from "src/features/NhanKhau/components/DialogShowNhanKhau";
 import {useFormik} from "formik";
-import {fetchAddHokhau} from "src/features/HoKhau/hokhauSlice";
 import * as yup from "yup";
-import DialogCofirm from "src/features/HoKhau/components/DialogCofirm";
 import {useDispatch, useSelector} from "react-redux";
 import {tokenSelector} from "src/app/selector";
 import {fetchAddKhoanthu} from "src/features/DanhSachDongTien/khoanthuSlice";
