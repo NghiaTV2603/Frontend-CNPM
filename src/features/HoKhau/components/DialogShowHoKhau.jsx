@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {
   Button, colors,
   Dialog, Divider, Stack, Typography, IconButton, TextField
@@ -11,23 +11,38 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import SaveIcon from '@mui/icons-material/Save';
 import DialogShowNhanKhau from "src/features/NhanKhau/components/DialogShowNhanKhau";
 import {useFormik} from "formik";
-import {fetchAddHokhau} from "src/features/HoKhau/hokhauSlice";
+import hokhauSlice, {fetchAddHokhau, fetchCurrentHokhau} from "src/features/HoKhau/hokhauSlice";
 import * as yup from "yup";
 import DialogCofirm from "src/features/HoKhau/components/DialogCofirm";
+import {useDispatch, useSelector} from "react-redux";
+import {tokenSelector} from "src/app/selector";
+import {fetchCurrentListNhanKhau, nhankhauSlice} from "src/features/NhanKhau/nhankhauSlice";
 
 
-const dataNhankhau = [];
 
 const ShowHoKhau = (props) => {
+  const dataNhankhau = useSelector(state => state.nhankhau.currentListNhankhau);
   const data = props.data
   const modal = useModal();
+  const dispatch = useDispatch()
+  const token = useSelector(tokenSelector)
+  const dataFetch = {
+    token : token,
+    id : data.sohokhau
+  }
   const handleCloseDialogShow = () => {
     modal.hide()
   }
+  useEffect(()=>{
+    dispatch(fetchCurrentListNhanKhau(dataFetch))
+  },[])
   return (
     <Stack>
       <Stack position='absolute' sx={{right: 6, top: 6}}>
-        <IconButton onClick={handleCloseDialogShow} aria-label="delete">
+        <IconButton onClick={()=>{
+          handleCloseDialogShow()
+          dispatch(nhankhauSlice.actions.resetCurrentListNhankhau())
+        }} aria-label="delete">
           <ClearIcon sx={{color: colors.grey[900]}}/>
         </IconButton>
       </Stack>
@@ -273,7 +288,7 @@ const DialogShowHoKhau = NiceModal.create(({data}) => {
     setIndex(index);
   }
   return (
-    <Dialog open={modal.visible} onClose={() => modal.hide()}>
+    <Dialog open={modal.visible} onClose={() => modal.hide()} maxWidth={false} >
       {index === 0 && <ShowHoKhau onSetIndex={handleSetIndex} data={data}/>}
       {index === 1 && <EditHoKhau onSetIndex={handleSetIndex} data={data}/>}
     </Dialog>

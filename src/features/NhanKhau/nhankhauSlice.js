@@ -7,8 +7,13 @@ export const nhankhauSlice = createSlice({
     listNhankhau: [],
     status: null,
     message: null,
+    currentListNhankhau: [],
   },
-  reducers: {},
+  reducers: {
+    resetCurrentListNhankhau : (state, action) => {
+      state.currentListNhankhau = []
+    }
+  },
   extraReducers: builder => {
     builder.addCase(fetchNhankhau.pending, (state, action) => {
       state.status = 'loading'
@@ -33,10 +38,14 @@ export const nhankhauSlice = createSlice({
         state.listNhankhau.push(action.payload.data);
       }
     })
-      builder.addCase(fetchDeleteNhankhau.fulfilled,(state, action)=>{
-        state.message = "Xóa nhân khẩu thành công"
-        state.listNhankhau = state.listNhankhau.filter(obj => obj.id.toString() !== action.payload.idnhankhau)
-      })
+    builder.addCase(fetchDeleteNhankhau.fulfilled, (state, action) => {
+      state.message = "Xóa nhân khẩu thành công"
+      state.listNhankhau = state.listNhankhau.filter(obj => obj.id.toString() !== action.payload.idnhankhau)
+      state.currentListNhankhau = state.currentListNhankhau.filter(obj => obj.id.toString() !== action.payload.idnhankhau)
+    })
+    builder.addCase(fetchCurrentListNhanKhau.fulfilled,(state, action)=>{
+      state.currentListNhankhau = action.payload
+    })
   }
 })
 const api = axios.create({
@@ -52,8 +61,13 @@ export const fetchAddNhankhau = createAsyncThunk("nhankhau/fetchAddNhankhau", as
   return res.data
 })
 
-export const fetchDeleteNhankhau = createAsyncThunk ("hokhau/fetchDeleteNhankhau",async (data)=>{
+export const fetchDeleteNhankhau = createAsyncThunk("hokhau/fetchDeleteNhankhau", async (data) => {
   const res = await api.get(`deleteNhankhau?token=${data.token}&idnhankhau=${data.id}`)
   console.log(res.data.data)
   return res.data.data;
+})
+
+export const fetchCurrentListNhanKhau = createAsyncThunk("nhankhau/fetchCurrentListNhanKhau", async (data) => {
+  const res = await api.get(`getListNhankhauBySoHoKhau?token=${data.token}&sohokhau=${data.id}`)
+  return res.data.data
 })

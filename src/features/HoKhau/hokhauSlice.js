@@ -7,8 +7,13 @@ const hokhauSlice = createSlice({
     listHokhau : [] ,
     status : null ,
     message : null,
+    currentHokhau : [],
   },
-  reducers: {},
+  reducers: {
+    resetCurrentHokhau : (state, action)=>{
+      state.currentHokhau = []
+    }
+  },
   extraReducers: builder => {
     builder.addCase(fetchListHokhau.pending,(state, action)=>{
       state.status = 'loading'
@@ -18,7 +23,6 @@ const hokhauSlice = createSlice({
       state.listHokhau = action.payload
     })
     builder.addCase(fetchAddHokhau.fulfilled,(state,action) => {
-      const a = action.payload
       if(action.payload.code === 500){
         state.message = "Chủ hộ đã tồn tại trong hộ khẩu khác"
         state.status = 'error'
@@ -34,6 +38,9 @@ const hokhauSlice = createSlice({
     builder.addCase(fetchDeleteHokhau.fulfilled,(state, action)=>{
       state.listHokhau = state.listHokhau.filter(obj => obj.cccdchuho !== action.payload.cccd)
       state.message = "Xóa nhân khẩu thành công"
+    })
+    builder.addCase(fetchCurrentHokhau.fulfilled,(state, action)=>{
+      state.currentHokhau = action.payload
     })
   }
 })
@@ -55,6 +62,11 @@ export const fetchAddHokhau = createAsyncThunk("hokhau/fetchAddHokhau",async (da
 export const fetchDeleteHokhau = createAsyncThunk ("hokhau/fetchDeleteHokhau",async (data)=>{
   const res = await api.get(`deleteHokhauByCccd?token=${data.token}&cccd=${data.cccd}`)
   return res.data.data;
+})
+
+export const fetchCurrentHokhau = createAsyncThunk("hokhau/fetchCurrentHokhau",async (data) => {
+  const res = await api.get(`getListNhankhauBySoHoKhau?token=${data.token}&sohokhau=${data.id}`)
+  return res.data.data
 })
 
 
