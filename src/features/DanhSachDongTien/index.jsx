@@ -44,6 +44,8 @@ import DialogAddKhoanthu from "src/features/DanhSachDongTien/components/DialogAd
 import DialogDeleteKhoanThu from "src/features/DanhSachDongTien/components/DialogDeleteKhoanThu";
 import DialogAddThuPhi from "src/features/DanhSachDongTien/components/DialogAddThuPhi";
 import DialogDeleteThuPhi from "src/features/DanhSachDongTien/components/DialogDeleteThuPhi";
+import EditKhoanThu from "src/features/DanhSachDongTien/components/EditKhoanThu";
+import EditThuPhi from "src/features/DanhSachDongTien/components/EditThuPhi";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -257,16 +259,19 @@ const ShowKhoanThu = (props) => {
                   : khoanthu
               ).map((row) => (
                 <StyledTableRow key={row.id}>
-                  <StyledTableCell >{row.id}</StyledTableCell>
-                  <StyledTableCell sx={{width:270}}>{row.tenkhoanthu}</StyledTableCell>
-                  <StyledTableCell>{row.batbuoc === 1 ? "Có" : "Không"}</StyledTableCell>
-                  <StyledTableCell>{row.ngaytao}</StyledTableCell>
-                  <StyledTableCell>{row.thoihan}</StyledTableCell>
-                  <StyledTableCell align="center">{row.sum_money}</StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell sx={{width:100}}>{row.id}</StyledTableCell>
+                  <StyledTableCell >{row.tenkhoanthu}</StyledTableCell>
+                  <StyledTableCell sx={{width:100}}>{row.batbuoc === 1 ? "Có" : "Không"}</StyledTableCell>
+                  <StyledTableCell sx={{width:200}}>{row.ngaytao}</StyledTableCell>
+                  <StyledTableCell sx={{width:200}}>{row.thoihan}</StyledTableCell>
+                  <StyledTableCell sx={{width:100}} align="center">{row.sum_money}</StyledTableCell>
+                  <StyledTableCell align="right" sx={{width:400}} >
                     <Button onClick={() => {
                       props.onSetIndex(1, row.id)
                     }} variant="outlined" sx={{marginRight:1}}>Xem danh sách</Button>
+                    <Button sx={{marginRight:1}} onClick={()=>{
+                      NiceModal.show(EditKhoanThu,{dataKhoanthu:row,onAlert : handleOpenAlert})
+                    }} variant='contained' color={'warning'}>Chỉnh sửa</Button>
                     <Button onClick={()=>{
                       NiceModal.show(DialogDeleteKhoanThu,{id : row.id,onAlert : handleOpenAlert})
                     }} variant='contained' color={'error'}>Xóa</Button>
@@ -421,7 +426,9 @@ const ShowDanhSach = (props) => {
                     <Button variant="contained" sx={{marginRight: 1}} onClick={()=>{
                       NiceModal.show(DialogDeleteThuPhi,{id : row.id , onAlert : handleAlert })
                     }} color='error'>xóa</Button>
-                    <Button variant="contained" color='info'>chỉnh sửa</Button>
+                    <Button variant="contained" color='info' onClick={()=>{
+                      NiceModal.show(EditThuPhi,{dataThuphi : row , onAlert:handleAlert})
+                    }}>chỉnh sửa</Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

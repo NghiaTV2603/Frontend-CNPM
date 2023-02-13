@@ -53,9 +53,21 @@ const khoanthuSlice = createSlice({
         state.currentKhoanThu.push(action.payload.data)
       }
     })
-    builder.addCase(fetchDeleteThuphi.fulfilled,(state, action)=>{
+    builder.addCase(fetchDeleteThuphi.fulfilled, (state, action) => {
       state.status = "delete thuphi"
       state.currentKhoanThu = state.currentKhoanThu.filter(obj => obj.id !== action.payload.id)
+    })
+    builder.addCase(fetchUpdateKhoanthu.fulfilled,(state, action)=>{
+      state.status = "success updateKhoanthu"
+      state.listKhoanthu = state.listKhoanthu.map(obj => obj.id.toString() === action.payload.id ? action.payload : obj);
+    })
+    builder.addCase(fetchUpdateThuphi.fulfilled,(state, action)=>{
+      if(action.payload.code === 200){
+        state.status = "success updateThuphi"
+        state.currentKhoanThu = state.currentKhoanThu.map(obj => obj.id.toString() === action.payload.data.id ? action.payload.data : obj);
+      }else {
+        state.status = "error updateThuphi"
+      }
     })
   }
 })
@@ -90,6 +102,16 @@ export const fetchAddThuphi = createAsyncThunk("khoanthu/fetchAddThuphi", async 
 export const fetchDeleteThuphi = createAsyncThunk("khoanthu/fetchDeleteThuphi" , async (data) => {
   const res = await api.get(`deleteThuphi?token=${data.token}&idthuphi=${data.id}`)
   return res.data.data
+})
+
+export const fetchUpdateKhoanthu  = createAsyncThunk("khoanthu/fetchUpdateKhoanthu",async (data) => {
+  const res = await api.get(`updateKhoanthu?token=${data.token}&idkhoanthu=${data.id}`,{params:data.data})
+  return res.data.data
+})
+
+export const fetchUpdateThuphi = createAsyncThunk ("khoanthu/fetchUpdateThuphi" , async (data) => {
+  const res = await api.get(`updateThuphi?token=${data.token}&idthuphi=${data.idthuphi}` , {params : data.data})
+  return  res.data
 })
 
 
