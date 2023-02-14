@@ -22,6 +22,7 @@ const DialogCofirm = NiceModal.create(({cccd, onClose}) => {
       cccd
     }
     dispatch(fetchDeleteHokhau(data))
+    console.log(data)
   }
   useEffect(() => {
     if(data.message === "Xóa nhân khẩu thành công"){

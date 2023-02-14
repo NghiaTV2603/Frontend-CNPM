@@ -40,6 +40,7 @@ import DialogShowNhanKhau from "src/features/NhanKhau/components/DialogShowNhanK
 import {useEffect} from "react";
 import {fetchListHokhau} from "src/features/HoKhau/hokhauSlice";
 import MuiAlert from '@mui/material/Alert';
+import Skeleton from "@mui/material/Skeleton";
 
 
 // ============= handle table =============== //
@@ -137,7 +138,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function NhanKhau() {
-
+  const status = useSelector(state => state.nhankhau.status)
   const nhankhau = useSelector(nhankhauSelector);
   const [openAddNhanKhau, setOpenAddNhankhau] = React.useState(false);
 
@@ -287,6 +288,14 @@ export default function NhanKhau() {
             </TableBody>
           </Table>
         </TableContainer>
+        {nhankhau.length === 0 && <Stack pl={3} sx={{width: 1240, height: 500}}>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80} animation="wave"/>
+        </Stack>
+        }
       </Paper>
       <TablePagination
         rowsPerPageOptions={[6, 10, 25, {label: 'All', value: -1}]}

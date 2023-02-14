@@ -20,16 +20,6 @@ const validationSchema = yup.object({
   hoten: yup
     .string('Nhập đường')
     .required('Họ tên không được trống'),
-  cccd: yup
-    .string('Nhập số CCCD')
-    .matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/, 'CCCD phải là các số')
-    .required('Số CCCD không được trống'),
-  ngaycap: yup
-    .string('Nhập đường')
-    .required('Ngày cấp không được trống'),
-  noicap: yup
-    .string('Nhập đường')
-    .required('Nơi cấp không được trống'),
   ngaysinh: yup
     .string('Nhập đường')
     .required('Ngày sinh không được trống'),

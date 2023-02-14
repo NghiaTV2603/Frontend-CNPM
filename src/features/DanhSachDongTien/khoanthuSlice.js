@@ -16,14 +16,14 @@ const khoanthuSlice = createSlice({
   },
   extraReducers:builder => {
     builder.addCase(fetchListKhoanthu.pending,(state, action)=>{
-      state.status = "loading"
+      state.status = "loading khoan thu"
     })
     builder.addCase(fetchListKhoanthu.fulfilled,(state, action)=>{
       state.status= null
       state.listKhoanthu = action.payload
     })
     builder.addCase(fetchListThuphi.pending,(state, action)=>{
-      state.status = "loading"
+      state.status = "loading thu phi"
     })
     builder.addCase(fetchListThuphi.fulfilled,(state, action)=>{
       state.status = null

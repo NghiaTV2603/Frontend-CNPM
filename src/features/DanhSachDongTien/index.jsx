@@ -18,8 +18,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import DialogAddHoKhau from 'src/features/HoKhau/components/DialogAddHoKhau';
-import AddHomeIcon from '@mui/icons-material/AddHome';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import PropTypes from 'prop-types';
 import {useTheme} from '@mui/material/styles';
@@ -46,6 +44,7 @@ import DialogAddThuPhi from "src/features/DanhSachDongTien/components/DialogAddT
 import DialogDeleteThuPhi from "src/features/DanhSachDongTien/components/DialogDeleteThuPhi";
 import EditKhoanThu from "src/features/DanhSachDongTien/components/EditKhoanThu";
 import EditThuPhi from "src/features/DanhSachDongTien/components/EditThuPhi";
+import Skeleton from "@mui/material/Skeleton";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -160,7 +159,7 @@ export default function DanhSachDongTien() {
 const ShowKhoanThu = (props) => {
 
   const khoanthu = useSelector((state) => state.khoanthu.listKhoanthu)
-
+  const status = useSelector(state => state.khoanthu.status)
   const token = useSelector(tokenSelector)
   // thong bao
   const [openAlert, setOpenAlert] = React.useState(false)
@@ -268,7 +267,7 @@ const ShowKhoanThu = (props) => {
                   <StyledTableCell align="right" sx={{width:400}} >
                     <Button onClick={() => {
                       props.onSetIndex(1, row.id)
-                    }} variant="outlined" sx={{marginRight:1}}>Xem danh sách</Button>
+                    }} variant="outlined" sx={{marginRight:1}}>Xem</Button>
                     <Button sx={{marginRight:1}} onClick={()=>{
                       NiceModal.show(EditKhoanThu,{dataKhoanthu:row,onAlert : handleOpenAlert})
                     }} variant='contained' color={'warning'}>Chỉnh sửa</Button>
@@ -286,6 +285,13 @@ const ShowKhoanThu = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
+        {khoanthu.length === 0 && <Stack pl={3} sx={{width: 1240, height: 500}}>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80} animation="wave"/>
+        </Stack>}
       </Paper>
       <TablePagination
         rowsPerPageOptions={[6, 10, 25, {label: 'All', value: -1}]}
@@ -305,6 +311,7 @@ const ShowKhoanThu = (props) => {
 
 
 const ShowDanhSach = (props) => {
+  const status = useSelector(state => state.khoanthu.status)
   const thuphi = useSelector((state) => state.khoanthu.currentKhoanThu)
   const token = useSelector(tokenSelector)
   const id = props.id
@@ -440,6 +447,13 @@ const ShowDanhSach = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
+        {status === 'loading thu phi' && <Stack pl={3} sx={{width: 1240, height: 500}}>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80} animation="wave"/>
+        </Stack>}
       </Paper>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}

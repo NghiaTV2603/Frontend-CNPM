@@ -64,7 +64,7 @@ const ShowHoKhau = (props) => {
           <ClearIcon sx={{color: colors.grey[900]}}/>
         </IconButton>
       </Stack>
-      <Stack width={600}>
+      <Stack maxWidth={980} minWidth={600}>
         <Stack textAlign='center' pt={1}>
           <Typography fontWeight={700} fontSize={28}>SỔ HỘ KHẨU</Typography>
           <Typography fontWeight={500} fontSize={16}>Số : {data.sohokhau}</Typography>

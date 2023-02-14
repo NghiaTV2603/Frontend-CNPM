@@ -36,6 +36,7 @@ import DialogShowHoKhau from "src/features/HoKhau/components/DialogShowHoKhau";
 import {useDispatch} from "react-redux";
 import {useEffect} from "react";
 import {fetchListHokhau} from "src/features/HoKhau/hokhauSlice";
+import Skeleton from '@mui/material/Skeleton';
 
 
 
@@ -128,7 +129,11 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+
+
+
 export default function HoKhau() {
+  const status = useSelector(state => state.hokhau.status)
   const dataHokhau = useSelector((state)=>state.hokhau)
   const hokhau = dataHokhau.listHokhau;
   const token1 = useSelector((state) => state.authen.accessToken)
@@ -271,7 +276,15 @@ export default function HoKhau() {
             </TableBody>
           </Table>
         </TableContainer>
+        {hokhau.length === 0 && <Stack pl={3} sx={{width: 1240, height: 500}}>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80}/>
+          <Skeleton height={80} animation="wave"/>
+        </Stack>}
       </Paper>
+
       <TablePagination
         rowsPerPageOptions={[6, 10, 25, {label: 'All', value: -1}]}
         count={hokhau.length}
