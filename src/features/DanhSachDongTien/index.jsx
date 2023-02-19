@@ -8,100 +8,39 @@ import {
   Table,
   TableBody,
   Slide,
-  Dialog, Snackbar, Typography,
+  Snackbar,
+  Typography,
 } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import TableCell, {tableCellClasses} from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import PropTypes from 'prop-types';
-import {useTheme} from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import TablePagination from '@mui/material/TablePagination';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import {useSelector} from "react-redux";
-import NiceModal from "@ebay/nice-modal-react";
-import DialogShowHoKhau from "src/features/HoKhau/components/DialogShowHoKhau";
-import {useDispatch} from "react-redux";
-import {useEffect, useState} from "react";
-import {fetchListHokhau} from "src/features/HoKhau/hokhauSlice";
-import khoanthuSlice, {fetchListKhoanthu, fetchListThuphi} from "src/features/DanhSachDongTien/khoanthuSlice";
-import {tokenSelector} from "src/app/selector";
+import { useSelector } from 'react-redux';
+import NiceModal from '@ebay/nice-modal-react';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import khoanthuSlice, {
+  fetchListKhoanthu,
+  fetchListThuphi,
+} from 'src/features/DanhSachDongTien/khoanthuSlice';
+import { tokenSelector } from 'src/app/selector';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import PaidIcon from '@mui/icons-material/Paid';
-import DialogAddKhoanthu from "src/features/DanhSachDongTien/components/DialogAddKhoanthu";
-import DialogDeleteKhoanThu from "src/features/DanhSachDongTien/components/DialogDeleteKhoanThu";
-import DialogAddThuPhi from "src/features/DanhSachDongTien/components/DialogAddThuPhi";
-import DialogDeleteThuPhi from "src/features/DanhSachDongTien/components/DialogDeleteThuPhi";
-import EditKhoanThu from "src/features/DanhSachDongTien/components/EditKhoanThu";
-import EditThuPhi from "src/features/DanhSachDongTien/components/EditThuPhi";
-import Skeleton from "@mui/material/Skeleton";
-
-function TablePaginationActions(props) {
-  const theme = useTheme();
-  const {count, page, rowsPerPage, onPageChange} = props;
-  const handleFirstPageButtonClick = (event) => {
-    onPageChange(event, 0);
-  };
-  const handleBackButtonClick = (event) => {
-    onPageChange(event, page - 1);
-  };
-  const handleNextButtonClick = (event) => {
-    onPageChange(event, page + 1);
-  };
-  const handleLastPageButtonClick = (event) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-  return (
-    <Box sx={{flexShrink: 0, ml: 2.5}}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}
-      </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === 'rtl' ? (
-          <KeyboardArrowRight/>
-        ) : (
-          <KeyboardArrowLeft/>
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === 'rtl' ? (
-          <KeyboardArrowLeft/>
-        ) : (
-          <KeyboardArrowRight/>
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        {theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}
-      </IconButton>
-    </Box>
-  );
-}
+import DialogAddKhoanthu from 'src/features/DanhSachDongTien/components/DialogAddKhoanthu';
+import DialogDeleteKhoanThu from 'src/features/DanhSachDongTien/components/DialogDeleteKhoanThu';
+import DialogAddThuPhi from 'src/features/DanhSachDongTien/components/DialogAddThuPhi';
+import DialogDeleteThuPhi from 'src/features/DanhSachDongTien/components/DialogDeleteThuPhi';
+import EditKhoanThu from 'src/features/DanhSachDongTien/components/EditKhoanThu';
+import EditThuPhi from 'src/features/DanhSachDongTien/components/EditThuPhi';
+import Skeleton from '@mui/material/Skeleton';
+import {TablePaginationActions} from "src/features/HoKhau";
 
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
@@ -109,7 +48,7 @@ TablePaginationActions.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-const StyledTableCell = styled(TableCell)(({theme}) => ({
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: colors.grey[900],
     color: theme.palette.common.white,
@@ -118,7 +57,7 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
     fontSize: 14,
   },
 }));
-const StyledTableRow = styled(TableRow)(({theme}) => ({
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
@@ -128,7 +67,6 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
   },
 }));
 
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -137,45 +75,43 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-
 export default function DanhSachDongTien() {
-  const [index, setIndex] = useState(0)
-  const [idKhoanThu, setIdKhoanThu] = useState(null)
+  const [index, setIndex] = useState(0);
+  const [idKhoanThu, setIdKhoanThu] = useState(null);
   const handleSetIndex = (index, id) => {
-    setIndex(index)
-    setIdKhoanThu(id)
-  }
+    setIndex(index);
+    setIdKhoanThu(id);
+  };
   return (
     <>
-      {index === 0 && <ShowKhoanThu onSetIndex={handleSetIndex}/>}
-      {index === 1 && <ShowDanhSach onSetIndex={handleSetIndex} id={idKhoanThu}/>}
-
+      {index === 0 && <ShowKhoanThu onSetIndex={handleSetIndex} />}
+      {index === 1 && (
+        <ShowDanhSach onSetIndex={handleSetIndex} id={idKhoanThu} />
+      )}
     </>
-  )
+  );
 }
-
 
 //================== show khoan thu ===================//
 const ShowKhoanThu = (props) => {
-
-  const khoanthu = useSelector((state) => state.khoanthu.listKhoanthu)
-  const status = useSelector(state => state.khoanthu.status)
-  const token = useSelector(tokenSelector)
+  const khoanthu = useSelector((state) => state.khoanthu.listKhoanthu);
+  const status = useSelector((state) => state.khoanthu.status);
+  const token = useSelector(tokenSelector);
   // thong bao
-  const [openAlert, setOpenAlert] = React.useState(false)
+  const [openAlert, setOpenAlert] = React.useState(false);
   const handleCloseAlert = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpenAlert(false);
   };
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleOpenAlert = () => {
     setOpenAlert(true);
-  }
+  };
   useEffect(() => {
-    dispatch(fetchListKhoanthu(token))
-  }, [])
+    dispatch(fetchListKhoanthu(token));
+  }, []);
 
   // xu ly chuyen trang
   const [page, setPage] = React.useState(0);
@@ -193,9 +129,17 @@ const ShowKhoanThu = (props) => {
 
   return (
     <Stack>
-      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
-           Cập nhật Thành công !
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          Cập nhật Thành công !
         </Alert>
       </Snackbar>
       <Stack direction="row" p={3}>
@@ -209,7 +153,7 @@ const ShowKhoanThu = (props) => {
           }}
           startAdornment={
             <InputAdornment position="start">
-              <SearchIcon/>
+              <SearchIcon />
             </InputAdornment>
           }
         />
@@ -220,28 +164,30 @@ const ShowKhoanThu = (props) => {
             color: colors.grey[900],
             borderColor: colors.grey[900],
           }}
-          endIcon={<ManageSearchIcon/>}
+          endIcon={<ManageSearchIcon />}
         >
           Tìm Kiếm
         </Button>
         <Button
           variant="contained"
-          sx={{marginLeft: 3}}
-          endIcon={<PaidIcon/>}
+          sx={{ marginLeft: 3 }}
+          endIcon={<PaidIcon />}
           onClick={() => {
-            NiceModal.show(DialogAddKhoanthu,{onAlert : handleOpenAlert})
+            NiceModal.show(DialogAddKhoanthu, { onAlert: handleOpenAlert });
           }}
         >
           Thêm khoản thu
         </Button>
       </Stack>
-      <Paper style={{height: 470, overflow: 'auto'}}>
-        <TableContainer sx={{paddingX: 3}} component={Paper}>
+      <Paper style={{ height: 470, overflow: 'auto' }}>
+        <TableContainer sx={{ paddingX: 3 }} component={Paper}>
           <Table aria-label="customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell>Số </StyledTableCell>
-                <StyledTableCell sx={{width:250}}>Tên Khoản thu</StyledTableCell>
+                <StyledTableCell sx={{ width: 250 }}>
+                  Tên Khoản thu
+                </StyledTableCell>
                 <StyledTableCell>Bắt buộc</StyledTableCell>
                 <StyledTableCell>Ngày bắt đầu</StyledTableCell>
                 <StyledTableCell>Ngày kết thúc</StyledTableCell>
@@ -251,50 +197,87 @@ const ShowKhoanThu = (props) => {
             </TableHead>
             <TableBody>
               {(rowsPerPage > 0
-                  ? khoanthu.slice(
+                ? khoanthu.slice(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
                   )
-                  : khoanthu
+                : khoanthu
               ).map((row) => (
                 <StyledTableRow key={row.id}>
-                  <StyledTableCell sx={{width:100}}>{row.id}</StyledTableCell>
-                  <StyledTableCell >{row.tenkhoanthu}</StyledTableCell>
-                  <StyledTableCell sx={{width:100}}>{row.batbuoc === 1 ? "Có" : "Không"}</StyledTableCell>
-                  <StyledTableCell sx={{width:200}}>{row.ngaytao}</StyledTableCell>
-                  <StyledTableCell sx={{width:200}}>{row.thoihan}</StyledTableCell>
-                  <StyledTableCell sx={{width:100}} align="center">{row.sum_money}</StyledTableCell>
-                  <StyledTableCell align="right" sx={{width:400}} >
-                    <Button onClick={() => {
-                      props.onSetIndex(1, row.id)
-                    }} variant="outlined" sx={{marginRight:1}}>Xem</Button>
-                    <Button sx={{marginRight:1}} onClick={()=>{
-                      NiceModal.show(EditKhoanThu,{dataKhoanthu:row,onAlert : handleOpenAlert})
-                    }} variant='contained' color={'warning'}>Chỉnh sửa</Button>
-                    <Button onClick={()=>{
-                      NiceModal.show(DialogDeleteKhoanThu,{id : row.id,onAlert : handleOpenAlert})
-                    }} variant='contained' color={'error'}>Xóa</Button>
+                  <StyledTableCell sx={{ width: 100 }}>
+                    {row.id}
+                  </StyledTableCell>
+                  <StyledTableCell>{row.tenkhoanthu}</StyledTableCell>
+                  <StyledTableCell sx={{ width: 100 }}>
+                    {row.batbuoc === 1 ? 'Có' : 'Không'}
+                  </StyledTableCell>
+                  <StyledTableCell sx={{ width: 200 }}>
+                    {row.ngaytao}
+                  </StyledTableCell>
+                  <StyledTableCell sx={{ width: 200 }}>
+                    {row.thoihan}
+                  </StyledTableCell>
+                  <StyledTableCell sx={{ width: 100 }} align="center">
+                    {row.sum_money}
+                  </StyledTableCell>
+                  <StyledTableCell align="right" sx={{ width: 400 }}>
+                    <Button
+                      onClick={() => {
+                        props.onSetIndex(1, row.id);
+                      }}
+                      variant="outlined"
+                      sx={{ marginRight: 1 }}
+                    >
+                      Xem
+                    </Button>
+                    <Button
+                      sx={{ marginRight: 1 }}
+                      onClick={() => {
+                        NiceModal.show(EditKhoanThu, {
+                          dataKhoanthu: row,
+                          onAlert: handleOpenAlert,
+                        });
+                      }}
+                      variant="contained"
+                      color={'warning'}
+                    >
+                      Chỉnh sửa
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        NiceModal.show(DialogDeleteKhoanThu, {
+                          id: row.id,
+                          onAlert: handleOpenAlert,
+                        });
+                      }}
+                      variant="contained"
+                      color={'error'}
+                    >
+                      Xóa
+                    </Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
               {emptyRows > 0 && (
-                <TableRow style={{height: 53 * emptyRows}}>
-                  <TableCell colSpan={6}/>
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
           </Table>
         </TableContainer>
-        {khoanthu.length === 0 && <Stack pl={3} sx={{width: 1240, height: 500}}>
-          <Skeleton height={80}/>
-          <Skeleton height={80}/>
-          <Skeleton height={80}/>
-          <Skeleton height={80}/>
-          <Skeleton height={80} animation="wave"/>
-        </Stack>}
+        {khoanthu.length === 0 && (
+          <Stack pl={3} sx={{ width: 1240, height: 500 }}>
+            <Skeleton height={80} />
+            <Skeleton height={80} />
+            <Skeleton height={80} />
+            <Skeleton height={80} />
+            <Skeleton height={80} animation="wave" />
+          </Stack>
+        )}
       </Paper>
       <TablePagination
-        rowsPerPageOptions={[6, 10, 25, {label: 'All', value: -1}]}
+        rowsPerPageOptions={[6, 10, 25, { label: 'All', value: -1 }]}
         count={khoanthu.length}
         rowsPerPage={rowsPerPage}
         page={page}
@@ -303,25 +286,23 @@ const ShowKhoanThu = (props) => {
         ActionsComponent={TablePaginationActions}
       />
     </Stack>
-  )
-}
-
+  );
+};
 
 // ================== show danh sach =================== //
 
-
 const ShowDanhSach = (props) => {
-  const status = useSelector(state => state.khoanthu.status)
-  const thuphi = useSelector((state) => state.khoanthu.currentKhoanThu)
-  const token = useSelector(tokenSelector)
-  const id = props.id
+  const status = useSelector((state) => state.khoanthu.status);
+  const thuphi = useSelector((state) => state.khoanthu.currentKhoanThu);
+  const token = useSelector(tokenSelector);
+  const id = props.id;
   const data = {
     token,
-    id
-  }
+    id,
+  };
 
   // thong bao
-  const [openAlert, setOpenAlert] = React.useState(false)
+  const [openAlert, setOpenAlert] = React.useState(false);
   const handleCloseAlert = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -329,15 +310,14 @@ const ShowDanhSach = (props) => {
     setOpenAlert(false);
   };
   const handleAlert = () => {
-    setOpenAlert(true)
-  }
+    setOpenAlert(true);
+  };
 
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchListThuphi(data))
-  }, [])
+    dispatch(fetchListThuphi(data));
+  }, []);
 
   // xu ly chuyen trang
   const [page, setPage] = React.useState(0);
@@ -355,17 +335,34 @@ const ShowDanhSach = (props) => {
 
   return (
     <Stack>
-      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
           Cập nhật Thành công !
         </Alert>
       </Snackbar>
-      <Typography fontSize={28} fontWeight={500} px={3} py={1}>Danh sách khoản thu số : {id}</Typography>
+      <Typography fontSize={28} fontWeight={500} px={3} py={1}>
+        Danh sách khoản thu số : {id}
+      </Typography>
       <Stack direction="row" px={3} pb={3} spacing={2}>
-        <Button onClick={() => {
-          props.onSetIndex(0, null)
-          dispatch(khoanthuSlice.actions.resetThuphi())
-        }} variant='outlined' startIcon={<KeyboardReturnIcon/>}> Quay lại</Button>
+        <Button
+          onClick={() => {
+            props.onSetIndex(0, null);
+            dispatch(khoanthuSlice.actions.resetThuphi());
+          }}
+          variant="outlined"
+          startIcon={<KeyboardReturnIcon />}
+        >
+          {' '}
+          Quay lại
+        </Button>
         <Input
           sx={{
             backgroundColor: colors.grey[300],
@@ -375,7 +372,7 @@ const ShowDanhSach = (props) => {
           }}
           startAdornment={
             <InputAdornment position="start">
-              <SearchIcon/>
+              <SearchIcon />
             </InputAdornment>
           }
         />
@@ -386,24 +383,24 @@ const ShowDanhSach = (props) => {
             color: colors.grey[900],
             borderColor: colors.grey[900],
           }}
-          endIcon={<ManageSearchIcon/>}
+          endIcon={<ManageSearchIcon />}
         >
           Tìm Kiếm
         </Button>
         <Button
           variant="contained"
-          sx={{marginLeft: 3}}
-          endIcon={<PaidIcon/>}
-          onClick={()=>{
-            NiceModal.show(DialogAddThuPhi,{onAlert : handleAlert})
+          sx={{ marginLeft: 3 }}
+          endIcon={<PaidIcon />}
+          onClick={() => {
+            NiceModal.show(DialogAddThuPhi, { onAlert: handleAlert });
           }}
         >
           Thêm thu phí
         </Button>
       </Stack>
 
-      <Paper style={{height: 430, overflow: 'auto'}}>
-        <TableContainer sx={{paddingX: 3}} component={Paper}>
+      <Paper style={{ height: 430, overflow: 'auto' }}>
+        <TableContainer sx={{ paddingX: 3 }} component={Paper}>
           <Table aria-label="customized table">
             <TableHead>
               <TableRow>
@@ -417,11 +414,11 @@ const ShowDanhSach = (props) => {
             </TableHead>
             <TableBody>
               {(rowsPerPage > 0
-                  ? thuphi.slice(
+                ? thuphi.slice(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
                   )
-                  : thuphi
+                : thuphi
               ).map((row) => (
                 <StyledTableRow key={row.id}>
                   <StyledTableCell>{row.sohokhau}</StyledTableCell>
@@ -430,33 +427,54 @@ const ShowDanhSach = (props) => {
                   <StyledTableCell>{row.ngaynop}</StyledTableCell>
                   <StyledTableCell>{row.ghichu}</StyledTableCell>
                   <StyledTableCell align="right">
-                    <Button variant="contained" sx={{marginRight: 1}} onClick={()=>{
-                      NiceModal.show(DialogDeleteThuPhi,{id : row.id , onAlert : handleAlert })
-                    }} color='error'>xóa</Button>
-                    <Button variant="contained" color='info' onClick={()=>{
-                      NiceModal.show(EditThuPhi,{dataThuphi : row , onAlert:handleAlert})
-                    }}>chỉnh sửa</Button>
+                    <Button
+                      variant="contained"
+                      sx={{ marginRight: 1 }}
+                      onClick={() => {
+                        NiceModal.show(DialogDeleteThuPhi, {
+                          id: row.id,
+                          onAlert: handleAlert,
+                        });
+                      }}
+                      color="error"
+                    >
+                      xóa
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="info"
+                      onClick={() => {
+                        NiceModal.show(EditThuPhi, {
+                          dataThuphi: row,
+                          onAlert: handleAlert,
+                        });
+                      }}
+                    >
+                      chỉnh sửa
+                    </Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
               {emptyRows > 0 && (
-                <TableRow style={{height: 53 * emptyRows}}>
-                  <TableCell colSpan={6}/>
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
           </Table>
         </TableContainer>
-        {status === 'loading thu phi' && <Stack pl={3} sx={{width: 1240, height: 500}}>
-          <Skeleton height={80}/>
-          <Skeleton height={80}/>
-          <Skeleton height={80}/>
-          <Skeleton height={80}/>
-          <Skeleton height={80} animation="wave"/>
-        </Stack>}
+        {status === 'loading thu phi' && (
+          <Stack pl={3} sx={{ width: 1240, height: 500 }}>
+            <Skeleton height={80} />
+            <Skeleton height={80} />
+            <Skeleton height={80} />
+            <Skeleton height={80} />
+            <Skeleton height={80} animation="wave" />
+          </Stack>
+        )}
       </Paper>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
+        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
         count={thuphi.length}
         rowsPerPage={rowsPerPage}
         page={page}
@@ -465,7 +483,5 @@ const ShowDanhSach = (props) => {
         ActionsComponent={TablePaginationActions}
       />
     </Stack>
-  )
-
-}
-
+  );
+};

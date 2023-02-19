@@ -8,12 +8,13 @@ import {
   Table,
   TableBody,
   Slide,
-  Dialog, Snackbar,
+  Dialog,
+  Snackbar,
 } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import TableCell, {tableCellClasses} from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -22,7 +23,7 @@ import DialogAddHoKhau from 'src/features/HoKhau/components/DialogAddHoKhau';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import PropTypes from 'prop-types';
-import {useTheme} from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TablePagination from '@mui/material/TablePagination';
 import IconButton from '@mui/material/IconButton';
@@ -30,19 +31,17 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import {useSelector} from "react-redux";
-import NiceModal from "@ebay/nice-modal-react";
-import DialogShowHoKhau from "src/features/HoKhau/components/DialogShowHoKhau";
-import {useDispatch} from "react-redux";
-import {useEffect} from "react";
-import {fetchListHokhau} from "src/features/HoKhau/hokhauSlice";
+import { useSelector } from 'react-redux';
+import NiceModal from '@ebay/nice-modal-react';
+import DialogShowHoKhau from 'src/features/HoKhau/components/DialogShowHoKhau';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchListHokhau } from 'src/features/HoKhau/hokhauSlice';
 import Skeleton from '@mui/material/Skeleton';
 
-
-
-function TablePaginationActions(props) {
+export function TablePaginationActions(props) {
   const theme = useTheme();
-  const {count, page, rowsPerPage, onPageChange} = props;
+  const { count, page, rowsPerPage, onPageChange } = props;
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
   };
@@ -56,13 +55,13 @@ function TablePaginationActions(props) {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
   return (
-    <Box sx={{flexShrink: 0, ml: 2.5}}>
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
@@ -70,9 +69,9 @@ function TablePaginationActions(props) {
         aria-label="previous page"
       >
         {theme.direction === 'rtl' ? (
-          <KeyboardArrowRight/>
+          <KeyboardArrowRight />
         ) : (
-          <KeyboardArrowLeft/>
+          <KeyboardArrowLeft />
         )}
       </IconButton>
       <IconButton
@@ -81,9 +80,9 @@ function TablePaginationActions(props) {
         aria-label="next page"
       >
         {theme.direction === 'rtl' ? (
-          <KeyboardArrowLeft/>
+          <KeyboardArrowLeft />
         ) : (
-          <KeyboardArrowRight/>
+          <KeyboardArrowRight />
         )}
       </IconButton>
       <IconButton
@@ -91,7 +90,7 @@ function TablePaginationActions(props) {
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </Box>
   );
@@ -103,7 +102,7 @@ TablePaginationActions.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-const StyledTableCell = styled(TableCell)(({theme}) => ({
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: colors.grey[900],
     color: theme.palette.common.white,
@@ -112,7 +111,7 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
     fontSize: 14,
   },
 }));
-const StyledTableRow = styled(TableRow)(({theme}) => ({
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
@@ -129,14 +128,11 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-
-
-
 export default function HoKhau() {
-  const status = useSelector(state => state.hokhau.status)
-  const dataHokhau = useSelector((state)=>state.hokhau)
+  const status = useSelector((state) => state.hokhau.status);
+  const dataHokhau = useSelector((state) => state.hokhau);
   const hokhau = dataHokhau.listHokhau;
-  const token1 = useSelector((state) => state.authen.accessToken)
+  const token1 = useSelector((state) => state.authen.accessToken);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -144,7 +140,7 @@ export default function HoKhau() {
   }, [dispatch]);
 
   // thong bao
-  const [openAlert, setOpenAlert] = React.useState(false)
+  const [openAlert, setOpenAlert] = React.useState(false);
   const handleCloseAlert = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -153,7 +149,7 @@ export default function HoKhau() {
   };
   const handleAlert = () => {
     setOpenAlert(true);
-  }
+  };
 
   // xu ly dialog them ho khau
   const [openAddHokhau, setOpenAddHokhau] = React.useState(false);
@@ -164,9 +160,9 @@ export default function HoKhau() {
     setOpenAddHokhau(false);
   };
   const handleCloseSuccess = () => {
-    setOpenAddHokhau(false)
+    setOpenAddHokhau(false);
     setOpenAlert(true);
-  }
+  };
 
   // xu ly chuyen trang
   const [page, setPage] = React.useState(0);
@@ -184,8 +180,16 @@ export default function HoKhau() {
 
   return (
     <Stack>
-      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
           Cập nhật thành công !
         </Alert>
       </Snackbar>
@@ -200,7 +204,7 @@ export default function HoKhau() {
           }}
           startAdornment={
             <InputAdornment position="start">
-              <SearchIcon/>
+              <SearchIcon />
             </InputAdornment>
           }
         />
@@ -211,15 +215,15 @@ export default function HoKhau() {
             color: colors.grey[900],
             borderColor: colors.grey[900],
           }}
-          endIcon={<ManageSearchIcon/>}
+          endIcon={<ManageSearchIcon />}
         >
           Tìm Kiếm
         </Button>
         <Button
           variant="contained"
-          sx={{marginLeft: 3}}
+          sx={{ marginLeft: 3 }}
           onClick={handleClickOpenAddHoKhau}
-          endIcon={<AddHomeIcon/>}
+          endIcon={<AddHomeIcon />}
         >
           Thêm hộ khẩu
         </Button>
@@ -231,11 +235,14 @@ export default function HoKhau() {
         onClose={handleCloseAddHoKhau}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogAddHoKhau handleCloseAddHoKhau={handleCloseAddHoKhau} onCloseSuccess = {handleCloseSuccess}/>
+        <DialogAddHoKhau
+          handleCloseAddHoKhau={handleCloseAddHoKhau}
+          onCloseSuccess={handleCloseSuccess}
+        />
       </Dialog>
 
-      <Paper style={{height: 470, overflow: 'auto'}}>
-        <TableContainer sx={{paddingX: 3}} component={Paper}>
+      <Paper style={{ height: 470, overflow: 'auto' }}>
+        <TableContainer sx={{ paddingX: 3 }} component={Paper}>
           <Table aria-label="customized table">
             <TableHead>
               <TableRow>
@@ -250,43 +257,66 @@ export default function HoKhau() {
             </TableHead>
             <TableBody>
               {(rowsPerPage > 0
-                  ? hokhau.slice(
+                ? hokhau.slice(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
                   )
-                  : hokhau
+                : hokhau
               ).map((row) => (
                 <StyledTableRow key={row.sohokhau}>
                   <StyledTableCell>{row.sohokhau}</StyledTableCell>
-                  <StyledTableCell sx={{width:230}}>{row.hotenchuho}</StyledTableCell>
-                  <StyledTableCell sx={{width:80}}>{row.sonha}</StyledTableCell>
-                  <StyledTableCell sx={{width:210}} >{row.duong}</StyledTableCell>
-                  <StyledTableCell sx={{width:210}}>{row.quan}</StyledTableCell>
-                  <StyledTableCell sx={{width:210}}>{row.ngaylamhokhau}</StyledTableCell>
+                  <StyledTableCell sx={{ width: 230 }}>
+                    {row.hotenchuho}
+                  </StyledTableCell>
+                  <StyledTableCell sx={{ width: 80 }}>
+                    {row.sonha}
+                  </StyledTableCell>
+                  <StyledTableCell sx={{ width: 210 }}>
+                    {row.duong}
+                  </StyledTableCell>
+                  <StyledTableCell sx={{ width: 210 }}>
+                    {row.quan}
+                  </StyledTableCell>
+                  <StyledTableCell sx={{ width: 210 }}>
+                    {row.ngaylamhokhau}
+                  </StyledTableCell>
                   <StyledTableCell align="right">
-                    <Button onClick={()=>{NiceModal.show(DialogShowHoKhau,{ data: row, onAlert : handleAlert })}} variant="outlined"> Chi Tiết</Button>
+                    <Button
+                      onClick={() => {
+                        NiceModal.show(DialogShowHoKhau, {
+                          data: row,
+                          onAlert: handleAlert,
+                        });
+                      }}
+                      variant="outlined"
+                    >
+                      {' '}
+                      Chi Tiết
+                    </Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
               {emptyRows > 0 && (
-                <TableRow style={{height: 53 * emptyRows}}>
-                  <TableCell colSpan={6}/>
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
           </Table>
         </TableContainer>
-        {hokhau.length === 0 && <Stack pl={3} sx={{width: 1240, height: 500}}>
-          <Skeleton height={80}/>
-          <Skeleton height={80}/>
-          <Skeleton height={80}/>
-          <Skeleton height={80}/>
-          <Skeleton height={80} animation="wave"/>
-        </Stack>}
+        {hokhau.length === 0 && (
+          <Stack pl={3} sx={{ width: 1240, height: 500 }}>
+            <Skeleton height={80} />
+            <Skeleton height={80} />
+            <Skeleton height={80} />
+            <Skeleton height={80} />
+            <Skeleton height={80} animation="wave" />
+          </Stack>
+        )}
       </Paper>
 
       <TablePagination
-        rowsPerPageOptions={[6, 10, 25, {label: 'All', value: -1}]}
+        rowsPerPageOptions={[6, 10, 25, { label: 'All', value: -1 }]}
         count={hokhau.length}
         rowsPerPage={rowsPerPage}
         page={page}
@@ -294,7 +324,6 @@ export default function HoKhau() {
         onRowsPerPageChange={handleChangeRowsPerPage}
         ActionsComponent={TablePaginationActions}
       />
-
     </Stack>
   );
 }

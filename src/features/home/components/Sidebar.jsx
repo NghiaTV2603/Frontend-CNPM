@@ -15,6 +15,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import {useDispatch , useSelector} from "react-redux";
 import authenSlice from "src/features/authen/authenSlice";
 import {useNavigate} from "react-router-dom";
+import HistoryIcon from '@mui/icons-material/History';
 
 
 export default function Sidebar(props) {
@@ -29,6 +30,7 @@ export default function Sidebar(props) {
     { title: 'Danh sách hộ khẩu', icon: <HomeIcon /> },
     { title: 'Danh sách nhân khẩu', icon: <PeopleAltIcon /> },
     { title: 'Danh sách đóng tiền', icon: <LocalAtmIcon /> },
+    { title: 'Danh sách Tạm trú', icon: <HistoryIcon /> },
     { title: 'Cài Đặt tài khoản', icon: <SettingsIcon /> },
   ];
 
