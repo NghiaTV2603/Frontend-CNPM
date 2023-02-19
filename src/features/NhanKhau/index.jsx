@@ -9,7 +9,7 @@ import {
   TableBody,
   Slide,
   Dialog,
-  Snackbar,
+  Snackbar, TextField,
 } from '@mui/material';
 import * as React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
@@ -24,11 +24,11 @@ import TablePagination from '@mui/material/TablePagination';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import DialogAddNhanKhau from "src/features/NhanKhau/components/DialogAddNhanKhau";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchNhankhau} from "src/features/NhanKhau/nhankhauSlice";
+import {fetchNhankhau, fetchSearchNhankhau} from "src/features/NhanKhau/nhankhauSlice";
 import {nhankhauSelector} from "src/app/selector";
 import NiceModal from "@ebay/nice-modal-react";
 import DialogShowNhanKhau from "src/features/NhanKhau/components/DialogShowNhanKhau";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import MuiAlert from '@mui/material/Alert';
 import Skeleton from "@mui/material/Skeleton";
 import {TablePaginationActions} from "src/features/HoKhau";
@@ -60,7 +60,6 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
 
 
 // ============== handle nhan khau ================ //
@@ -119,30 +118,72 @@ export default function NhanKhau() {
     setOpenAlert(false);
   };
 
+  // ================ handel search =========== //
+  const [searchSo, setSearchSo] = useState('')
+  const [hoten, setHoten] = useState('')
+  const [cccd, setCccd] = useState('')
+
+  const dataSearch = {
+    sohokhau: searchSo,
+    hoten: hoten,
+    cccd: cccd
+  }
+  const dataFetchSearch = {
+    token: token,
+    data: dataSearch
+  }
+  const handleSearch = () => {
+    dispatch(fetchSearchNhankhau(dataFetchSearch))
+  }
+
   return (
     <Stack>
       <Snackbar open={openAler} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+        <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
           This is a success message!
         </Alert>
       </Snackbar>
-      <Stack direction="row" p={3}>
-        <Input
-          sx={{
-            backgroundColor: colors.grey[300],
-            borderRadius: 1,
-            paddingX: 2,
-            height: 42,
-            width: '45%',
-          }}
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon/>
-            </InputAdornment>
-          }
-        />
+      <Stack direction="row" px={3} py={1} alignItems={'center'}>
+        <Stack width={700} direction='row' alignItems='center'>
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Số hộ khẩu"
+            name="sohokhau"
+            value={searchSo}
+            onChange={(e) => {
+              setSearchSo(e.target.value)
+            }}
+            sx={{marginRight: 1,}}
+            size="small"
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label=" Họ tên"
+            name="hoten"
+            value={hoten}
+            onChange={(e) => {
+              setHoten(e.target.value)
+            }}
+            size="small"
+            sx={{marginRight: 1}}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="CCCD"
+            name="cccd"
+            value={cccd}
+            onChange={(e) => {
+              setCccd(e.target.value)
+            }}
+            size="small"
+          />
+        </Stack>
         <Button
           variant="outlined"
+          onClick={handleSearch}
           sx={{
             marginLeft: 3,
             color: colors.grey[900],
@@ -171,7 +212,7 @@ export default function NhanKhau() {
       >
         <DialogAddNhanKhau
           handleCloseAddNhanKhau={handleCloseAddNhanKhau}
-          onCloseOK = {handleCloseAddNhanKhauOK}
+          onCloseOK={handleCloseAddNhanKhauOK}
         />
       </Dialog>
 
@@ -199,15 +240,17 @@ export default function NhanKhau() {
                   : nhankhau
               ).map((row) => (
                 <StyledTableRow key={row.id}>
-                  <StyledTableCell >{row.sohokhau}</StyledTableCell>
-                  <StyledTableCell sx={{width:200}}>{row.hoten}</StyledTableCell>
-                  <StyledTableCell >{row.quanhevoichuho}</StyledTableCell>
-                  <StyledTableCell >{row.cccd}</StyledTableCell>
-                  <StyledTableCell >{row.ngaysinh}</StyledTableCell>
-                  <StyledTableCell >{row.quequan}</StyledTableCell>
-                  <StyledTableCell >{row.gioitinh === 0 ? 'Nữ' : "Nam"}</StyledTableCell>
+                  <StyledTableCell>{row.sohokhau}</StyledTableCell>
+                  <StyledTableCell sx={{width: 200}}>{row.hoten}</StyledTableCell>
+                  <StyledTableCell>{row.quanhevoichuho}</StyledTableCell>
+                  <StyledTableCell>{row.cccd}</StyledTableCell>
+                  <StyledTableCell>{row.ngaysinh}</StyledTableCell>
+                  <StyledTableCell>{row.quequan}</StyledTableCell>
+                  <StyledTableCell>{row.gioitinh === 0 ? 'Nữ' : "Nam"}</StyledTableCell>
                   <StyledTableCell align="right">
-                    <Button onClick={()=>{NiceModal.show(DialogShowNhanKhau,{ data: row, onAlert : handleAlert })}} variant="outlined"> Chi Tiết</Button>
+                    <Button onClick={() => {
+                      NiceModal.show(DialogShowNhanKhau, {data: row, onAlert: handleAlert})
+                    }} variant="outlined"> Chi Tiết</Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -219,7 +262,7 @@ export default function NhanKhau() {
             </TableBody>
           </Table>
         </TableContainer>
-        {nhankhau.length === 0 && <Stack pl={3} sx={{width: 1240, height: 500}}>
+        {status==='loading' && nhankhau.length === 0 && <Stack pl={3} sx={{width: 1240, height: 500}}>
           <Skeleton height={80}/>
           <Skeleton height={80}/>
           <Skeleton height={80}/>

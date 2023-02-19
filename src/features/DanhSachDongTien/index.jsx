@@ -9,7 +9,7 @@ import {
   TableBody,
   Slide,
   Snackbar,
-  Typography,
+  Typography, TextField,
 } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
@@ -28,7 +28,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import khoanthuSlice, {
   fetchListKhoanthu,
-  fetchListThuphi,
+  fetchListThuphi, fetchSearch,
 } from 'src/features/DanhSachDongTien/khoanthuSlice';
 import { tokenSelector } from 'src/app/selector';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
@@ -41,6 +41,8 @@ import EditKhoanThu from 'src/features/DanhSachDongTien/components/EditKhoanThu'
 import EditThuPhi from 'src/features/DanhSachDongTien/components/EditThuPhi';
 import Skeleton from '@mui/material/Skeleton';
 import {TablePaginationActions} from "src/features/HoKhau";
+import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
+import ShowChuaDong from "src/features/DanhSachDongTien/components/ShowChuaDong";
 
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
@@ -78,15 +80,24 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export default function DanhSachDongTien() {
   const [index, setIndex] = useState(0);
   const [idKhoanThu, setIdKhoanThu] = useState(null);
+  const [thoihan,setThoihan] = useState(null);
+  const [currentKhoanthu,setCurrentKhoanthu] = useState(null)
   const handleSetIndex = (index, id) => {
     setIndex(index);
     setIdKhoanThu(id);
   };
+  const handeSetThoihan = (thoihan) => {
+    setThoihan(thoihan)
+  }
+  const handeSetCurrentKhoanthu = (data) => {
+    setCurrentKhoanthu(data)
+  }
+
   return (
     <>
-      {index === 0 && <ShowKhoanThu onSetIndex={handleSetIndex} />}
+      {index === 0 && <ShowKhoanThu onSetIndex={handleSetIndex} onSetThoiHan = {handeSetThoihan} onSetCurrentKhoanthu = {handeSetCurrentKhoanthu} />}
       {index === 1 && (
-        <ShowDanhSach onSetIndex={handleSetIndex} id={idKhoanThu} />
+        <ShowDanhSach onSetIndex={handleSetIndex} id={idKhoanThu} thoihan ={thoihan} currentKhoanthu={currentKhoanthu} />
       )}
     </>
   );
@@ -127,6 +138,17 @@ const ShowKhoanThu = (props) => {
     setPage(0);
   };
 
+  // search khoan thu
+
+  const [tenKhoanThu , setTenKhoanThu] = useState('')
+  const dataFetch = {
+    token : token,
+    tenkhoanthu:tenKhoanThu
+  }
+  const handleSearch = () => {
+    dispatch(fetchSearch(dataFetch))
+  }
+
   return (
     <Stack>
       <Snackbar
@@ -142,20 +164,18 @@ const ShowKhoanThu = (props) => {
           Cập nhật Thành công !
         </Alert>
       </Snackbar>
-      <Stack direction="row" p={3}>
-        <Input
-          sx={{
-            backgroundColor: colors.grey[300],
-            borderRadius: 1,
-            paddingX: 2,
-            height: 42,
-            width: '45%',
+      <Stack direction="row" p={3} alignItems={'center'}>
+        <TextField
+          margin="normal"
+          fullWidth
+          label="Tên khoản thu"
+          name="tenkhoanthu"
+          value={tenKhoanThu}
+          onChange={(e) => {
+            setTenKhoanThu(e.target.value)
           }}
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          }
+          sx={{marginRight: 1,width:600}}
+          size="small"
         />
         <Button
           variant="outlined"
@@ -164,6 +184,7 @@ const ShowKhoanThu = (props) => {
             color: colors.grey[900],
             borderColor: colors.grey[900],
           }}
+          onClick={handleSearch}
           endIcon={<ManageSearchIcon />}
         >
           Tìm Kiếm
@@ -191,6 +212,7 @@ const ShowKhoanThu = (props) => {
                 <StyledTableCell>Bắt buộc</StyledTableCell>
                 <StyledTableCell>Ngày bắt đầu</StyledTableCell>
                 <StyledTableCell>Ngày kết thúc</StyledTableCell>
+                <StyledTableCell>Tiền cần đóng</StyledTableCell>
                 <StyledTableCell align="center">Tổng số tiền</StyledTableCell>
                 <StyledTableCell></StyledTableCell>
               </TableRow>
@@ -217,6 +239,9 @@ const ShowKhoanThu = (props) => {
                   <StyledTableCell sx={{ width: 200 }}>
                     {row.thoihan}
                   </StyledTableCell>
+                  <StyledTableCell sx={{ width: 200 }}>
+                    {row.money}
+                  </StyledTableCell>
                   <StyledTableCell sx={{ width: 100 }} align="center">
                     {row.sum_money}
                   </StyledTableCell>
@@ -224,6 +249,8 @@ const ShowKhoanThu = (props) => {
                     <Button
                       onClick={() => {
                         props.onSetIndex(1, row.id);
+                        props.onSetThoiHan(row.thoihan)
+                        props.onSetCurrentKhoanthu(row)
                       }}
                       variant="outlined"
                       sx={{ marginRight: 1 }}
@@ -289,13 +316,14 @@ const ShowKhoanThu = (props) => {
   );
 };
 
-// ================== show danh sach =================== //
+// ================== show danh sach thu phi =================== //
 
 const ShowDanhSach = (props) => {
   const status = useSelector((state) => state.khoanthu.status);
   const thuphi = useSelector((state) => state.khoanthu.currentKhoanThu);
   const token = useSelector(tokenSelector);
   const id = props.id;
+  const currentKhoanthu = props.currentKhoanthu
   const data = {
     token,
     id,
@@ -363,40 +391,28 @@ const ShowDanhSach = (props) => {
           {' '}
           Quay lại
         </Button>
-        <Input
-          sx={{
-            backgroundColor: colors.grey[300],
-            borderRadius: 1,
-            height: 42,
-            width: '45%',
-          }}
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          }
-        />
         <Button
-          variant="outlined"
-          sx={{
-            marginLeft: 3,
-            color: colors.grey[900],
-            borderColor: colors.grey[900],
-          }}
-          endIcon={<ManageSearchIcon />}
-        >
-          Tìm Kiếm
-        </Button>
-        <Button
+          disabled={new Date(props.thoihan.replace(/-/g, '/')) < new Date()}
           variant="contained"
           sx={{ marginLeft: 3 }}
           endIcon={<PaidIcon />}
           onClick={() => {
-            NiceModal.show(DialogAddThuPhi, { onAlert: handleAlert });
+            NiceModal.show(DialogAddThuPhi, { onAlert: handleAlert});
           }}
         >
           Thêm thu phí
         </Button>
+        {currentKhoanthu.batbuoc ===1 && <Button
+          variant="contained"
+          sx={{marginLeft: 3}}
+          endIcon={<CreditCardOffIcon/>}
+          color={'warning'}
+          onClick={() => {
+            NiceModal.show(ShowChuaDong, {id: id})
+          }}
+        >
+          Danh sách chưa đóng
+        </Button>}
       </Stack>
 
       <Paper style={{ height: 430, overflow: 'auto' }}>

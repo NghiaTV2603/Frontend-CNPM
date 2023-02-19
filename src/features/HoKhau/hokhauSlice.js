@@ -8,11 +8,16 @@ const hokhauSlice = createSlice({
     status : null ,
     message : null,
     currentHokhau : [],
+    currentHistory : [],
   },
   reducers: {
     resetCurrentHokhau : (state, action)=>{
       state.currentHokhau = []
+    },
+    resetCurrenHistory : (state, action)=>{
+      state.currentHistory = []
     }
+
   },
   extraReducers: builder => {
     builder.addCase(fetchListHokhau.pending,(state, action)=>{
@@ -46,6 +51,13 @@ const hokhauSlice = createSlice({
       state.status = "success updatehokhau"
       state.listHokhau = state.listHokhau.map(obj => obj.sohokhau === action.payload.sohokhau ? action.payload : obj);
     })
+    builder.addCase(fetchHistory.pending,(state, action)=>{
+      state.status = "loading history"
+    })
+    builder.addCase(fetchHistory.fulfilled,(state, action)=>{
+      state.status = null
+      state.currentHistory = action.payload
+    })
   }
 })
 
@@ -75,6 +87,11 @@ export const fetchCurrentHokhau = createAsyncThunk("hokhau/fetchCurrentHokhau",a
 
 export const fetchUpdateHokhau = createAsyncThunk("hokhau/fetchUpdateHokhau" , async (data) => {
   const res = await api.get(`updateHokhau?token=${data.token}`,{params:data.data})
+  return res.data.data
+})
+
+export const fetchHistory = createAsyncThunk("hokhau/fetchHistory", async (data) =>{
+  const res = await api.get(`getHokhauHistory?token=${data.token}&sohokhau=${data.sohokhau}`)
   return res.data.data
 })
 

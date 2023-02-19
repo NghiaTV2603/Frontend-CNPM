@@ -14,8 +14,11 @@ const validationSchema = yup.object({
   tenkhoanthu: yup
     .string('Nhập số nhà')
     .required('Tên khoản thu không được trống'),
-  thoihan: yup
-    .string('Nhập đường')
+  money: yup
+    .string('Nhập số CCCD')
+    .matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/, 'Số tiền phải là các số'),
+  thoihan: yup.date()
+    .min(new Date(), "Phải nhập ngày lớn hơn hoặc bằng hiện tại")
     .required('thời hạn không được trống'),
 });
 
@@ -32,6 +35,7 @@ const DialogAddKhoanthu = NiceModal.create(({onAlert}) => {
       thoihan: '',
       batbuoc: 0,
       ghichu: '',
+      money: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, {resetForm}) => {
@@ -72,7 +76,9 @@ const DialogAddKhoanthu = NiceModal.create(({onAlert}) => {
               error={formik.touched.tenkhoanthu && Boolean(formik.errors.tenkhoanthu)}
               helperText={formik.touched.tenkhoanthu && formik.errors.tenkhoanthu}
             />
+            <Stack direction='row' pb={2}>
             <TextField
+              sx={{marginRight:1}}
               margin="normal"
               fullWidth
               type='date'
@@ -86,6 +92,17 @@ const DialogAddKhoanthu = NiceModal.create(({onAlert}) => {
                 shrink: true,
               }}
             />
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Số tiền"
+                name="money"
+                value={formik.values.money}
+                onChange={formik.handleChange}
+                error={formik.touched.money && Boolean(formik.errors.money)}
+                helperText={formik.touched.money && formik.errors.money}
+              />
+            </Stack>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Bắt Buộc</InputLabel>
               <Select

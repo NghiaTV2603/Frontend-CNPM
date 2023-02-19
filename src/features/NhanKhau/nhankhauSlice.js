@@ -46,7 +46,11 @@ export const nhankhauSlice = createSlice({
       state.listNhankhau = state.listNhankhau.filter(obj => obj.id.toString() !== action.payload.idnhankhau)
       state.currentListNhankhau = state.currentListNhankhau.filter(obj => obj.id.toString() !== action.payload.idnhankhau)
     })
+    builder.addCase(fetchCurrentListNhanKhau.pending,(state, action)=>{
+      state.status = "loading current"
+    })
     builder.addCase(fetchCurrentListNhanKhau.fulfilled,(state, action)=>{
+      state.status = null
       state.currentListNhankhau = action.payload
     })
     builder.addCase(fetchUpdateNhankhau.fulfilled,(state, action)=>{
@@ -57,6 +61,13 @@ export const nhankhauSlice = createSlice({
       }else{
         state.status = "error update"
       }
+    })
+    builder.addCase(fetchSearchNhankhau.pending,(state, action)=>{
+      state.status = 'loading'
+    })
+    builder.addCase(fetchSearchNhankhau.fulfilled,(state, action)=>{
+      state.status = null
+      state.listNhankhau = action.payload
     })
   }
 })
@@ -87,4 +98,9 @@ export const fetchCurrentListNhanKhau = createAsyncThunk("nhankhau/fetchCurrentL
 export const fetchUpdateNhankhau = createAsyncThunk("nhanhkhau/fetchUpdateNhankhau" , async (data)=>{
   const res = await api.get(`updateNhankhau?token=${data.token}&idnhankhau=${data.idnhankhau}`,{params:data.data})
   return res.data
+})
+
+export const fetchSearchNhankhau = createAsyncThunk("nhankhau/fetchSearchNhankhau", async (data)=>{
+  const res = await api.get(`searchNhankhau?token=${data.token}`,{params:data.data})
+  return res.data.data
 })

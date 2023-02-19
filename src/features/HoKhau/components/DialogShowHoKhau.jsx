@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react'
 import {
   Button, colors,
-  Dialog, Divider, Stack, Typography, IconButton, TextField
+  Dialog, Divider, Stack, Typography, IconButton, TextField,CircularProgress
 } from '@mui/material';
 import NiceModal, {useModal} from '@ebay/nice-modal-react';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,13 +11,24 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import SaveIcon from '@mui/icons-material/Save';
 import DialogShowNhanKhau from "src/features/NhanKhau/components/DialogShowNhanKhau";
 import {useFormik} from "formik";
-import hokhauSlice, {fetchAddHokhau, fetchCurrentHokhau, fetchUpdateHokhau} from "src/features/HoKhau/hokhauSlice";
+import hokhauSlice, {
+  fetchAddHokhau,
+  fetchCurrentHokhau,
+  fetchHistory,
+  fetchUpdateHokhau
+} from "src/features/HoKhau/hokhauSlice";
 import * as yup from "yup";
 import DialogCofirm from "src/features/HoKhau/components/DialogCofirm";
 import {useDispatch, useSelector} from "react-redux";
 import {tokenSelector} from "src/app/selector";
 import {fetchCurrentListNhanKhau, nhankhauSlice} from "src/features/NhanKhau/nhankhauSlice";
-
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 const DialogShowHoKhau = NiceModal.create(({data,onAlert}) => {
   const modal = useModal();
   const [index, setIndex] = React.useState(0)
@@ -31,12 +42,14 @@ const DialogShowHoKhau = NiceModal.create(({data,onAlert}) => {
     <Dialog open={modal.visible} onClose={() => modal.hide()} maxWidth={false} >
       {index === 0 && <ShowHoKhau onAlert = {handleAlert} onSetIndex={handleSetIndex} data={data}/>}
       {index === 1 && <EditHoKhau onAlert = {handleAlert} onSetIndex={handleSetIndex} data={data}/>}
+      {index === 2 && <History onAlert = {handleAlert} onSetIndex={handleSetIndex} data={data}/>}
     </Dialog>
   );
 });
 
 const ShowHoKhau = (props) => {
   const dataNhankhau = useSelector(state => state.nhankhau.currentListNhankhau);
+  const status = useSelector(state => state.nhankhau.status);
   const data = props.data
   const modal = useModal();
   const dispatch = useDispatch()
@@ -49,6 +62,10 @@ const ShowHoKhau = (props) => {
     id : data.sohokhau
   }
   const handleCloseDialogShow = () => {
+    modal.hide()
+  }
+  const handleCloseOk = () => {
+    props.onAlert()
     modal.hide()
   }
   useEffect(()=>{
@@ -99,15 +116,18 @@ const ShowHoKhau = (props) => {
           </Stack>
         </Stack>
         <Divider/>
-        <Stack p={1} px={2}>
+        <Stack p={1}>
           <Typography fontWeight={450} fontSize={18}>Danh sách nhân khẩu</Typography>
-          <Stack direction='row' flexWrap='wrap' pt={1} pl={2} alignItems='center'>
+          {status === "loading current" && dataNhankhau.length === 0 && <Stack alignItems='center' pt={5}>
+            <CircularProgress/>
+          </Stack>}
+          <Stack direction='row' flexWrap='wrap' alignItems='center' justifyContent={'center'}>
             {
               dataNhankhau.map((nhankhau) => (
                 <Stack key={nhankhau.id}>
                   <Stack onClick={() => {
                     NiceModal.show(DialogShowNhanKhau, {data: nhankhau,onAlert:handleAlert})
-                  }} border={1.7} m={1} width={250} borderRadius={3}
+                  }} border={1.7} width={250} borderRadius={3} m={1}
                          sx={{borderColor: colors.blue[800], paddingX: 1.5, cursor: 'pointer'}} p={1}>
                     <Stack direction='row' alignItems='end'>
                       <Typography fontSize={16} fontWeight={400}>Họ tên :</Typography>
@@ -129,9 +149,10 @@ const ShowHoKhau = (props) => {
         </Stack>
         <Divider/>
         <Stack direction='row-reverse' px={2} py={1} spacing={1}>
-          <Button onClick={() => props.onSetIndex(1)} variant='outlined' color="warning" startIcon={<EditIcon/>}>Chỉnh
+          <Button onClick={() => props.onSetIndex(2)} variant='contained' color="info" >Lịch sử</Button>
+          <Button onClick={() => props.onSetIndex(1)} variant='contained' color="warning" startIcon={<EditIcon/>}>Chỉnh
             sửa</Button>
-          <Button onClick={()=>{NiceModal.show(DialogCofirm,{ cccd:data.cccdchuho ,onClose: handleCloseDialogShow})}}  variant='outlined' color="error" startIcon={<DeleteIcon/>}>Xóa</Button>
+          <Button onClick={()=>{NiceModal.show(DialogCofirm,{ cccd:data.cccdchuho ,onClose: handleCloseDialogShow,onAlert : handleCloseOk})}}  variant='contained' color="error" startIcon={<DeleteIcon/>}>Xóa</Button>
         </Stack>
       </Stack>
     </Stack>
@@ -311,6 +332,77 @@ const EditHoKhau = (props) => {
         </form>
       </Stack>
     </>
+  )
+}
+
+const History = (props) => {
+
+  const dataHistory = useSelector(state => state.hokhau.currentHistory)
+  const token = useSelector(tokenSelector)
+  const dispatch = useDispatch()
+  const dataFetch = {
+    token : token,
+    sohokhau : props.data.sohokhau
+  }
+
+  useEffect(()=>{
+    dispatch(fetchHistory(dataFetch))
+  },[])
+
+  const handleBack = () => {
+    props.onSetIndex(0);
+    dispatch(hokhauSlice.actions.resetCurrenHistory())
+  }
+  return(
+    <Stack width={800}>
+      <Stack textAlign='center' pt={1}>
+        <Typography fontWeight={700} fontSize={28}>LỊCH SỬ THAY ĐỔI</Typography>
+      </Stack>
+      <Divider/>
+      <Stack>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Loại thay đổi</TableCell>
+                <TableCell>Tên nhân khẩu</TableCell>
+                <TableCell> Số CCCD</TableCell>
+                <TableCell> Thời gian thay đổi</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {dataHistory.map((row) => (
+                <TableRow
+                  key={row.time}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell>
+                    {(() => {
+                      switch(row.loaithaydoi) {
+                        case 0 :
+                          return 'Tạo hộ khẩu'
+                        case '1' :
+                          return 'Thêm nhân khẩu'
+                        case '2' :
+                          return 'Xóa nhân khẩu'
+                      }
+                    })()}
+                  </TableCell>
+                  <TableCell >{row.loaithaydoi!==0 && row.nhankhau.hoten}</TableCell>
+                  <TableCell >{row.loaithaydoi!==0 && row.nhankhau.cccd}</TableCell>
+                  <TableCell >{row.time}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+      </Stack>
+      <Stack px={2} py={1.5} justifyContent='space-between' direction='row'>
+        <Button onClick={handleBack} variant="outlined" sx={{color: colors.grey[600]}}
+                startIcon={<KeyboardReturnIcon/>}>Quay Lại</Button>
+      </Stack>
+    </Stack>
   )
 }
 

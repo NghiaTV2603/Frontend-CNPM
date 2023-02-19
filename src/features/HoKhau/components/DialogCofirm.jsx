@@ -11,7 +11,7 @@ import {tokenSelector} from "src/app/selector";
 import {fetchDeleteHokhau} from "src/features/HoKhau/hokhauSlice";
 
 
-const DialogCofirm = NiceModal.create(({cccd, onClose}) => {
+const DialogCofirm = NiceModal.create(({cccd, onClose,onAlert}) => {
   const modal = useModal();
   const token = useSelector(tokenSelector)
   const data = useSelector((state)=> state.hokhau)
@@ -26,8 +26,8 @@ const DialogCofirm = NiceModal.create(({cccd, onClose}) => {
   }
   useEffect(() => {
     if(data.message === "Xóa nhân khẩu thành công"){
-    modal.hide()
-    onClose();
+    modal.hide();
+    onAlert();
     }
   }, [data])
   return (

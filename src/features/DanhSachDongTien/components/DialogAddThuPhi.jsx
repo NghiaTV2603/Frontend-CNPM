@@ -129,9 +129,7 @@ const DialogAddThuPhi = NiceModal.create(({onAlert}) => {
               helperText={formik.touched.ghichu && formik.errors.ghichu}
             />
             <Typography fontSize={16} fontWeight={410}
-                        color={'red'}>{data.status === "error khoanthu" && "Không tồn tại số khoản thu"}</Typography>
-            <Typography fontSize={16} fontWeight={410}
-                        color={'red'}>{data.status === "error sohokhau" && "Không tồn tại số hộ khẩu "}</Typography>
+                        color={'red'}>{data.status === "error add thuphi" && data.message}</Typography>
             <Stack pt={1} pb={2} direction="row-reverse" spacing={2}>
               <Button type="submit" variant="contained">
                 Thêm Thu Phí
