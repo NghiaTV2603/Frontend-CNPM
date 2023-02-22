@@ -164,7 +164,7 @@ const ShowKhoanThu = (props) => {
           Cập nhật Thành công !
         </Alert>
       </Snackbar>
-      <Stack direction="row" p={3} alignItems={'center'}>
+      <Stack direction="row" px={3} py={1} alignItems={'center'}>
         <TextField
           margin="normal"
           fullWidth
@@ -234,7 +234,7 @@ const ShowKhoanThu = (props) => {
                   </StyledTableCell>
                   <StyledTableCell>{row.tenkhoanthu}</StyledTableCell>
                   <StyledTableCell sx={{ width: 100 }}>
-                    {row.batbuoc === '1' ? 'Có' : 'Không'}
+                    {row.batbuoc.toString() === "1" ? 'Có' : 'Không'}
                   </StyledTableCell>
                   <StyledTableCell sx={{ width: 200 }}>
                     {row.ngaytao}
@@ -405,7 +405,7 @@ const ShowDanhSach = (props) => {
         >
           Thêm thu phí
         </Button>
-        {currentKhoanthu.batbuoc ===1 && <Button
+        {currentKhoanthu.batbuoc === 1 && <Button
           variant="contained"
           sx={{marginLeft: 3}}
           endIcon={<CreditCardOffIcon/>}

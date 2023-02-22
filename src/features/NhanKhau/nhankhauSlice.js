@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-
 export const nhankhauSlice = createSlice({
   name: 'nhanhkhau',
   initialState: {
@@ -11,7 +10,9 @@ export const nhankhauSlice = createSlice({
   },
   reducers: {
     resetCurrentListNhankhau : (state, action) => {
-      state.currentListNhankhau = []
+      state.currentListNhankhau = [];
+      state.status = null;
+      state.message = null
     },
     resetStatus : (state, action) => {
       state.status = null

@@ -29,6 +29,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+
+
+
 const DialogShowHoKhau = NiceModal.create(({data,onAlert}) => {
   const modal = useModal();
   const [index, setIndex] = React.useState(0)
@@ -212,6 +215,7 @@ const EditHoKhau = (props) => {
       }
       dispatch(fetchUpdateHokhau(dataFetch))
       resetFormRef.current = resetForm
+      props.onSetIndex(0)
     },
   });
   useEffect(() => {

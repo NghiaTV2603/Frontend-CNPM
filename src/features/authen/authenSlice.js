@@ -1,5 +1,6 @@
 import {createSlice , createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
+import {hideLoadingModal,showLoadingModal} from "src/helpers/modal.helper";
 
 const authenSlice = createSlice({
   name: 'authen',
@@ -20,6 +21,7 @@ const authenSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchLogin.pending,(state,action)=>{
       state.status = 'loading';
+      showLoadingModal();
     })
     builder.addCase(fetchLogin.fulfilled,(state, action)=>{
       if(action.payload.code === 200){
@@ -30,6 +32,7 @@ const authenSlice = createSlice({
       }else{
         state.status = 'error'
       }
+      hideLoadingModal();
     })
     builder.addCase(fetchLogin.rejected,(state, action)=>{
       state.status = 'Đăng nhập thất bại'

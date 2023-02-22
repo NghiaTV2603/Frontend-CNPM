@@ -1,5 +1,8 @@
 import {createSlice,createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
+import React, { useRef } from 'react';
+import alertMessage from "src/helpers/alert.helper";
+
 
 const hokhauSlice = createSlice({
   name:'hokhau',
@@ -12,7 +15,8 @@ const hokhauSlice = createSlice({
   },
   reducers: {
     resetCurrentHokhau : (state, action)=>{
-      state.currentHokhau = []
+      state.currentHokhau = [];
+      alertMessage();
     },
     resetCurrenHistory : (state, action)=>{
       state.currentHistory = []
