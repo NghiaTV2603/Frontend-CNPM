@@ -17,6 +17,9 @@ const validationSchema = yup.object({
   thoihan: yup
     .string('Nhập đường')
     .required('thời hạn không được trống'),
+  money: yup
+    .string('Nhập số CCCD')
+    .matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/, 'Số tiền phải là các số'),
 });
 
 const EditKhoanThu = NiceModal.create(({dataKhoanthu, onAlert}) => {
@@ -31,7 +34,8 @@ const EditKhoanThu = NiceModal.create(({dataKhoanthu, onAlert}) => {
       thoihan: dataKhoanthu.thoihan,
       batbuoc: dataKhoanthu.batbuoc,
       ghichu: dataKhoanthu.ghichu,
-      ngaytao: dataKhoanthu.ngaytao
+      ngaytao: dataKhoanthu.ngaytao,
+      money: dataKhoanthu.money,
     },
     validationSchema: validationSchema,
     onSubmit: (values, {resetForm}) => {
@@ -104,6 +108,19 @@ const EditKhoanThu = NiceModal.create(({dataKhoanthu, onAlert}) => {
                   shrink: true,
                 }}
               />
+            </Stack>
+            <Stack direction={'row'}>
+              <TextField
+                sx={{marginRight:1}}
+                margin="normal"
+                fullWidth
+                label="Số tiền"
+                name="money"
+                value={formik.values.money}
+                onChange={formik.handleChange}
+                error={formik.touched.money && Boolean(formik.errors.money)}
+                helperText={formik.touched.money && formik.errors.money}
+              />
               <FormControl fullWidth sx={{marginTop:2}}>
                 <InputLabel id="demo-simple-select-label">Bắt Buộc</InputLabel>
                 <Select
@@ -118,6 +135,7 @@ const EditKhoanThu = NiceModal.create(({dataKhoanthu, onAlert}) => {
                   <MenuItem value={1}>Có</MenuItem>
                 </Select>
               </FormControl>
+
             </Stack>
             <TextField
               margin="normal"

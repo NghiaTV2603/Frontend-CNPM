@@ -183,6 +183,8 @@ const ShowKhoanThu = (props) => {
             marginLeft: 3,
             color: colors.grey[900],
             borderColor: colors.grey[900],
+            height:40,
+            marginTop:1
           }}
           onClick={handleSearch}
           endIcon={<ManageSearchIcon />}
@@ -191,7 +193,8 @@ const ShowKhoanThu = (props) => {
         </Button>
         <Button
           variant="contained"
-          sx={{ marginLeft: 3 }}
+          sx={{ marginLeft: 3,height:40,
+            marginTop:1 }}
           endIcon={<PaidIcon />}
           onClick={() => {
             NiceModal.show(DialogAddKhoanthu, { onAlert: handleOpenAlert });
@@ -231,7 +234,7 @@ const ShowKhoanThu = (props) => {
                   </StyledTableCell>
                   <StyledTableCell>{row.tenkhoanthu}</StyledTableCell>
                   <StyledTableCell sx={{ width: 100 }}>
-                    {row.batbuoc === 1 ? 'Có' : 'Không'}
+                    {row.batbuoc === '1' ? 'Có' : 'Không'}
                   </StyledTableCell>
                   <StyledTableCell sx={{ width: 200 }}>
                     {row.ngaytao}

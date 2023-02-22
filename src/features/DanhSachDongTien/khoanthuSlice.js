@@ -90,7 +90,7 @@ const khoanthuSlice = createSlice({
 })
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000'
+  baseURL: 'https://different-mite-robe.cyclic.app/'
 })
 
 export const fetchListKhoanthu = createAsyncThunk("khoanthu/fetchListKhoanthu", async (token) => {

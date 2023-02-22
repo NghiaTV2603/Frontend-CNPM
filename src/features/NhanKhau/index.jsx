@@ -144,7 +144,7 @@ export default function NhanKhau() {
         </Alert>
       </Snackbar>
       <Stack direction="row" px={3} py={1} alignItems={'center'}>
-        <Stack width={700} direction='row' alignItems='center'>
+        <Stack width={700} direction='row' alignItems='center' >
           <TextField
             margin="normal"
             fullWidth
@@ -154,7 +154,7 @@ export default function NhanKhau() {
             onChange={(e) => {
               setSearchSo(e.target.value)
             }}
-            sx={{marginRight: 1,}}
+            sx={{marginRight: 1}}
             size="small"
           />
           <TextField
@@ -188,6 +188,8 @@ export default function NhanKhau() {
             marginLeft: 3,
             color: colors.grey[900],
             borderColor: colors.grey[900],
+            height:40,
+            marginTop:1
           }}
           endIcon={<ManageSearchIcon/>}
         >
@@ -195,7 +197,8 @@ export default function NhanKhau() {
         </Button>
         <Button
           variant="contained"
-          sx={{marginLeft: 3}}
+          sx={{marginLeft: 3,height:40,
+            marginTop:1}}
           onClick={handleClickOpenAddNhanKhau}
           endIcon={<GroupAddIcon/>}
         >

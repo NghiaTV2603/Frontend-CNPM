@@ -62,7 +62,7 @@ const hokhauSlice = createSlice({
 })
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000'
+  baseURL: 'https://different-mite-robe.cyclic.app/'
 })
 
 export const fetchListHokhau = createAsyncThunk("hokhau/fetchListHokhau", async (token1)=>{

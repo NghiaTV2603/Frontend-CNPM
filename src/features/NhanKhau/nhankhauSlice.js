@@ -72,7 +72,7 @@ export const nhankhauSlice = createSlice({
   }
 })
 const api = axios.create({
-  baseURL: 'http://localhost:3000'
+  baseURL: 'https://different-mite-robe.cyclic.app/'
 })
 export const fetchNhankhau = createAsyncThunk("nhankhau/fetchNhankhau", async (token) => {
   const data = await api.get(`getListNhankhau?token=${token}`);

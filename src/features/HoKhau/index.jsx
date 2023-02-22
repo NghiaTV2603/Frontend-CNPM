@@ -9,7 +9,7 @@ import {
   TableBody,
   Slide,
   Dialog,
-  Snackbar,
+  Snackbar, TextField,
 } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
@@ -35,7 +35,7 @@ import { useSelector } from 'react-redux';
 import NiceModal from '@ebay/nice-modal-react';
 import DialogShowHoKhau from 'src/features/HoKhau/components/DialogShowHoKhau';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { fetchListHokhau } from 'src/features/HoKhau/hokhauSlice';
 import Skeleton from '@mui/material/Skeleton';
 
@@ -178,6 +178,17 @@ export default function HoKhau() {
     setPage(0);
   };
 
+  // ====== search =======//
+
+  const [sohokhau,setSohokhau] = useState('')
+  const [tenchuho,setTenchuho] = useState('')
+  const dataFetch = {
+    token : token1,
+    data : {
+
+    }
+  }
+
   return (
     <Stack>
       <Snackbar
@@ -193,27 +204,42 @@ export default function HoKhau() {
           Cập nhật thành công 1 !
         </Alert>
       </Snackbar>
-      <Stack direction="row" p={3}>
-        <Input
-          sx={{
-            backgroundColor: colors.grey[300],
-            borderRadius: 1,
-            paddingX: 2,
-            height: 42,
-            width: '45%',
+      <Stack direction="row" p={3} alignItems='center'>
+        <Stack direction={'row'} width={670} alignItems={'center'}>
+        <TextField
+          margin="normal"
+          fullWidth
+          label="Số hộ khẩu"
+          name="sohokhau"
+          value={sohokhau}
+          onChange={(e) => {
+            setSohokhau(e.target.value)
           }}
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          }
+          sx={{marginRight: 1,width:200}}
+          size="small"
         />
+
+        <TextField
+          margin="normal"
+          fullWidth
+          label="Tên Chủ hộ"
+          name="tenchuho"
+          value={tenchuho}
+          onChange={(e) => {
+            setTenchuho(e.target.value)
+          }}
+          sx={{marginRight:1}}
+          size="small"
+        />
+        </Stack>
         <Button
           variant="outlined"
           sx={{
             marginLeft: 3,
             color: colors.grey[900],
             borderColor: colors.grey[900],
+            height:40,
+            marginTop:1
           }}
           endIcon={<ManageSearchIcon />}
         >
@@ -221,7 +247,8 @@ export default function HoKhau() {
         </Button>
         <Button
           variant="contained"
-          sx={{ marginLeft: 3 }}
+          sx={{ marginLeft: 3,height:40,
+            marginTop:1 }}
           onClick={handleClickOpenAddHoKhau}
           endIcon={<AddHomeIcon />}
         >
@@ -248,6 +275,7 @@ export default function HoKhau() {
               <TableRow>
                 <StyledTableCell>Số</StyledTableCell>
                 <StyledTableCell>Chủ hộ</StyledTableCell>
+                <StyledTableCell>Số CCCD</StyledTableCell>
                 <StyledTableCell>Số nhà</StyledTableCell>
                 <StyledTableCell>Đường</StyledTableCell>
                 <StyledTableCell>Quận</StyledTableCell>
@@ -265,9 +293,10 @@ export default function HoKhau() {
               ).map((row) => (
                 <StyledTableRow key={row.sohokhau}>
                   <StyledTableCell>{row.sohokhau}</StyledTableCell>
-                  <StyledTableCell sx={{ width: 230 }}>
+                  <StyledTableCell sx={{ width: 170 }}>
                     {row.hotenchuho}
                   </StyledTableCell>
+                  <StyledTableCell>{row.cccdchuho}</StyledTableCell>
                   <StyledTableCell sx={{ width: 80 }}>
                     {row.sonha}
                   </StyledTableCell>
