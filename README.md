@@ -1,46 +1,23 @@
-# Getting Started with Create React App and Redux
+# Project Công nghệ phần mềm
+### Đề tài : Web quản lý hộ khẩu và các khoản thu của khu dân cư
+##### Mô tả đề tài :
+  Trang web giúp cho ban quản lý khu dân cư có thể theo dõi các hộ khẩu và từng nhân khẩu trong hộ khẩu đó một cách dễ dàng. có thể thêm sửa xóa các hộ khẩu và nhân khẩu , mỗi hành động như chỉnh sửa, xóa , thêm sẽ được lưu vào lịch sử và người quản lý có thể dễ dàng theo dõi
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+Trang Web giúp  quản lý các khoản thu của từng hộ một cách trực quan, như thống kê tổng số tiền từng khoản thu, thông tin của những hộ gia đình đã nạp và chưa nạp.
+Bên cạnh đấy còn có một số chức năng như đăng kí tạm trú tạm vắng ...
+##### Công nghệ sử dụng :
+**Frontend :**
+- ReactJS
+- Material-UI
+- Redux
+- Formik - Yup
 
-## Available Scripts
+**Backend :**
+- Nodejs
+- MySQL
+-
+**Link Deploy** : https://cnpm-gr17.vercel.app
 
-In the project directory, you can run:
+username : admin
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+password : admin

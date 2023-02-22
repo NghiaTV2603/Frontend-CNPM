@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import {useEffect,useRef,useContext } from "react";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-
+import { Helmet } from 'react-helmet';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -42,6 +42,9 @@ const HomePage = () => {
 
   return (
       <AlertContext.Provider value={{ handleAlert }}>
+        <Helmet>
+          <title>{`Home | GR17`}</title>
+        </Helmet>
       <Stack minWidth={1200} minHeight={710} height='100vh' ref={homeRef}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
