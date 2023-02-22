@@ -16,14 +16,16 @@ import {useDispatch , useSelector} from "react-redux";
 import authenSlice from "src/features/authen/authenSlice";
 import {useNavigate} from "react-router-dom";
 import HistoryIcon from '@mui/icons-material/History';
-
+import {persistor} from "src/app/store";
 
 export default function Sidebar(props) {
   const user = useSelector((state)=> state.authen.userData);
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const handleLogout = () => {
-    dispatch(authenSlice.actions.logout())
+    // dispatch(authenSlice.actions.logout())
+    persistor.purge();
+    window.location.reload()    // navigate('/authen/login');
   }
 
   const contentsSidebar = [
