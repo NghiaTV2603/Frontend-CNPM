@@ -2,6 +2,7 @@ import {createSlice,createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 import React, { useRef } from 'react';
 import alertMessage from "src/helpers/alert.helper";
+import {apiRequest as api} from "src/helpers/axios.helper";
 
 
 const hokhauSlice = createSlice({
@@ -65,9 +66,7 @@ const hokhauSlice = createSlice({
   }
 })
 
-const api = axios.create({
-  baseURL: 'https://different-mite-robe.cyclic.app/'
-})
+
 
 export const fetchListHokhau = createAsyncThunk("hokhau/fetchListHokhau", async (token1)=>{
   const res = await api.get(`getListHokhau?token=${token1}`)

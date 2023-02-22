@@ -9,7 +9,7 @@ function createWindow() {
     }
   });
 
-  win.loadURL('http://localhost:3001/authen/login');
+  win.loadURL('https://cnpm-gr17.vercel.app/authen/login');
 }
 
 app.whenReady().then(() => {

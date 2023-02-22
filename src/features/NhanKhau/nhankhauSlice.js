@@ -1,5 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import {apiRequest as api} from "src/helpers/axios.helper";
+
 export const nhankhauSlice = createSlice({
   name: 'nhanhkhau',
   initialState: {
@@ -72,9 +74,7 @@ export const nhankhauSlice = createSlice({
     })
   }
 })
-const api = axios.create({
-  baseURL: 'https://different-mite-robe.cyclic.app/'
-})
+
 export const fetchNhankhau = createAsyncThunk("nhankhau/fetchNhankhau", async (token) => {
   const data = await api.get(`getListNhankhau?token=${token}`);
   return data.data.data

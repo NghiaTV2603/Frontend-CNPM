@@ -46,7 +46,8 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "start-electron": "concurrently \"npm start\" \"electron .\"",
-    "electron:build": "yarn build && electron-builder -c.extraMetadata.main=build/main.js",
+    "electron:build": "yarn build && electron-builder -c.extraMetadata.main=build/index.js",
+    "build-electron": "npm run build && electron-builder",
     "lint:fix": "eslint . --fix"
   },
   "eslintConfig": {

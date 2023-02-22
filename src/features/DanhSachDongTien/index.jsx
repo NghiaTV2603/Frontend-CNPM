@@ -296,7 +296,7 @@ const ShowKhoanThu = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
-        {khoanthu.length === 0 && (
+        {khoanthu.length === 0 && status === "loading khoan thu" && (
           <Stack pl={3} sx={{ width: 1240, height: 500 }}>
             <Skeleton height={80} />
             <Skeleton height={80} />

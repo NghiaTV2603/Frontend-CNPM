@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+export const apiRequest = axios.create({
+  baseURL: 'https://different-mite-robe.cyclic.app/'
+  // baseURL: 'http://localhost:3000/'
+  }
+)
+
 export const axiosMethod = {
   GET: 'GET',
   POST: 'POST',
