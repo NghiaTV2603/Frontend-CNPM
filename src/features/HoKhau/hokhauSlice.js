@@ -63,6 +63,13 @@ const hokhauSlice = createSlice({
       state.status = null
       state.currentHistory = action.payload
     })
+    builder.addCase(fetchSearchHokhau.pending,(state, action)=>{
+      state.status = 'loading'
+    })
+    builder.addCase(fetchSearchHokhau.fulfilled,(state, action)=>{
+      state.status = null
+      state.listHokhau = action.payload
+    })
   }
 })
 
@@ -95,6 +102,11 @@ export const fetchUpdateHokhau = createAsyncThunk("hokhau/fetchUpdateHokhau" , a
 
 export const fetchHistory = createAsyncThunk("hokhau/fetchHistory", async (data) =>{
   const res = await api.get(`getHokhauHistory?token=${data.token}&sohokhau=${data.sohokhau}`)
+  return res.data.data
+})
+
+export const fetchSearchHokhau = createAsyncThunk("hokhau/fetchSearchHokhau" , async (data)=>{
+  const res = await api.get(`searchHokhau?token=${data.token}`,{params:data.data})
   return res.data.data
 })
 

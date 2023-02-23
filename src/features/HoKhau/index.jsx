@@ -36,7 +36,7 @@ import NiceModal from '@ebay/nice-modal-react';
 import DialogShowHoKhau from 'src/features/HoKhau/components/DialogShowHoKhau';
 import {useDispatch} from 'react-redux';
 import {useEffect, useState} from 'react';
-import {fetchListHokhau} from 'src/features/HoKhau/hokhauSlice';
+import {fetchListHokhau, fetchSearchHokhau} from 'src/features/HoKhau/hokhauSlice';
 import Skeleton from '@mui/material/Skeleton';
 
 export function TablePaginationActions(props) {
@@ -184,11 +184,17 @@ export default function HoKhau() {
 
   // ====== search =======//
 
-  const [sohokhau, setSohokhau] = useState('')
-  const [tenchuho, setTenchuho] = useState('')
+  const [cccdchoho, setCccdchuho] = useState('')
+  const [hotenchuho, setHotenchuho] = useState('')
   const dataFetch = {
     token: token1,
-    data: {}
+    data: {
+      cccdchuho:cccdchoho,
+      hotenchuho:hotenchuho,
+    }
+  }
+  const handeSearch = () => {
+    dispatch(fetchSearchHokhau(dataFetch))
   }
 
   return (
@@ -211,13 +217,13 @@ export default function HoKhau() {
           <TextField
             margin="normal"
             fullWidth
-            label="Số hộ khẩu"
+            label="Số CCCD Chủ hộ"
             name="sohokhau"
-            value={sohokhau}
+            value={cccdchoho}
             onChange={(e) => {
-              setSohokhau(e.target.value)
+              setCccdchuho(e.target.value)
             }}
-            sx={{marginRight: 1, width: 200}}
+            sx={{marginRight: 1}}
             size="small"
           />
 
@@ -226,9 +232,9 @@ export default function HoKhau() {
             fullWidth
             label="Tên Chủ hộ"
             name="tenchuho"
-            value={tenchuho}
+            value={hotenchuho}
             onChange={(e) => {
-              setTenchuho(e.target.value)
+              setHotenchuho(e.target.value)
             }}
             sx={{marginRight: 1}}
             size="small"
@@ -244,6 +250,7 @@ export default function HoKhau() {
             marginTop: 1
           }}
           endIcon={<ManageSearchIcon/>}
+          onClick={handeSearch}
         >
           Tìm Kiếm
         </Button>
@@ -337,7 +344,7 @@ export default function HoKhau() {
             </TableBody>
           </Table>
         </TableContainer>
-        {hokhau.length === 0 && (
+        {hokhau.length === 0 && status === "loading" && (
           <Stack pl={3} sx={{width: 1240, height: 500}}>
             <Skeleton height={80}/>
             <Skeleton height={80}/>
