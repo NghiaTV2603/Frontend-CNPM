@@ -8,7 +8,7 @@ import ReportIcon from '@mui/icons-material/Report';
 import WarningIcon from '@mui/icons-material/Warning';
 import {useSelector, useDispatch} from "react-redux";
 import {tokenSelector} from "src/app/selector";
-import {fetchDeleteHokhau} from "src/features/HoKhau/hokhauSlice";
+import hokhauSlice, {fetchDeleteHokhau} from "src/features/HoKhau/hokhauSlice";
 
 
 const DialogCofirm = NiceModal.create(({cccd, onClose,onAlert}) => {
@@ -28,6 +28,7 @@ const DialogCofirm = NiceModal.create(({cccd, onClose,onAlert}) => {
     if(data.message === "Xóa nhân khẩu thành công"){
     modal.hide();
     onAlert();
+  dispatch(hokhauSlice.actions.resetStatus())
     }
   }, [data])
   return (

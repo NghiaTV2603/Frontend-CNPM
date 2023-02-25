@@ -9,7 +9,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import {useSelector, useDispatch} from "react-redux";
 import {tokenSelector} from "src/app/selector";
 import {fetchDeleteHokhau} from "src/features/HoKhau/hokhauSlice";
-import {fetchDeleteNhankhau} from "src/features/NhanKhau/nhankhauSlice";
+import {fetchDeleteNhankhau, nhankhauSlice} from "src/features/NhanKhau/nhankhauSlice";
 
 
 const DialogCofirm = NiceModal.create(({id, onClose}) => {
@@ -28,6 +28,7 @@ const DialogCofirm = NiceModal.create(({id, onClose}) => {
     if(data.message === "Xóa nhân khẩu thành công"){
       modal.hide()
       onClose();
+      dispatch(nhankhauSlice.actions.resetStatus())
     }
   }, [data])
   return (

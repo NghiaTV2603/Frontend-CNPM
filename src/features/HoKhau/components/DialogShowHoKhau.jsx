@@ -215,7 +215,6 @@ const EditHoKhau = (props) => {
       }
       dispatch(fetchUpdateHokhau(dataFetch))
       resetFormRef.current = resetForm
-      props.onSetIndex(0)
     },
   });
   useEffect(() => {
@@ -225,6 +224,7 @@ const EditHoKhau = (props) => {
       if (resetFormRef.current) {
         resetFormRef.current();
       }
+      dispatch(hokhauSlice.actions.resetStatus())
     }
   }, [dataHokhau])
   return (

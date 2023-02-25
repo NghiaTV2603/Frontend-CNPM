@@ -13,7 +13,7 @@ import * as React from 'react';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import {useDispatch, useSelector} from "react-redux";
-import {fetchAddNhankhau} from "src/features/NhanKhau/nhankhauSlice";
+import {fetchAddNhankhau, nhankhauSlice} from "src/features/NhanKhau/nhankhauSlice";
 import {useEffect,useRef} from "react";
 
 const validationSchema = yup.object({
@@ -97,6 +97,7 @@ export default function DialogAddNhanKhau(props) {
       if (resetFormRef.current) {
         resetFormRef.current();
       }
+      dispatch(nhankhauSlice.actions.resetStatus())
     }
   },[data])
   return (

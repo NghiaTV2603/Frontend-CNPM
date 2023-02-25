@@ -14,6 +14,10 @@ const khoanthuSlice = createSlice({
     resetThuphi: (state, action) => {
       state.currentKhoanThu = []
       state.chuadong=[]
+    },
+    resetStatus : (state,action) => {
+      state.status = null;
+      state.message = null;
     }
   },
   extraReducers: builder => {

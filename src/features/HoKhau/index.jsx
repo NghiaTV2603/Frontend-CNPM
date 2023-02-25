@@ -209,7 +209,7 @@ export default function HoKhau() {
           severity="success"
           sx={{width: '100%'}}
         >
-          Cập nhật thành công 1 !
+          Cập nhật thành công  !
         </Alert>
       </Snackbar>
       <Stack direction="row" p={3} alignItems='center'>

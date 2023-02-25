@@ -18,7 +18,8 @@ export const nhankhauSlice = createSlice({
     },
     resetStatus : (state, action) => {
       state.status = null
-    }
+      state.message = null
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchNhankhau.pending, (state, action) => {

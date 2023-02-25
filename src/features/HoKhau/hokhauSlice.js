@@ -21,6 +21,10 @@ const hokhauSlice = createSlice({
     },
     resetCurrenHistory : (state, action)=>{
       state.currentHistory = []
+    },
+    resetStatus : (state,action) => {
+      state.status = null;
+      state.message = null;
     }
 
   },

@@ -167,7 +167,25 @@ const EditNhanKhau = (props) => {
       const dataFetch = {};
       dataFetch.token = token
       dataFetch.idnhankhau = dataNhanKhau.id
+      if(values.sohokhau || values.sohokhau.length === 0){
+        dataFetch.data = {
+          quanhevoichuho: values.quanhevoichuho,
+          hoten: values.hoten,
+          cccd: values.cccd,
+          ngaycap: values.ngaycap,
+          noicap: values.noicap,
+          ngaysinh: values.ngaysinh,
+          nghenghiep: values.nghenghiep,
+          gioitinh: values.gioitinh,
+          quequan: values.quequan,
+          dantoc: values.dantoc,
+          tongiao: values.tongiao,
+          ngaythemnhankhau: values.ngaythemnhankhau,
+          ghichu: values.ghichu,
+        }
+      }else{
       dataFetch.data = values
+      }
       console.log(dataFetch)
       dispatch(fetchUpdateNhankhau(dataFetch))
       resetFormRef.current = resetForm

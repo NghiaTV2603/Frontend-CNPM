@@ -9,7 +9,7 @@ import {
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import {useDispatch, useSelector} from "react-redux";
-import {fetchAddHokhau} from "src/features/HoKhau/hokhauSlice";
+import hokhauSlice, {fetchAddHokhau} from "src/features/HoKhau/hokhauSlice";
 import {hokhauSelector} from "src/app/selector";
 import axios from "axios";
 import {useEffect, useRef} from "react";
@@ -73,6 +73,7 @@ export default function DialogAddHoKhau(props) {
       if (resetFormRef.current) {
         resetFormRef.current();
       }
+      dispatch(hokhauSlice.actions.resetStatus())
     }
   }, [data])
   return (
