@@ -21,3 +21,7 @@ Bên cạnh đấy còn có một số chức năng như đăng kí tạm trú t
 username : admin
 
 password : admin
+
+_nghia_ 
+
+*nghia*
