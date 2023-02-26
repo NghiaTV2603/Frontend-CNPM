@@ -22,6 +22,4 @@ username : admin
 
 password : admin
 
-_nghia_ 
 
-*nghia*
